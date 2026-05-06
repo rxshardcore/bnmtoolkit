@@ -41,6 +41,8 @@ def _build_parser() -> argparse.ArgumentParser:
     wp.add_argument("--dry-run", action="store_true", default=None)
     wp.add_argument("--no-dry-run", dest="dry_run", action="store_false")
 
+    sub.add_parser("draft-failed-images", help="Create owner email drafts for failed_image orders")
+
     sub.add_parser("dashboard", help="Start the dashboard web server")
 
     return p
@@ -75,6 +77,8 @@ def _run_pipeline(settings, command: str, args: argparse.Namespace) -> None:
         _run_reset_failed(settings)
     elif command == "remediate-wordpress-failed":
         _run_wordpress_remediation(settings)
+    elif command == "draft-failed-images":
+        _run_failed_image_owner_drafts(settings)
 
 
 def _run_reset_failed(settings) -> None:
@@ -155,6 +159,55 @@ def _run_wordpress_remediation(settings) -> None:
 
     result = run_wordpress_remediation(settings)
     logger.info("WordPress remediation result: %s", result)
+
+
+def _run_failed_image_owner_drafts(settings) -> None:
+    from app.clients.audit_db import get_audit_session
+    from app.clients.source_db import get_source_session
+    from app.repositories import audit_repository
+    from app.services.failed_image_owner_draft_service import (
+        build_failed_image_owner_drafts,
+        enrich_failed_image_orders,
+        get_failed_image_orders,
+        save_failed_image_owner_drafts,
+    )
+
+    audit = get_audit_session(settings.audit_db_url)
+    run = audit_repository.create_run(audit, dry_run=settings.dry_run)
+    audit.commit()
+
+    all_orders = []
+    try:
+        for db_info in settings.source_db_urls:
+            source = get_source_session(db_info["url"])
+            try:
+                rows = get_failed_image_orders(source, db_info["name"])
+                all_orders.extend(enrich_failed_image_orders(source, rows))
+                logger.info("[%s] failed_image orders found: %d", db_info["name"], len(rows))
+            finally:
+                source.close()
+
+        drafts = build_failed_image_owner_drafts(all_orders)
+        draft_ids = save_failed_image_owner_drafts(audit, drafts, run_id=run.id)
+
+        run.total_affected_orders = len(all_orders)
+        run.total_email_drafts = len(draft_ids)
+        run.summary_json = {
+            "type": "failed_image_owner_drafts",
+            "orders": len(all_orders),
+            "drafts": len(draft_ids),
+            "draft_ids": draft_ids,
+        }
+        audit_repository.finish_run(audit, run, status="success", summary=run.summary_json)
+        audit.commit()
+        logger.info("Saved %d failed_image owner drafts for %d orders", len(draft_ids), len(all_orders))
+    except Exception:
+        audit.rollback()
+        run.status = "failed"
+        audit.commit()
+        raise
+    finally:
+        audit.close()
 
 
 def main() -> None:

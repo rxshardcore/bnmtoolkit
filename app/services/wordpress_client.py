@@ -4,7 +4,7 @@ from __future__ import annotations
 
 from dataclasses import dataclass
 import logging
-from urllib.parse import urljoin
+from urllib.parse import urljoin, urlparse
 
 from app.utils.domain_normalization import normalize_domain
 
@@ -70,14 +70,7 @@ class WordPressClient:
         login_url = urljoin(base_url, "/wp-login.php")
 
         with sync_playwright() as playwright:
-            browser = playwright.chromium.launch(
-                headless=self.headless,
-                args=[
-                    "--disable-blink-features=AutomationControlled",
-                    "--disable-dev-shm-usage",
-                    "--no-sandbox",
-                ],
-            )
+            browser = self._launch_browser(playwright)
             context = browser.new_context(
                 user_agent=MAC_CHROME_USER_AGENT,
                 extra_http_headers=BROWSER_HEADERS,
@@ -146,8 +139,29 @@ class WordPressClient:
                 browser.close()
 
     def _base_url(self, domain: str) -> str:
-        normalized = normalize_domain(domain)
-        return f"https://{normalized}/"
+        value = (domain or "").strip()
+        if not value:
+            return "https:///"
+        parsed = urlparse(value if "://" in value else f"https://{value}")
+        host = parsed.netloc or parsed.path.split("/")[0]
+        if not host:
+            host = normalize_domain(value)
+        return f"{parsed.scheme or 'https'}://{host.rstrip('/')}/"
+
+    def _launch_browser(self, playwright):
+        launch_kwargs = {
+            "headless": self.headless,
+            "args": [
+                "--disable-blink-features=AutomationControlled",
+                "--disable-dev-shm-usage",
+                "--no-sandbox",
+            ],
+        }
+        try:
+            return playwright.chromium.launch(**launch_kwargs)
+        except Exception as exc:
+            logger.warning("Bundled Chromium launch failed, trying system Chrome: %s", exc)
+            return playwright.chromium.launch(channel="chrome", **launch_kwargs)
 
     def _classify_http_status(self, status: int | None) -> str | None:
         if status == 404:

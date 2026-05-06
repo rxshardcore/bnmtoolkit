@@ -5,7 +5,6 @@ from __future__ import annotations
 from dataclasses import dataclass
 import logging
 import re
-import string
 
 from sqlalchemy import bindparam, text
 from sqlalchemy.orm import Session
@@ -39,7 +38,6 @@ class WordPressCredentials:
     username: str
     encrypted_password: str
     schema: CredentialSchema
-    decrypted_password: str | None = None
 
 
 def _quote_identifier(identifier: str) -> str:
@@ -158,26 +156,10 @@ def _coerce_secret(value) -> str:
     return str(value).strip()
 
 
-def _looks_like_secret(value: str) -> bool:
-    if not value:
-        return False
-    allowed = set(string.printable)
-    return all(ch in allowed for ch in value) and not any(ch in value for ch in "\r\n\t")
-
-
-def _first_usable_secret(values) -> str | None:
-    for value in values:
-        secret = _coerce_secret(value)
-        if _looks_like_secret(secret):
-            return secret
-    return None
-
-
 def get_wordpress_credentials(
     session: Session,
     domain: str,
     schema: CredentialSchema | None = None,
-    decryption_key: str = "",
 ) -> WordPressCredentials | None:
     """Return encrypted WordPress credentials for a domain, if present."""
     schema = schema or discover_wordpress_credentials_schema(session)
@@ -188,23 +170,8 @@ def get_wordpress_credentials(
     password_col = _quote_identifier(schema.password_column)
 
     variants = _domain_variants(domain)
-    decrypt_select = ""
-    if decryption_key:
-        decrypt_select = f""",
-            CAST(AES_DECRYPT(FROM_BASE64({password_col}), :decryption_key) AS CHAR) AS decrypted_from_base64,
-            CAST(AES_DECRYPT({password_col}, :decryption_key) AS CHAR) AS decrypted_raw,
-            CAST(AES_DECRYPT(UNHEX({password_col}), :decryption_key) AS CHAR) AS decrypted_hex,
-            CAST(AES_DECRYPT(FROM_BASE64({password_col}), UNHEX(SHA2(:decryption_key, 512))) AS CHAR) AS decrypted_b64_sha512,
-            CAST(AES_DECRYPT(FROM_BASE64({password_col}), UNHEX(SHA2(:decryption_key, 256))) AS CHAR) AS decrypted_b64_sha256,
-            CAST(AES_DECRYPT(FROM_BASE64({password_col}), UNHEX(MD5(:decryption_key))) AS CHAR) AS decrypted_b64_md5,
-            CAST(AES_DECRYPT(UNHEX({password_col}), UNHEX(SHA2(:decryption_key, 512))) AS CHAR) AS decrypted_hex_sha512,
-            CAST(AES_DECRYPT(UNHEX({password_col}), UNHEX(SHA2(:decryption_key, 256))) AS CHAR) AS decrypted_hex_sha256,
-            CAST(AES_DECRYPT(UNHEX({password_col}), UNHEX(MD5(:decryption_key))) AS CHAR) AS decrypted_hex_md5
-        """
-
     query = text(f"""
         SELECT {domain_col}, {username_col}, {password_col}
-            {decrypt_select}
         FROM {table}
         WHERE {domain_col} IN :variants
            OR REPLACE(REPLACE(REPLACE(REPLACE({domain_col}, 'https://', ''), 'http://', ''), 'www.', ''), '/', '') = :normalized
@@ -213,8 +180,6 @@ def get_wordpress_credentials(
         bindparam("variants", expanding=True, value=variants),
         bindparam("normalized", value=normalize_domain(domain)),
     )
-    if decryption_key:
-        query = query.bindparams(bindparam("decryption_key", value=decryption_key))
 
     row = session.execute(query).first()
     if not row:
@@ -225,14 +190,9 @@ def get_wordpress_credentials(
     if not username or not encrypted_password:
         return None
 
-    decrypted_password = None
-    if decryption_key and len(row) > 3:
-        decrypted_password = _first_usable_secret(row[3:])
-
     return WordPressCredentials(
         domain=_coerce_secret(row[0]) or domain,
         username=username,
         encrypted_password=encrypted_password,
         schema=schema,
-        decrypted_password=decrypted_password,
     )

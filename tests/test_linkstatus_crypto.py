@@ -5,25 +5,28 @@ import pytest
 from app.utils.linkstatus_crypto import PasswordDecryptionError, decrypt_linkstatus_password
 
 
-def _xor_base64(secret: str, key: str) -> str:
-    data = secret.encode("utf-8")
-    key_bytes = key.encode("utf-8")
-    encrypted = bytes(byte ^ key_bytes[idx % len(key_bytes)] for idx, byte in enumerate(data))
-    return base64.b64encode(encrypted).decode("ascii")
+def _linkstatus_encrypt(secret: str, key: str) -> str:
+    encrypted = ""
+    for idx, char in enumerate(secret):
+        key_char = key[idx % len(key) - 1]
+        encrypted += chr(ord(char) + ord(key_char))
+    return base64.b64encode(encrypted.encode("latin-1")).decode("ascii")
 
 
-def test_decrypt_xor_base64():
-    encrypted = _xor_base64("wp-secret-123", "usmannnn")
+def test_decrypt_linkstatus_shift_scheme():
+    encrypted = _linkstatus_encrypt("wp-secret-123", "usmannnn")
     result = decrypt_linkstatus_password(encrypted, "usmannnn")
     assert result.value == "wp-secret-123"
-    assert result.method == "xor-base64"
+    assert result.method == "linkstatus-shift"
 
 
-def test_decrypt_base64_plain_text():
-    encrypted = base64.b64encode(b"wp-secret").decode("ascii")
+def test_decrypt_uses_last_key_character_first():
+    encrypted = _linkstatus_encrypt("a", "abc")
     result = decrypt_linkstatus_password(encrypted, "usmannnn")
-    assert result.value == "wp-secret"
-    assert result.method == "base64"
+    assert result.value != "a"
+
+    result = decrypt_linkstatus_password(encrypted, "abc")
+    assert result.value == "a"
 
 
 def test_decrypt_requires_key():

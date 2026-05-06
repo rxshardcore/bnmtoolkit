@@ -214,27 +214,23 @@ def run_wordpress_remediation(settings: Settings) -> dict[str, Any]:
                         credential_source,
                         order["wp_domain"],
                         schema=credential_schema,
-                        decryption_key=settings.linkstatus_decryption_key,
                     )
                     if not credentials:
                         result = _static_result("missing_credentials", "No WordPress credentials found")
                         _record_attempt(audit, run_id, db_name, order, result)
                         continue
 
-                    if credentials.decrypted_password:
-                        password = credentials.decrypted_password
-                    else:
-                        try:
-                            decrypted = decrypt_linkstatus_password(
-                                credentials.encrypted_password,
-                                settings.linkstatus_decryption_key,
-                            )
-                            password = decrypted.value
-                        except PasswordDecryptionError as exc:
-                            result = _static_result("credential_decryption_failed", str(exc))
-                            _record_attempt(audit, run_id, db_name, order, result)
-                            totals["errors"] += 1
-                            continue
+                    try:
+                        decrypted = decrypt_linkstatus_password(
+                            credentials.encrypted_password,
+                            settings.linkstatus_decryption_key,
+                        )
+                        password = decrypted.value
+                    except PasswordDecryptionError as exc:
+                        result = _static_result("credential_decryption_failed", str(exc))
+                        _record_attempt(audit, run_id, db_name, order, result)
+                        totals["errors"] += 1
+                        continue
 
                     result = client.remediate(
                         domain=order["wp_domain"],

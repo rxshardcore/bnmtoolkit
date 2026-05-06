@@ -79,7 +79,7 @@ class WordPressClient:
                 except Exception as exc:
                     return WordPressCheckResult(status="login_blocked", http_status=http_status, message=str(exc))
 
-                if self._looks_like_invalid_login(page):
+                if self._has_login_error(page):
                     return WordPressCheckResult(status="login_invalid", http_status=http_status, message="Website = login klopt niet")
 
                 admin_response = page.goto(urljoin(base_url, "/wp-admin/"), wait_until="domcontentloaded")
@@ -87,7 +87,7 @@ class WordPressClient:
                 site_error = self._classify_http_status(admin_status)
                 if site_error:
                     return WordPressCheckResult(status=site_error, http_status=admin_status)
-                if "wp-login.php" in page.url:
+                if self._looks_like_login_page(page):
                     return WordPressCheckResult(status="login_invalid", http_status=admin_status, message="Website = login klopt niet")
 
                 theme_name, newspaper_theme = self._detect_theme(page, base_url)
@@ -116,13 +116,19 @@ class WordPressClient:
             return "site_500"
         return None
 
-    def _looks_like_invalid_login(self, page) -> bool:
-        if "wp-login.php" in page.url:
-            return True
+    def _has_login_error(self, page) -> bool:
         try:
             return page.locator("#login_error").count() > 0
         except Exception:
             return False
+
+    def _looks_like_login_page(self, page) -> bool:
+        if "wp-login.php" not in page.url:
+            return False
+        try:
+            return page.locator("#user_login").count() > 0 and page.locator("#user_pass").count() > 0
+        except Exception:
+            return True
 
     def _detect_theme(self, page, base_url: str) -> tuple[str, bool]:
         try:

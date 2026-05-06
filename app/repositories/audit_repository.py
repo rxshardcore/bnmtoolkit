@@ -10,6 +10,7 @@ from app.clients.audit_db import (
     WordPressRemediationAttempt, WordPressNewspaperSite,
     ensure_wordpress_remediation_tables,
 )
+from app.utils.domain_normalization import normalize_domain
 
 
 # -- runs ---------------------------------------------------------------------
@@ -198,7 +199,18 @@ def get_wordpress_remediation_attempts(
     q = session.query(WordPressRemediationAttempt)
     if status:
         q = q.filter(WordPressRemediationAttempt.result_status == status)
-    return q.order_by(WordPressRemediationAttempt.id.desc()).limit(limit).all()
+    rows = q.order_by(WordPressRemediationAttempt.id.desc()).limit(limit * 5).all()
+    seen: set[str] = set()
+    grouped: list[WordPressRemediationAttempt] = []
+    for row in rows:
+        key = f"{row.source_db}:{normalize_domain(row.wp_domain or '')}"
+        if key in seen:
+            continue
+        seen.add(key)
+        grouped.append(row)
+        if len(grouped) >= limit:
+            break
+    return grouped
 
 
 def get_wordpress_newspaper_sites(session: Session, limit: int = 500) -> list[WordPressNewspaperSite]:

@@ -6,7 +6,7 @@ from datetime import datetime
 import logging
 from typing import Any
 
-from sqlalchemy import text
+from sqlalchemy import bindparam, text
 
 from app.clients.source_db import get_source_session
 from app.config import Settings
@@ -65,6 +65,36 @@ def get_wordpress_remediation_orders(source_session, statuses: list[str]) -> lis
     return orders
 
 
+def group_orders_by_website(orders: list[dict[str, Any]]) -> list[dict[str, Any]]:
+    """Collapse remediation candidates to one attempt per website."""
+    grouped: dict[str, dict[str, Any]] = {}
+    for order in orders:
+        key = normalize_domain(order.get("wp_domain", ""))
+        if not key:
+            key = f"domain-id:{order.get('domainId') or order['order_id']}"
+
+        group = grouped.setdefault(
+            key,
+            {
+                **order,
+                "order_ids": [],
+                "statuses": set(),
+                "label_ids": set(),
+            },
+        )
+        group["order_ids"].append(order["order_id"])
+        group["statuses"].add(order.get("status", ""))
+        group["label_ids"].update(order.get("label_ids", set()))
+
+    result = []
+    for group in grouped.values():
+        statuses = sorted(s for s in group["statuses"] if s)
+        group["status"] = ", ".join(statuses)
+        group["order_count"] = len(group["order_ids"])
+        result.append(group)
+    return result
+
+
 def _record_attempt(audit_session, run_id: int, db_name: str, order: dict[str, Any], result: WordPressCheckResult) -> None:
     from app.clients.audit_db import WordPressRemediationAttempt, WordPressNewspaperSite
 
@@ -76,7 +106,7 @@ def _record_attempt(audit_session, run_id: int, db_name: str, order: dict[str, A
         wp_domain=order.get("wp_domain", ""),
         old_status=order.get("status", ""),
         result_status=result.status,
-        result_message=result.message,
+        result_message=_result_message_with_order_count(result.message, order),
         http_status=result.http_status,
         plugin_present=result.plugin_present,
         plugin_removed=result.plugin_removed,
@@ -97,6 +127,14 @@ def _record_attempt(audit_session, run_id: int, db_name: str, order: dict[str, A
             theme_name=result.theme_name or "Newspaper",
             detected_at=datetime.utcnow(),
         ))
+
+
+def _result_message_with_order_count(message: str, order: dict[str, Any]) -> str:
+    count = int(order.get("order_count") or 1)
+    if count <= 1:
+        return message
+    suffix = f"{count} orders op deze website"
+    return f"{message} ({suffix})" if message else suffix
 
 
 def _static_result(status: str, message: str = "", **kwargs) -> WordPressCheckResult:
@@ -176,8 +214,10 @@ def run_wordpress_remediation(settings: Settings) -> dict[str, Any]:
             source = get_source_session(db_info["url"])
             credential_source = get_source_session(source_dbs[0]["url"])
             try:
-                orders = get_wordpress_remediation_orders(source, settings.wp_failed_statuses_list)
-                logger.info("[%s] WordPress remediation candidates: %d", db_name, len(orders))
+                orders = group_orders_by_website(
+                    get_wordpress_remediation_orders(source, settings.wp_failed_statuses_list)
+                )
+                logger.info("[%s] WordPress remediation candidate websites: %d", db_name, len(orders))
 
                 for order in orders:
                     totals["checked"] += 1
@@ -197,9 +237,13 @@ def run_wordpress_remediation(settings: Settings) -> dict[str, Any]:
 
                     if preflight_status == "deleted_label79":
                         if not settings.dry_run:
-                            source.execute(text("DELETE FROM openorder WHERE id = :order_id"), {"order_id": order["order_id"]})
+                            source.execute(
+                                text("DELETE FROM openorder WHERE id IN :order_ids").bindparams(
+                                    bindparam("order_ids", expanding=True, value=order["order_ids"])
+                                )
+                            )
                             source.commit()
-                        totals["deleted_label79"] += 1
+                        totals["deleted_label79"] += len(order["order_ids"])
                         result = _static_result("deleted_label79", f"Order removed because domain has label {settings.expired_label_id}")
                         _record_attempt(audit, run_id, db_name, order, result)
                         continue
@@ -248,11 +292,12 @@ def run_wordpress_remediation(settings: Settings) -> dict[str, Any]:
 
                     if result.plugin_removed and not settings.dry_run:
                         source.execute(
-                            text("UPDATE openorder SET status = 'pending' WHERE id = :order_id"),
-                            {"order_id": order["order_id"]},
+                            text("UPDATE openorder SET status = 'pending' WHERE id IN :order_ids").bindparams(
+                                bindparam("order_ids", expanding=True, value=order["order_ids"])
+                            ),
                         )
                         source.commit()
-                        totals["pending"] += 1
+                        totals["pending"] += len(order["order_ids"])
 
                     _record_attempt(audit, run_id, db_name, order, result)
                     audit.commit()

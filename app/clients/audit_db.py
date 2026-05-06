@@ -213,3 +213,10 @@ def get_audit_session(url: str) -> Session:
     engine = get_audit_engine(url)
     factory = sessionmaker(bind=engine)
     return factory()
+
+
+def ensure_wordpress_remediation_tables(session: Session) -> None:
+    """Create WordPress remediation audit tables when migrations have not run yet."""
+    bind = session.get_bind()
+    WordPressRemediationAttempt.__table__.create(bind=bind, checkfirst=True)
+    WordPressNewspaperSite.__table__.create(bind=bind, checkfirst=True)

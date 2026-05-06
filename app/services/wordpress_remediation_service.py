@@ -114,9 +114,10 @@ def classify_label_preflight(label_ids: set[int], jg_label_id: int, expired_labe
 
 def run_wordpress_remediation(settings: Settings) -> dict[str, Any]:
     """Run WordPress remediation across configured source databases."""
-    from app.clients.audit_db import get_audit_session
+    from app.clients.audit_db import get_audit_session, ensure_wordpress_remediation_tables
 
     audit = get_audit_session(settings.audit_db_url)
+    ensure_wordpress_remediation_tables(audit)
     run = audit_repository.create_run(audit, dry_run=settings.dry_run)
     audit.commit()
     run_id = run.id
@@ -213,27 +214,32 @@ def run_wordpress_remediation(settings: Settings) -> dict[str, Any]:
                         credential_source,
                         order["wp_domain"],
                         schema=credential_schema,
+                        decryption_key=settings.linkstatus_decryption_key,
                     )
                     if not credentials:
                         result = _static_result("missing_credentials", "No WordPress credentials found")
                         _record_attempt(audit, run_id, db_name, order, result)
                         continue
 
-                    try:
-                        decrypted = decrypt_linkstatus_password(
-                            credentials.encrypted_password,
-                            settings.linkstatus_decryption_key,
-                        )
-                    except PasswordDecryptionError as exc:
-                        result = _static_result("credential_decryption_failed", str(exc))
-                        _record_attempt(audit, run_id, db_name, order, result)
-                        totals["errors"] += 1
-                        continue
+                    if credentials.decrypted_password:
+                        password = credentials.decrypted_password
+                    else:
+                        try:
+                            decrypted = decrypt_linkstatus_password(
+                                credentials.encrypted_password,
+                                settings.linkstatus_decryption_key,
+                            )
+                            password = decrypted.value
+                        except PasswordDecryptionError as exc:
+                            result = _static_result("credential_decryption_failed", str(exc))
+                            _record_attempt(audit, run_id, db_name, order, result)
+                            totals["errors"] += 1
+                            continue
 
                     result = client.remediate(
                         domain=order["wp_domain"],
                         username=credentials.username,
-                        password=decrypted.value,
+                        password=password,
                         dry_run=settings.dry_run,
                     )
 

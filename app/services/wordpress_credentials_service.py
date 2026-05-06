@@ -38,6 +38,7 @@ class WordPressCredentials:
     username: str
     encrypted_password: str
     schema: CredentialSchema
+    decrypted_password: str | None = None
 
 
 def _quote_identifier(identifier: str) -> str:
@@ -148,10 +149,19 @@ def _domain_variants(domain: str) -> list[str]:
     return sorted(v for v in variants if v)
 
 
+def _coerce_secret(value) -> str:
+    if value is None:
+        return ""
+    if isinstance(value, bytes):
+        return value.decode("utf-8", errors="ignore").strip()
+    return str(value).strip()
+
+
 def get_wordpress_credentials(
     session: Session,
     domain: str,
     schema: CredentialSchema | None = None,
+    decryption_key: str = "",
 ) -> WordPressCredentials | None:
     """Return encrypted WordPress credentials for a domain, if present."""
     schema = schema or discover_wordpress_credentials_schema(session)
@@ -162,8 +172,16 @@ def get_wordpress_credentials(
     password_col = _quote_identifier(schema.password_column)
 
     variants = _domain_variants(domain)
+    decrypt_select = ""
+    if decryption_key:
+        decrypt_select = f""",
+            CAST(AES_DECRYPT(FROM_BASE64({password_col}), :decryption_key) AS CHAR) AS decrypted_from_base64,
+            CAST(AES_DECRYPT({password_col}, :decryption_key) AS CHAR) AS decrypted_raw
+        """
+
     query = text(f"""
         SELECT {domain_col}, {username_col}, {password_col}
+            {decrypt_select}
         FROM {table}
         WHERE {domain_col} IN :variants
            OR REPLACE(REPLACE(REPLACE(REPLACE({domain_col}, 'https://', ''), 'http://', ''), 'www.', ''), '/', '') = :normalized
@@ -172,19 +190,26 @@ def get_wordpress_credentials(
         bindparam("variants", expanding=True, value=variants),
         bindparam("normalized", value=normalize_domain(domain)),
     )
+    if decryption_key:
+        query = query.bindparams(bindparam("decryption_key", value=decryption_key))
 
     row = session.execute(query).first()
     if not row:
         return None
 
-    username = str(row[1] or "").strip()
-    encrypted_password = str(row[2] or "").strip()
+    username = _coerce_secret(row[1])
+    encrypted_password = _coerce_secret(row[2])
     if not username or not encrypted_password:
         return None
 
+    decrypted_password = None
+    if decryption_key and len(row) >= 5:
+        decrypted_password = _coerce_secret(row[3]) or _coerce_secret(row[4]) or None
+
     return WordPressCredentials(
-        domain=str(row[0] or domain),
+        domain=_coerce_secret(row[0]) or domain,
         username=username,
         encrypted_password=encrypted_password,
         schema=schema,
+        decrypted_password=decrypted_password,
     )

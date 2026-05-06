@@ -8,6 +8,7 @@ from app.clients.audit_db import (
     AuditRun, AuditDomain, AuditOrder, AuditLabelUpdate,
     AuditEmailDraft, AuditLog, ProcessedDomain,
     WordPressRemediationAttempt, WordPressNewspaperSite,
+    ensure_wordpress_remediation_tables,
 )
 
 
@@ -193,6 +194,7 @@ def get_wordpress_remediation_attempts(
     status: str | None = None,
     limit: int = 500,
 ) -> list[WordPressRemediationAttempt]:
+    ensure_wordpress_remediation_tables(session)
     q = session.query(WordPressRemediationAttempt)
     if status:
         q = q.filter(WordPressRemediationAttempt.result_status == status)
@@ -200,4 +202,5 @@ def get_wordpress_remediation_attempts(
 
 
 def get_wordpress_newspaper_sites(session: Session, limit: int = 500) -> list[WordPressNewspaperSite]:
+    ensure_wordpress_remediation_tables(session)
     return session.query(WordPressNewspaperSite).order_by(WordPressNewspaperSite.id.desc()).limit(limit).all()

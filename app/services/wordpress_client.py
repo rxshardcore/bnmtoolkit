@@ -10,6 +10,23 @@ from app.utils.domain_normalization import normalize_domain
 
 logger = logging.getLogger(__name__)
 
+MAC_CHROME_USER_AGENT = (
+    "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) "
+    "AppleWebKit/537.36 (KHTML, like Gecko) "
+    "Chrome/124.0.0.0 Safari/537.36"
+)
+
+BROWSER_HEADERS = {
+    "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8",
+    "Accept-Language": "nl-NL,nl;q=0.9,en-US;q=0.8,en;q=0.7",
+    "Cache-Control": "no-cache",
+    "Pragma": "no-cache",
+    "sec-ch-ua": '"Chromium";v="124", "Google Chrome";v="124", "Not-A.Brand";v="99"',
+    "sec-ch-ua-mobile": "?0",
+    "sec-ch-ua-platform": '"macOS"',
+    "Upgrade-Insecure-Requests": "1",
+}
+
 
 @dataclass(frozen=True)
 class WordPressCheckResult:
@@ -53,8 +70,30 @@ class WordPressClient:
         login_url = urljoin(base_url, "/wp-login.php")
 
         with sync_playwright() as playwright:
-            browser = playwright.chromium.launch(headless=self.headless)
-            page = browser.new_page()
+            browser = playwright.chromium.launch(
+                headless=self.headless,
+                args=[
+                    "--disable-blink-features=AutomationControlled",
+                    "--disable-dev-shm-usage",
+                    "--no-sandbox",
+                ],
+            )
+            context = browser.new_context(
+                user_agent=MAC_CHROME_USER_AGENT,
+                extra_http_headers=BROWSER_HEADERS,
+                locale="nl-NL",
+                timezone_id="Europe/Amsterdam",
+                viewport={"width": 1440, "height": 900},
+                device_scale_factor=2,
+                is_mobile=False,
+                has_touch=False,
+            )
+            context.add_init_script("""
+                Object.defineProperty(navigator, 'webdriver', { get: () => undefined });
+                Object.defineProperty(navigator, 'platform', { get: () => 'MacIntel' });
+                Object.defineProperty(navigator, 'languages', { get: () => ['nl-NL', 'nl', 'en-US', 'en'] });
+            """)
+            page = context.new_page()
             page.set_default_timeout(self.timeout_ms)
             try:
                 try:
@@ -103,6 +142,7 @@ class WordPressClient:
                     theme_name=theme_name,
                 )
             finally:
+                context.close()
                 browser.close()
 
     def _base_url(self, domain: str) -> str:

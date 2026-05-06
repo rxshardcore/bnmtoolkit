@@ -1,0 +1,62 @@
+{% extends "base.html" %}
+{% block title %}Draft #{{ draft.id }} — Domain Cleanup{% endblock %}
+{% block content %}
+<h1>Email Draft #{{ draft.id }}</h1>
+
+{% if error %}
+<div style="background:#fdecea;border:1px solid #e74c3c;padding:12px 16px;border-radius:6px;margin-bottom:16px;color:#c0392b;">
+  {{ error }}
+</div>
+{% endif %}
+
+<div class="card" style="margin-bottom:20px;">
+  <table style="font-size:14px;border:none;">
+    <tr><td style="border:none;padding:4px 16px 4px 0;font-weight:600;">Aan:</td><td style="border:none;padding:4px 0;">{{ draft.addedby_email }}</td></tr>
+    {% if draft.body_json and draft.body_json.cc %}
+    <tr><td style="border:none;padding:4px 16px 4px 0;font-weight:600;">CC:</td><td style="border:none;padding:4px 0;">{{ draft.body_json.cc }}</td></tr>
+    {% endif %}
+    {% if draft.body_json and draft.body_json.reply_to %}
+    <tr><td style="border:none;padding:4px 16px 4px 0;font-weight:600;">Reply-To:</td><td style="border:none;padding:4px 0;">{{ draft.body_json.reply_to }}</td></tr>
+    {% endif %}
+    {% if draft.body_json and draft.body_json.type == 'supplier_draft' %}
+    <tr><td style="border:none;padding:4px 16px 4px 0;font-weight:600;">Type:</td><td style="border:none;padding:4px 0;"><span class="badge badge-warning">Leverancier draft</span></td></tr>
+    {% endif %}
+    {% if draft.body_json and draft.body_json.xlsx_path %}
+    <tr><td style="border:none;padding:4px 16px 4px 0;font-weight:600;">Bijlage:</td><td style="border:none;padding:4px 0;">linkbuilding_fouten.xlsx</td></tr>
+    {% endif %}
+    <tr><td style="border:none;padding:4px 16px 4px 0;font-weight:600;">Onderwerp:</td><td style="border:none;padding:4px 0;">{{ draft.subject }}</td></tr>
+    <tr><td style="border:none;padding:4px 16px 4px 0;font-weight:600;">Orders:</td><td style="border:none;padding:4px 0;">{{ draft.order_count }}</td></tr>
+    <tr><td style="border:none;padding:4px 16px 4px 0;font-weight:600;">Run:</td><td style="border:none;padding:4px 0;"><a href="/run/{{ draft.run_id }}">#{{ draft.run_id }}</a></td></tr>
+    <tr><td style="border:none;padding:4px 16px 4px 0;font-weight:600;">Status:</td><td style="border:none;padding:4px 0;">
+      {% if draft.send_status == 'sent' %}<span class="badge badge-success">Verzonden</span> op {{ draft.sent_at }}
+      {% elif draft.send_status == 'failed' %}<span class="badge badge-danger">Mislukt</span>
+      {% else %}<span class="badge badge-warning">Draft</span>
+      {% endif %}
+    </td></tr>
+  </table>
+
+  <div style="margin-top:16px;display:flex;gap:10px;">
+    {% if draft.send_status != 'sent' %}
+    <form method="post" action="/draft/{{ draft.id }}/send" onsubmit="return confirm('Weet je zeker dat je deze email wilt versturen naar {{ draft.addedby_email }}?');">
+      <button class="btn btn-primary" type="submit">Verstuur naar {{ draft.addedby_email }}</button>
+    </form>
+    {% else %}
+    <button class="btn btn-primary" disabled style="opacity:0.5;cursor:not-allowed;">Al verzonden</button>
+    {% endif %}
+    <a href="/draft/{{ draft.id }}/preview" target="_blank" class="btn btn-primary" style="background:#2c3e50;text-decoration:none;display:inline-flex;align-items:center;">Open in nieuw tabblad</a>
+    <a href="/drafts" class="btn btn-primary" style="background:#95a5a6;text-decoration:none;display:inline-flex;align-items:center;">Terug naar overzicht</a>
+  </div>
+</div>
+
+<h2>Email Preview</h2>
+<div style="background:#fff;border:1px solid #dee2e6;border-radius:6px;overflow:hidden;">
+  <div style="background:#f8f9fa;padding:8px 16px;font-size:12px;color:#666;border-bottom:1px solid #dee2e6;">
+    <strong>Van:</strong> noreply@bnm-server.org &nbsp;&nbsp;
+    <strong>Aan:</strong> {{ draft.addedby_email }} &nbsp;&nbsp;
+    {% if draft.body_json and draft.body_json.cc %}<strong>CC:</strong> {{ draft.body_json.cc }} &nbsp;&nbsp;{% endif %}
+    {% if draft.body_json and draft.body_json.reply_to %}<strong>Reply-To:</strong> {{ draft.body_json.reply_to }} &nbsp;&nbsp;{% endif %}
+    <strong>Onderwerp:</strong> {{ draft.subject }}
+  </div>
+  <iframe src="/draft/{{ draft.id }}/preview" style="width:100%;height:700px;border:none;"></iframe>
+</div>
+{% endblock %}

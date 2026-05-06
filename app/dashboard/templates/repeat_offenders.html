@@ -1,0 +1,59 @@
+{% extends "base.html" %}
+{% block title %}Repeat Offenders — Domain Cleanup{% endblock %}
+{% block content %}
+<h1>Repeat Offender Batches</h1>
+<p style="color:#666;margin-bottom:16px;">Elke keer dat <code>reset-failed</code> draait en repeat offenders detecteert, wordt een batch opgeslagen. Je kunt per batch alle orders resetten naar <code>pending</code> om ze opnieuw te laten proberen.</p>
+
+{% if message %}
+<div style="background:#d4edda;border:1px solid #27ae60;padding:12px 16px;border-radius:6px;margin-bottom:16px;color:#155724;">
+  {{ message }}
+</div>
+{% endif %}
+
+{% if not batches %}
+<div class="card"><p>Geen repeat offender batches gevonden.</p></div>
+{% else %}
+<table>
+  <thead>
+    <tr>
+      <th>Batch #</th>
+      <th>Datum</th>
+      <th>Orders</th>
+      <th>Domeinen</th>
+      <th>Verwijderd (label 79)</th>
+      <th>Status</th>
+      <th>Actie</th>
+    </tr>
+  </thead>
+  <tbody>
+  {% for b in batches %}
+    <tr>
+      <td>{{ b.id }}</td>
+      <td>{{ b.created_at.strftime('%Y-%m-%d %H:%M') if b.created_at else '' }}</td>
+      <td>{{ b.total_orders }}</td>
+      <td>{{ b.unique_domains }}</td>
+      <td>{{ b.deleted_orders }}</td>
+      <td>
+        {% if b.status == 'reset' %}
+          <span class="badge badge-success">Reset</span>
+          <span style="font-size:11px;color:#888;">{{ b.reset_at.strftime('%Y-%m-%d %H:%M') if b.reset_at else '' }}</span>
+        {% else %}
+          <span class="badge badge-warning">Actief</span>
+        {% endif %}
+      </td>
+      <td>
+        {% if b.status != 'reset' %}
+        <form method="post" action="/repeat-offenders/{{ b.id }}/reset" style="display:inline;"
+              onsubmit="return confirm('Weet je zeker? Dit reset {{ b.total_orders }} orders naar pending en wist de repeat-offender geschiedenis zodat ze opnieuw worden geprobeerd.');">
+          <button type="submit" class="btn btn-primary btn-sm">Reset naar pending</button>
+        </form>
+        {% else %}
+        <span style="color:#888;font-size:12px;">Al gereset</span>
+        {% endif %}
+      </td>
+    </tr>
+  {% endfor %}
+  </tbody>
+</table>
+{% endif %}
+{% endblock %}

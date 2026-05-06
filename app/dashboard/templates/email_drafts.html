@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+{% block title %}Email Drafts — Domain Cleanup{% endblock %}
+{% block content %}
+<h1>Email Drafts</h1>
+<table>
+<thead><tr><th>ID</th><th>Run</th><th>Ontvanger</th><th>Email</th><th>Onderwerp</th><th>Orders</th><th>Status</th><th>Verzonden</th><th>Acties</th></tr></thead>
+<tbody>
+{% for d in drafts %}
+<tr>
+  <td><a href="/draft/{{ d.id }}">{{ d.id }}</a></td>
+  <td><a href="/run/{{ d.run_id }}">{{ d.run_id }}</a></td>
+  <td>{{ d.addedby_name }}</td><td>{{ d.addedby_email }}</td>
+  <td>{{ d.subject }}</td><td>{{ d.order_count }}</td>
+  <td>
+    {% if d.send_status == 'sent' %}<span class="badge badge-success">Verzonden</span>
+    {% elif d.send_status == 'failed' %}<span class="badge badge-danger">Mislukt</span>
+    {% else %}<span class="badge badge-warning">Draft</span>
+    {% endif %}
+  </td>
+  <td>{{ d.sent_at or '-' }}</td>
+  <td>
+    <a href="/draft/{{ d.id }}" class="btn btn-primary btn-sm" style="text-decoration:none;">Bekijk</a>
+    <a href="/draft/{{ d.id }}/preview" target="_blank" class="btn btn-sm" style="background:#2c3e50;text-decoration:none;color:#fff;">Preview</a>
+  </td>
+</tr>
+{% endfor %}
+</tbody>
+</table>
+{% endblock %}

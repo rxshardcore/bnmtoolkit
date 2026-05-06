@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% block title %}Orders — Domain Cleanup{% endblock %}
+{% block content %}
+<h1>Orders</h1>
+<form method="get" style="margin-bottom:14px;">
+  <input type="text" name="q" value="{{ query }}" placeholder="Search domain...">
+  <button class="btn btn-primary btn-sm">Search</button>
+</form>
+<table>
+<thead><tr><th>Order</th><th>Domain</th><th>Customer</th><th>Added By</th><th>Status</th><th>Action</th><th>Deleted</th><th>Run</th></tr></thead>
+<tbody>
+{% for o in orders %}
+<tr>
+  <td>{{ o.openorder_id }}</td><td>{{ o.wp_domain }}</td><td>{{ o.customer_name }}</td>
+  <td>{{ o.addedby_name }}</td><td>{{ o.order_status }}</td><td>{{ o.action_taken }}</td>
+  <td>{{ o.deleted_at or '-' }}</td>
+  <td><a href="/run/{{ o.run_id }}">{{ o.run_id }}</a></td>
+</tr>
+{% endfor %}
+</tbody>
+</table>
+{% endblock %}

@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{% block title %}Domains — Domain Cleanup{% endblock %}
+{% block content %}
+<h1>Domains</h1>
+<form method="get" style="margin-bottom:14px;">
+  <input type="text" name="q" value="{{ query }}" placeholder="Search domain...">
+  <button class="btn btn-primary btn-sm">Search</button>
+</form>
+<table>
+<thead><tr><th>Domain</th><th>Normalized</th><th>Ext</th><th>Status</th><th>Unusable</th><th>Matched WP</th><th>Account</th><th>Action</th><th>Run</th></tr></thead>
+<tbody>
+{% for d in domains %}
+<tr>
+  <td>{{ d.external_domain }}</td><td>{{ d.normalized_domain }}</td><td>{{ d.extension }}</td>
+  <td>{{ d.external_status }}</td>
+  <td>{% if d.is_unusable %}<span class="badge badge-danger">Yes</span>{% else %}No{% endif %}</td>
+  <td>{{ d.matched_wp_domain or '-' }}</td><td>{{ d.account_name }}</td><td>{{ d.action_taken }}</td>
+  <td><a href="/run/{{ d.run_id }}">{{ d.run_id }}</a></td>
+</tr>
+{% endfor %}
+</tbody>
+</table>
+{% endblock %}

@@ -1,0 +1,191 @@
+{
+  "name": "Domain Cleanup - Sheets Webhook",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "domain-cleanup-sheets",
+        "responseMode": "responseNode",
+        "options": {}
+      },
+      "id": "a1000001-0001-0001-0001-000000000001",
+      "name": "Webhook",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [240, 300],
+      "webhookId": "domain-cleanup-sheets"
+    },
+    {
+      "parameters": {
+        "operation": "read",
+        "documentId": {
+          "__rl": true,
+          "value": "1leL8nGuKMaWeWodefOxlLMJg4Zjb0hMu-9ZYI_bQX9M",
+          "mode": "id"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "={{ $json.body.sheet_name }}",
+          "mode": "name"
+        },
+        "options": {
+          "outputFormatting": true
+        }
+      },
+      "id": "a1000001-0001-0001-0001-000000000002",
+      "name": "Read Full Sheet",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.5,
+      "position": [460, 300],
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "iX8KXu1nGqurtiAu",
+          "name": "BM OAUTH2"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "// Get the webhook body from the Webhook node\nconst webhookData = $('Webhook').first().json.body;\nconst expiredDomains = webhookData.domains || [];\nconst dryRun = webhookData.dry_run !== undefined ? webhookData.dry_run : true;\nconst sheetName = webhookData.sheet_name || '';\n\n// Get all rows from the sheet\nconst sheetRows = $('Read Full Sheet').all();\n\n// Build a set of expired domain names (lowercase, without extension)\nconst expiredSet = new Set();\nfor (const d of expiredDomains) {\n  // The domain field is like 'bytelife.nl' — the sheet column 'Domein' contains URLs like 'https://www.bytelife.nl/'\n  const domainName = d.domain.toLowerCase().replace(/\\/$/, '');\n  expiredSet.add(domainName);\n  // Also add without extension for partial matching\n  const parts = domainName.split('.');\n  if (parts.length >= 2) {\n    expiredSet.add(parts.slice(0, -1).join('.'));\n  }\n}\n\n// Find matching rows\nconst toUpdate = [];\nfor (const row of sheetRows) {\n  const domeinCell = (row.json.Domein || '').toString().trim();\n  if (!domeinCell || domeinCell === 'Niet gebruiken') continue;\n  \n  // Normalize the sheet domain: remove protocol, www, trailing slash\n  let normalized = domeinCell.toLowerCase()\n    .replace(/^https?:\\/\\//, '')\n    .replace(/^www\\./, '')\n    .replace(/\\/$/, '');\n  \n  if (expiredSet.has(normalized)) {\n    toUpdate.push({\n      json: {\n        row_number: row.json.row_number,\n        Domein: 'Niet gebruiken',\n        original_domain: domeinCell,\n        _sheetName: sheetName\n      }\n    });\n  }\n}\n\nif (dryRun || toUpdate.length === 0) {\n  return [{\n    json: {\n      _done: true,\n      _dryRun: dryRun,\n      _sheetName: sheetName,\n      _matchCount: toUpdate.length,\n      _expiredCount: expiredDomains.length,\n      _message: dryRun \n        ? `DRY-RUN: Would update ${toUpdate.length} rows in ${sheetName}` \n        : `No matching domains found in ${sheetName}`\n    }\n  }];\n}\n\nreturn toUpdate;"
+      },
+      "id": "a1000001-0001-0001-0001-000000000003",
+      "name": "Match Expired Domains",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [680, 300]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": { "caseSensitive": true, "leftValue": "", "typeValidation": "strict" },
+          "conditions": [
+            {
+              "id": "done-check",
+              "leftValue": "={{ $json._done }}",
+              "rightValue": true,
+              "operator": { "type": "boolean", "operation": "equals", "name": "filter.boolean.equals" }
+            }
+          ],
+          "combinator": "and"
+        }
+      },
+      "id": "a1000001-0001-0001-0001-000000000004",
+      "name": "Skip or Update?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2,
+      "position": [900, 300]
+    },
+    {
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "={{ JSON.stringify({ status: $json._dryRun ? 'dry_run' : 'no_matches', sheet: $json._sheetName, matched: $json._matchCount, message: $json._message }) }}"
+      },
+      "id": "a1000001-0001-0001-0001-000000000005",
+      "name": "Respond Skip",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.1,
+      "position": [1120, 180]
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "documentId": {
+          "__rl": true,
+          "value": "1leL8nGuKMaWeWodefOxlLMJg4Zjb0hMu-9ZYI_bQX9M",
+          "mode": "id"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "={{ $json._sheetName }}",
+          "mode": "name"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Domein": "={{ $json.Domein }}",
+            "row_number": "={{ $json.row_number }}"
+          },
+          "matchingColumns": ["row_number"],
+          "schema": [
+            {
+              "id": "Domein",
+              "displayName": "Domein",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "row_number",
+              "displayName": "row_number",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "number",
+              "canBeUsedToMatch": true,
+              "readOnly": true
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "id": "a1000001-0001-0001-0001-000000000006",
+      "name": "Update Sheet Rows",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.5,
+      "position": [1120, 420],
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "iX8KXu1nGqurtiAu",
+          "name": "BM OAUTH2"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "={{ JSON.stringify({ status: 'ok', updated: $input.all().length }) }}"
+      },
+      "id": "a1000001-0001-0001-0001-000000000007",
+      "name": "Respond OK",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.1,
+      "position": [1340, 420]
+    }
+  ],
+  "connections": {
+    "Webhook": {
+      "main": [
+        [{ "node": "Read Full Sheet", "type": "main", "index": 0 }]
+      ]
+    },
+    "Read Full Sheet": {
+      "main": [
+        [{ "node": "Match Expired Domains", "type": "main", "index": 0 }]
+      ]
+    },
+    "Match Expired Domains": {
+      "main": [
+        [{ "node": "Skip or Update?", "type": "main", "index": 0 }]
+      ]
+    },
+    "Skip or Update?": {
+      "main": [
+        [{ "node": "Respond Skip", "type": "main", "index": 0 }],
+        [{ "node": "Update Sheet Rows", "type": "main", "index": 0 }]
+      ]
+    },
+    "Update Sheet Rows": {
+      "main": [
+        [{ "node": "Respond OK", "type": "main", "index": 0 }]
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "executionOrder": "v1"
+  }
+}

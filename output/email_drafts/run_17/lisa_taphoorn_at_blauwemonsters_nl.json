@@ -1,0 +1,14 @@
+[
+  {
+    "order_id": 191628,
+    "wp_domain": "https://www.hetverhalenrijk.nl/",
+    "order_status": "failed_domain_category",
+    "customer_name": "zo-webshop.nl"
+  },
+  {
+    "order_id": 191634,
+    "wp_domain": "https://www.hetverhalenrijk.nl/",
+    "order_status": "failed_domain_category",
+    "customer_name": "Mulderautoverhuur"
+  }
+]

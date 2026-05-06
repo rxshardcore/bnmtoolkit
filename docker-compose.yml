@@ -1,0 +1,30 @@
+services:
+  # -- CLI runner (scheduled via cron, or run manually) -----------------------
+  runner:
+    build: .
+    container_name: domain-cleanup-runner
+    env_file: .env
+    volumes:
+      - ./output:/output
+    networks:
+      - mysql-net
+    command: ["run-all", "--dry-run"]
+
+  # -- Dashboard web server ---------------------------------------------------
+  dashboard:
+    build: .
+    container_name: domain-cleanup-dashboard
+    env_file: .env
+    ports:
+      - "8088:8088"
+    volumes:
+      - ./output:/output
+    networks:
+      - mysql-net
+    command: ["dashboard"]
+    restart: unless-stopped
+
+networks:
+  mysql-net:
+    external: true
+    name: mysql-database_default

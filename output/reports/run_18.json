@@ -1,0 +1,17 @@
+{
+  "run_id": 18,
+  "mode": "LIVE",
+  "total_domains_fetched": 2619,
+  "total_unusable_domains": 18,
+  "total_matched_domains": 354,
+  "total_updated_labels": 34,
+  "total_affected_orders": 1,
+  "total_email_drafts": 1,
+  "total_deleted_orders": 1,
+  "source_databases": [
+    "linkstatus_blauwemonsters",
+    "linkstatus_brandnewmedia"
+  ],
+  "errors": 0,
+  "warnings": 0
+}

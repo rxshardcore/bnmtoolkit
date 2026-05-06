@@ -1,0 +1,62 @@
+{% extends "base.html" %}
+{% block title %}Handmatig verwijderen — Domain Cleanup{% endblock %}
+{% block content %}
+<h1>Domeinen handmatig uit beheer halen</h1>
+<p style="color:#666;margin-bottom:16px;">Plak hieronder een lijst met domeinen (1 per regel). Formaat maakt niet uit — met of zonder <code>https://</code>, <code>www.</code>, trailing slash, etc. Alles wordt automatisch genormaliseerd.</p>
+
+{% if error %}
+<div style="background:#fdecea;border:1px solid #e74c3c;padding:12px 16px;border-radius:6px;margin-bottom:16px;color:#c0392b;">
+  {{ error }}
+</div>
+{% endif %}
+
+{% if results %}
+<div class="card" style="margin-bottom:20px;">
+  <h2 style="font-size:18px;margin-bottom:12px;">Resultaat</h2>
+  <div class="stats">
+    <div class="stat"><div class="num">{{ results.input_count }}</div><div class="lbl">Ingevoerd</div></div>
+    <div class="stat"><div class="num">{{ results.matched }}</div><div class="lbl">Gevonden in DB</div></div>
+    <div class="stat"><div class="num">{{ results.labels_updated }}</div><div class="lbl">Labels → 79</div></div>
+    <div class="stat"><div class="num">{{ results.orders_deleted }}</div><div class="lbl">Orders verwijderd</div></div>
+  </div>
+
+  {% if results.not_found %}
+  <details style="margin-top:12px;">
+    <summary style="cursor:pointer;font-weight:600;color:#e67e22;">{{ results.not_found|length }} domein(en) niet gevonden in database</summary>
+    <pre style="margin-top:8px;">{% for d in results.not_found %}{{ d }}
+{% endfor %}</pre>
+  </details>
+  {% endif %}
+
+  {% if results.actions %}
+  <h3 style="font-size:15px;margin-top:16px;margin-bottom:8px;">Acties per domein</h3>
+  <table>
+    <thead><tr><th>Domein</th><th>Database</th><th>Domain ID</th><th>Labels gewijzigd</th><th>Orders verwijderd</th></tr></thead>
+    <tbody>
+    {% for a in results.actions %}
+    <tr>
+      <td>{{ a.domain }}</td>
+      <td>{{ a.db }}</td>
+      <td>{{ a.domain_id }}</td>
+      <td>{{ a.label_changes }}</td>
+      <td>{{ a.deleted_orders }}</td>
+    </tr>
+    {% endfor %}
+    </tbody>
+  </table>
+  {% endif %}
+</div>
+{% endif %}
+
+<div class="card">
+  <form method="post" action="/manual-remove" onsubmit="return confirm('Weet je zeker? Dit zet label 79 en verwijdert bijbehorende orders in BEIDE databases.');">
+    <label for="domains" style="font-weight:600;display:block;margin-bottom:8px;">Domeinen (1 per regel):</label>
+    <textarea id="domains" name="domains" rows="12" style="width:100%;font-family:monospace;font-size:13px;padding:10px;border:1px solid #ccc;border-radius:4px;resize:vertical;" placeholder="voorbeeld.nl
+https://www.anderewebsite.nl/
+mijnsite.com">{{ prefill or '' }}</textarea>
+    <div style="margin-top:12px;display:flex;gap:10px;">
+      <button type="submit" class="btn btn-danger">Verwijderen (label 79 + orders opschonen)</button>
+    </div>
+  </form>
+</div>
+{% endblock %}

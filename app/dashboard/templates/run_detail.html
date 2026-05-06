@@ -1,0 +1,102 @@
+{% extends "base.html" %}
+{% block title %}Run {{ run.id }} — Domain Cleanup{% endblock %}
+{% block content %}
+<h1>Run #{{ run.id }}</h1>
+
+<div class="stats">
+  <div class="stat"><div class="num">{{ run.total_domains_fetched }}</div><div class="lbl">Fetched</div></div>
+  <div class="stat"><div class="num">{{ run.total_unusable_domains }}</div><div class="lbl">Unusable</div></div>
+  <div class="stat"><div class="num">{{ run.total_matched_domains }}</div><div class="lbl">Matched</div></div>
+  <div class="stat"><div class="num">{{ run.total_updated_labels }}</div><div class="lbl">Label Updates</div></div>
+  <div class="stat"><div class="num">{{ run.total_affected_orders }}</div><div class="lbl">Affected Orders</div></div>
+  <div class="stat"><div class="num">{{ run.total_deleted_orders }}</div><div class="lbl">Deleted</div></div>
+  <div class="stat"><div class="num">{{ run.total_email_drafts }}</div><div class="lbl">Drafts</div></div>
+</div>
+
+<div class="card">
+  <strong>Status:</strong>
+  {% if run.status == 'success' %}<span class="badge badge-success">{{ run.status }}</span>
+  {% elif run.status == 'failed' %}<span class="badge badge-danger">{{ run.status }}</span>
+  {% else %}<span class="badge badge-warning">{{ run.status }}</span>{% endif %}
+  &nbsp; <strong>Mode:</strong>
+  {% if run.dry_run %}<span class="badge badge-info">dry-run</span>{% else %}<span class="badge badge-danger">live</span>{% endif %}
+  &nbsp; <strong>Started:</strong> {{ run.started_at }}
+  &nbsp; <strong>Finished:</strong> {{ run.finished_at or '-' }}
+</div>
+
+<h2>Unusable Domains ({{ domains|selectattr('is_unusable')|list|length }})</h2>
+<table>
+<thead><tr><th>Domain</th><th>Ext</th><th>Status</th><th>Matched ID</th><th>Matched WP</th><th>Account</th><th>Action</th></tr></thead>
+<tbody>
+{% for d in domains %}{% if d.is_unusable %}
+<tr>
+  <td>{{ d.external_domain }}</td><td>{{ d.extension }}</td><td>{{ d.external_status }}</td>
+  <td>{{ d.matched_domain_id or '-' }}</td><td>{{ d.matched_wp_domain or '-' }}</td>
+  <td>{{ d.account_name }}</td><td>{{ d.action_taken }}</td>
+</tr>
+{% endif %}{% endfor %}
+</tbody>
+</table>
+
+<h2>Affected Orders ({{ orders|length }})</h2>
+<table>
+<thead><tr><th>Order</th><th>Domain</th><th>Customer</th><th>Added By</th><th>Status</th><th>Action</th></tr></thead>
+<tbody>
+{% for o in orders %}
+<tr>
+  <td>{{ o.openorder_id }}</td><td>{{ o.wp_domain }}</td><td>{{ o.customer_name }}</td>
+  <td>{{ o.addedby_name }} ({{ o.addedby_email }})</td><td>{{ o.order_status }}</td><td>{{ o.action_taken }}</td>
+</tr>
+{% endfor %}
+</tbody>
+</table>
+
+<h2>Email Drafts ({{ drafts|length }})</h2>
+<table>
+<thead><tr><th>Ontvanger</th><th>Email</th><th>Onderwerp</th><th>Orders</th><th>Status</th><th>Acties</th></tr></thead>
+<tbody>
+{% for d in drafts %}
+<tr>
+  <td>{{ d.addedby_name }}</td><td>{{ d.addedby_email }}</td><td>{{ d.subject }}</td>
+  <td>{{ d.order_count }}</td>
+  <td>
+    {% if d.send_status == 'sent' %}<span class="badge badge-success">Verzonden</span>
+    {% elif d.send_status == 'failed' %}<span class="badge badge-danger">Mislukt</span>
+    {% else %}<span class="badge badge-warning">Draft</span>{% endif %}
+  </td>
+  <td>
+    <a href="/draft/{{ d.id }}" class="btn btn-primary btn-sm" style="text-decoration:none;">Bekijk</a>
+    <a href="/draft/{{ d.id }}/preview" target="_blank" class="btn btn-sm" style="background:#2c3e50;text-decoration:none;color:#fff;">Preview</a>
+  </td>
+</tr>
+{% endfor %}
+</tbody>
+</table>
+
+<h2>Label Updates ({{ label_updates|length }})</h2>
+<table>
+<thead><tr><th>DomLabel ID</th><th>Domain ID</th><th>Old Label</th><th>New Label</th><th>Updated</th></tr></thead>
+<tbody>
+{% for l in label_updates %}
+<tr><td>{{ l.domlabel_id }}</td><td>{{ l.dom_id }}</td><td>{{ l.old_label_id }}</td><td>{{ l.new_label_id }}</td><td>{{ l.updated_at }}</td></tr>
+{% endfor %}
+</tbody>
+</table>
+
+<h2>Logs ({{ logs|length }})</h2>
+<table>
+<thead><tr><th>Level</th><th>Message</th><th>Time</th></tr></thead>
+<tbody>
+{% for l in logs %}
+<tr>
+  <td>
+    {% if l.level == 'ERROR' %}<span class="badge badge-danger">{{ l.level }}</span>
+    {% elif l.level == 'WARNING' %}<span class="badge badge-warning">{{ l.level }}</span>
+    {% else %}<span class="badge badge-info">{{ l.level }}</span>{% endif %}
+  </td>
+  <td>{{ l.message }}</td><td>{{ l.created_at }}</td>
+</tr>
+{% endfor %}
+</tbody>
+</table>
+{% endblock %}

@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+{% block title %}Logs — Domain Cleanup{% endblock %}
+{% block content %}
+<h1>Logs</h1>
+<form method="get" style="margin-bottom:14px;">
+  <select name="level" onchange="this.form.submit()">
+    <option value="">All levels</option>
+    <option value="INFO" {% if level_filter == 'INFO' %}selected{% endif %}>INFO</option>
+    <option value="WARNING" {% if level_filter == 'WARNING' %}selected{% endif %}>WARNING</option>
+    <option value="ERROR" {% if level_filter == 'ERROR' %}selected{% endif %}>ERROR</option>
+  </select>
+</form>
+<table>
+<thead><tr><th>Level</th><th>Message</th><th>Run</th><th>Time</th></tr></thead>
+<tbody>
+{% for l in logs %}
+<tr>
+  <td>
+    {% if l.level == 'ERROR' %}<span class="badge badge-danger">{{ l.level }}</span>
+    {% elif l.level == 'WARNING' %}<span class="badge badge-warning">{{ l.level }}</span>
+    {% else %}<span class="badge badge-info">{{ l.level }}</span>{% endif %}
+  </td>
+  <td>{{ l.message }}</td>
+  <td>{% if l.run_id %}<a href="/run/{{ l.run_id }}">{{ l.run_id }}</a>{% else %}-{% endif %}</td>
+  <td>{{ l.created_at }}</td>
+</tr>
+{% endfor %}
+</tbody>
+</table>
+{% endblock %}

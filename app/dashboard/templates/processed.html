@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+{% block title %}Verwerkte Domeinen — Domain Cleanup{% endblock %}
+{% block content %}
+<h1>Verwerkte Domeinen (worden overgeslagen bij volgende runs)</h1>
+
+{% if message %}
+<div style="background:#d4edda;border:1px solid #28a745;padding:10px 16px;border-radius:6px;margin-bottom:14px;color:#155724;">
+  {{ message }}
+</div>
+{% endif %}
+
+<p style="color:#666;font-size:13px;margin-bottom:16px;">
+  Deze domeinen zijn al verwerkt en worden bij volgende runs automatisch overgeslagen.
+  Als een domein vernieuwd is en opnieuw gecontroleerd moet worden, verwijder het dan uit deze lijst.
+</p>
+
+<table>
+<thead><tr><th>Domein</th><th>Extensie</th><th>Status</th><th>Account</th><th>Verwerkt op</th><th>Run</th><th>Acties uitgevoerd</th><th></th></tr></thead>
+<tbody>
+{% for d in domains %}
+<tr>
+  <td>{{ d.full_domain }}</td>
+  <td>{{ d.extension }}</td>
+  <td>{{ d.external_status }}</td>
+  <td>{{ d.account_name }}</td>
+  <td>{{ d.processed_at }}</td>
+  <td><a href="/run/{{ d.run_id }}">{{ d.run_id }}</a></td>
+  <td>{{ d.actions_taken }}</td>
+  <td>
+    <form method="post" action="/processed/{{ d.normalized_domain }}/remove" style="display:inline;" onsubmit="return confirm('{{ d.full_domain }} verwijderen uit de verwerkte lijst? Het domein wordt dan bij de volgende run opnieuw gecontroleerd.');">
+      <button class="btn btn-danger btn-sm" type="submit">Verwijder</button>
+    </form>
+  </td>
+</tr>
+{% endfor %}
+</tbody>
+</table>
+
+{% if not domains %}
+<p style="color:#999;">Nog geen domeinen verwerkt. Start een run om te beginnen.</p>
+{% endif %}
+{% endblock %}

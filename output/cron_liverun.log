@@ -1,0 +1,832 @@
+ Container expired_domains-runner-run-fad2e44768da Creating 
+ Container expired_domains-runner-run-fad2e44768da Created 
+2026-04-10 07:00:02 | INFO     | __main__ | Domain Cleanup — command=run-all  mode=LIVE
+2026-04-10 07:00:03 | INFO     | app.services.run_coordinator | === Run 2 started (LIVE) ===
+2026-04-10 07:00:03 | INFO     | app.clients.hostingindustries | GET https://domains.hostingindustries.nl/login.php (capture session cookie) for account 'blauwemonsters'
+2026-04-10 07:00:03 | INFO     | app.clients.hostingindustries | POST https://domains.hostingindustries.nl/login.php for account 'blauwemonsters'
+2026-04-10 07:00:03 | INFO     | app.clients.hostingindustries | Login successful for account 'blauwemonsters'
+2026-04-10 07:00:03 | INFO     | app.clients.hostingindustries | GET https://domains.hostingindustries.nl/domains.php for account 'blauwemonsters'
+2026-04-10 07:00:07 | INFO     | app.clients.hostingindustries | Parsed 1756 domains from account 'blauwemonsters'
+2026-04-10 07:00:07 | INFO     | app.clients.hostingindustries | GET https://domains.hostingindustries.nl/login.php (capture session cookie) for account 'brandnewmedia'
+2026-04-10 07:00:07 | INFO     | app.clients.hostingindustries | POST https://domains.hostingindustries.nl/login.php for account 'brandnewmedia'
+2026-04-10 07:00:07 | INFO     | app.clients.hostingindustries | Login successful for account 'brandnewmedia'
+2026-04-10 07:00:07 | INFO     | app.clients.hostingindustries | GET https://domains.hostingindustries.nl/domains.php for account 'brandnewmedia'
+2026-04-10 07:00:08 | INFO     | app.clients.hostingindustries | Parsed 869 domains from account 'brandnewmedia'
+2026-04-10 07:00:08 | INFO     | app.clients.hostingindustries | Total domains after merge/dedup: 2625 (from 2625 raw)
+2026-04-10 07:00:08 | INFO     | app.services.run_coordinator | Fetched 2625 domains from HostingIndustries
+2026-04-10 07:00:08 | INFO     | app.services.run_coordinator | Already processed domains in history: 208
+2026-04-10 07:00:08 | INFO     | app.services.run_coordinator | Unusable domains: 207 total, 0 new to process, 207 already processed (skipped)
+2026-04-10 07:00:08 | INFO     | app.services.run_coordinator | ── Processing source database: linkstatus_blauwemonsters ──
+2026-04-10 07:00:08 | INFO     | app.services.run_coordinator |   Matched unusable in linkstatus_blauwemonsters: 196
+2026-04-10 07:00:12 | INFO     | app.services.run_coordinator |   Affected orders in linkstatus_blauwemonsters: 0
+2026-04-10 07:00:13 | INFO     | app.services.run_coordinator | ── Processing source database: linkstatus_brandnewmedia ──
+2026-04-10 07:00:13 | INFO     | app.services.run_coordinator |   Matched unusable in linkstatus_brandnewmedia: 130
+2026-04-10 07:00:17 | INFO     | app.services.run_coordinator |   Affected orders in linkstatus_brandnewmedia: 0
+2026-04-10 07:00:19 | INFO     | app.services.email_draft_service | Generated 0 email drafts for 0 admins
+2026-04-10 07:00:19 | INFO     | app.services.email_draft_service | Saved 0 drafts to /output/email_drafts/run_2
+2026-04-10 07:00:19 | INFO     | app.services.sheets_service | Sheets sync skipped: no webhook URL or no domains
+2026-04-10 07:00:19 | INFO     | app.services.run_coordinator | Marked 0 domains as processed
+2026-04-10 07:00:19 | INFO     | app.services.report_service | JSON report written to /output/reports/run_2.json
+2026-04-10 07:00:19 | INFO     | app.services.run_coordinator | === Run 2 finished successfully ===
+ Container expired_domains-runner-run-bafe028ee953 Creating 
+ Container expired_domains-runner-run-bafe028ee953 Created 
+2026-04-11 07:00:02 | INFO     | __main__ | Domain Cleanup — command=run-all  mode=LIVE
+2026-04-11 07:00:02 | INFO     | app.services.run_coordinator | === Run 7 started (LIVE) ===
+2026-04-11 07:00:02 | INFO     | app.clients.hostingindustries | GET https://domains.hostingindustries.nl/login.php (capture session cookie) for account 'blauwemonsters'
+2026-04-11 07:00:03 | INFO     | app.clients.hostingindustries | POST https://domains.hostingindustries.nl/login.php for account 'blauwemonsters'
+2026-04-11 07:00:03 | INFO     | app.clients.hostingindustries | Login successful for account 'blauwemonsters'
+2026-04-11 07:00:03 | INFO     | app.clients.hostingindustries | GET https://domains.hostingindustries.nl/domains.php for account 'blauwemonsters'
+2026-04-11 07:00:06 | INFO     | app.clients.hostingindustries | Parsed 1756 domains from account 'blauwemonsters'
+2026-04-11 07:00:06 | INFO     | app.clients.hostingindustries | GET https://domains.hostingindustries.nl/login.php (capture session cookie) for account 'brandnewmedia'
+2026-04-11 07:00:06 | INFO     | app.clients.hostingindustries | POST https://domains.hostingindustries.nl/login.php for account 'brandnewmedia'
+2026-04-11 07:00:07 | INFO     | app.clients.hostingindustries | Login successful for account 'brandnewmedia'
+2026-04-11 07:00:07 | INFO     | app.clients.hostingindustries | GET https://domains.hostingindustries.nl/domains.php for account 'brandnewmedia'
+2026-04-11 07:00:08 | INFO     | app.clients.hostingindustries | Parsed 869 domains from account 'brandnewmedia'
+2026-04-11 07:00:08 | INFO     | app.clients.hostingindustries | Total domains after merge/dedup: 2625 (from 2625 raw)
+2026-04-11 07:00:08 | INFO     | app.services.run_coordinator | Fetched 2625 domains from HostingIndustries
+2026-04-11 07:00:08 | INFO     | app.services.run_coordinator | Already processed domains in history: 734
+2026-04-11 07:00:08 | INFO     | app.services.run_coordinator | Unusable domains: 207 total, 11 new to process, 196 already processed (skipped)
+2026-04-11 07:00:08 | INFO     | app.services.run_coordinator | ── Processing source database: linkstatus_blauwemonsters ──
+2026-04-11 07:00:08 | INFO     | app.services.run_coordinator |   Matched unusable in linkstatus_blauwemonsters: 196
+2026-04-11 07:00:12 | INFO     | app.services.run_coordinator |   Affected orders in linkstatus_blauwemonsters: 0
+2026-04-11 07:00:13 | INFO     | app.services.run_coordinator | ── Processing source database: linkstatus_brandnewmedia ──
+2026-04-11 07:00:13 | INFO     | app.services.run_coordinator |   Matched unusable in linkstatus_brandnewmedia: 130
+2026-04-11 07:00:15 | INFO     | app.services.run_coordinator |   Affected orders in linkstatus_brandnewmedia: 0
+2026-04-11 07:00:16 | INFO     | app.services.email_draft_service | Generated 0 email drafts for 0 admins
+2026-04-11 07:00:16 | INFO     | app.services.email_draft_service | Saved 0 drafts to /output/email_drafts/run_7
+2026-04-11 07:00:19 | INFO     | app.services.sheets_service | Sheets sync via n8n: Belgische domeinen → 1 domains sent, response: {"status":"no_matches","sheet":"Belgische domeinen","matched":0,"message":"No matching domains found in Belgische domeinen"}
+2026-04-11 07:00:19 | INFO     | app.services.sheets_service | Sheets sync via n8n: Duitse domeinen → 2 domains sent, response: {"status":"no_matches","sheet":"Duitse domeinen","matched":0,"message":"No matching domains found in Duitse domeinen"}
+2026-04-11 07:00:20 | INFO     | app.services.sheets_service | Sheets sync via n8n: Nederlandse domeinen → 5 domains sent, response: {"status":"no_matches","sheet":"Nederlandse domeinen","matched":0,"message":"No matching domains found in Nederlandse domeinen"}
+2026-04-11 07:00:21 | INFO     | app.services.sheets_service | Sheets sync via n8n: Engelse domeinen → 1 domains sent, response: {"status":"no_matches","sheet":"Engelse domeinen","matched":0,"message":"No matching domains found in Engelse domeinen"}
+2026-04-11 07:00:21 | INFO     | app.services.sheets_service | Sheets sync via n8n: Franse domeinen → 1 domains sent, response: {"status":"no_matches","sheet":"Franse domeinen","matched":0,"message":"No matching domains found in Franse domeinen"}
+2026-04-11 07:00:21 | INFO     | app.services.run_coordinator | Marked 11 domains as processed
+2026-04-11 07:00:21 | INFO     | app.services.report_service | JSON report written to /output/reports/run_7.json
+2026-04-11 07:00:21 | INFO     | app.services.run_coordinator | === Run 7 finished successfully ===
+ Container expired_domains-runner-run-0896295cd349 Creating 
+ Container expired_domains-runner-run-0896295cd349 Created 
+2026-04-12 07:00:02 | INFO     | __main__ | Domain Cleanup — command=run-all  mode=LIVE
+2026-04-12 07:00:03 | INFO     | app.services.run_coordinator | === Run 8 started (LIVE) ===
+2026-04-12 07:00:03 | INFO     | app.clients.hostingindustries | GET https://domains.hostingindustries.nl/login.php (capture session cookie) for account 'blauwemonsters'
+2026-04-12 07:00:03 | INFO     | app.clients.hostingindustries | POST https://domains.hostingindustries.nl/login.php for account 'blauwemonsters'
+2026-04-12 07:00:03 | INFO     | app.clients.hostingindustries | Login successful for account 'blauwemonsters'
+2026-04-12 07:00:03 | INFO     | app.clients.hostingindustries | GET https://domains.hostingindustries.nl/domains.php for account 'blauwemonsters'
+2026-04-12 07:00:07 | INFO     | app.clients.hostingindustries | Parsed 1756 domains from account 'blauwemonsters'
+2026-04-12 07:00:07 | INFO     | app.clients.hostingindustries | GET https://domains.hostingindustries.nl/login.php (capture session cookie) for account 'brandnewmedia'
+2026-04-12 07:00:07 | INFO     | app.clients.hostingindustries | POST https://domains.hostingindustries.nl/login.php for account 'brandnewmedia'
+2026-04-12 07:00:08 | INFO     | app.clients.hostingindustries | Login successful for account 'brandnewmedia'
+2026-04-12 07:00:08 | INFO     | app.clients.hostingindustries | GET https://domains.hostingindustries.nl/domains.php for account 'brandnewmedia'
+2026-04-12 07:00:09 | INFO     | app.clients.hostingindustries | Parsed 869 domains from account 'brandnewmedia'
+2026-04-12 07:00:09 | INFO     | app.clients.hostingindustries | Total domains after merge/dedup: 2625 (from 2625 raw)
+2026-04-12 07:00:09 | INFO     | app.services.run_coordinator | Fetched 2625 domains from HostingIndustries
+2026-04-12 07:00:09 | INFO     | app.services.run_coordinator | Already processed domains in history: 745
+2026-04-12 07:00:09 | INFO     | app.services.run_coordinator | Unusable domains: 207 total, 0 new to process, 207 already processed (skipped)
+2026-04-12 07:00:09 | INFO     | app.services.run_coordinator | ── Processing source database: linkstatus_blauwemonsters ──
+2026-04-12 07:00:09 | INFO     | app.services.run_coordinator |   Matched unusable in linkstatus_blauwemonsters: 196
+2026-04-12 07:00:12 | INFO     | app.services.run_coordinator |   Affected orders in linkstatus_blauwemonsters: 0
+2026-04-12 07:00:13 | INFO     | app.services.run_coordinator | ── Processing source database: linkstatus_brandnewmedia ──
+2026-04-12 07:00:14 | INFO     | app.services.run_coordinator |   Matched unusable in linkstatus_brandnewmedia: 130
+2026-04-12 07:00:16 | INFO     | app.services.run_coordinator |   Affected orders in linkstatus_brandnewmedia: 0
+2026-04-12 07:00:17 | INFO     | app.services.email_draft_service | Generated 0 email drafts for 0 admins
+2026-04-12 07:00:17 | INFO     | app.services.email_draft_service | Saved 0 drafts to /output/email_drafts/run_8
+2026-04-12 07:00:17 | INFO     | app.services.sheets_service | Sheets sync skipped: no webhook URL or no domains
+2026-04-12 07:00:17 | INFO     | app.services.run_coordinator | Marked 0 domains as processed
+2026-04-12 07:00:17 | INFO     | app.services.report_service | JSON report written to /output/reports/run_8.json
+2026-04-12 07:00:17 | INFO     | app.services.run_coordinator | === Run 8 finished successfully ===
+ Container expired_domains-runner-run-5a974b8cce4f Creating 
+ Container expired_domains-runner-run-5a974b8cce4f Created 
+2026-04-13 07:00:01 | INFO     | __main__ | Domain Cleanup — command=run-all  mode=LIVE
+2026-04-13 07:00:02 | INFO     | app.services.run_coordinator | === Run 9 started (LIVE) ===
+2026-04-13 07:00:02 | INFO     | app.clients.hostingindustries | GET https://domains.hostingindustries.nl/login.php (capture session cookie) for account 'blauwemonsters'
+2026-04-13 07:00:02 | INFO     | app.clients.hostingindustries | POST https://domains.hostingindustries.nl/login.php for account 'blauwemonsters'
+2026-04-13 07:00:02 | INFO     | app.clients.hostingindustries | Login successful for account 'blauwemonsters'
+2026-04-13 07:00:02 | INFO     | app.clients.hostingindustries | GET https://domains.hostingindustries.nl/domains.php for account 'blauwemonsters'
+2026-04-13 07:00:06 | INFO     | app.clients.hostingindustries | Parsed 1756 domains from account 'blauwemonsters'
+2026-04-13 07:00:06 | INFO     | app.clients.hostingindustries | GET https://domains.hostingindustries.nl/login.php (capture session cookie) for account 'brandnewmedia'
+2026-04-13 07:00:06 | INFO     | app.clients.hostingindustries | POST https://domains.hostingindustries.nl/login.php for account 'brandnewmedia'
+2026-04-13 07:00:07 | INFO     | app.clients.hostingindustries | Login successful for account 'brandnewmedia'
+2026-04-13 07:00:07 | INFO     | app.clients.hostingindustries | GET https://domains.hostingindustries.nl/domains.php for account 'brandnewmedia'
+2026-04-13 07:00:08 | INFO     | app.clients.hostingindustries | Parsed 869 domains from account 'brandnewmedia'
+2026-04-13 07:00:08 | INFO     | app.clients.hostingindustries | Total domains after merge/dedup: 2625 (from 2625 raw)
+2026-04-13 07:00:08 | INFO     | app.services.run_coordinator | Fetched 2625 domains from HostingIndustries
+2026-04-13 07:00:08 | INFO     | app.services.run_coordinator | Already processed domains in history: 745
+2026-04-13 07:00:08 | INFO     | app.services.run_coordinator | Unusable domains: 207 total, 0 new to process, 207 already processed (skipped)
+2026-04-13 07:00:08 | INFO     | app.services.run_coordinator | ── Processing source database: linkstatus_blauwemonsters ──
+2026-04-13 07:00:08 | INFO     | app.services.run_coordinator |   Matched unusable in linkstatus_blauwemonsters: 196
+2026-04-13 07:00:11 | INFO     | app.services.run_coordinator |   Affected orders in linkstatus_blauwemonsters: 0
+2026-04-13 07:00:12 | INFO     | app.services.run_coordinator | ── Processing source database: linkstatus_brandnewmedia ──
+2026-04-13 07:00:12 | INFO     | app.services.run_coordinator |   Matched unusable in linkstatus_brandnewmedia: 130
+2026-04-13 07:00:14 | INFO     | app.services.run_coordinator |   Affected orders in linkstatus_brandnewmedia: 0
+2026-04-13 07:00:16 | INFO     | app.services.email_draft_service | Generated 0 email drafts for 0 admins
+2026-04-13 07:00:16 | INFO     | app.services.email_draft_service | Saved 0 drafts to /output/email_drafts/run_9
+2026-04-13 07:00:16 | INFO     | app.services.sheets_service | Sheets sync skipped: no webhook URL or no domains
+2026-04-13 07:00:16 | INFO     | app.services.run_coordinator | Marked 0 domains as processed
+2026-04-13 07:00:16 | INFO     | app.services.report_service | JSON report written to /output/reports/run_9.json
+2026-04-13 07:00:16 | INFO     | app.services.run_coordinator | === Run 9 finished successfully ===
+ Container expired_domains-runner-run-042c6d1b7dca Creating 
+ Container expired_domains-runner-run-042c6d1b7dca Created 
+2026-04-14 07:00:02 | INFO     | __main__ | Domain Cleanup — command=run-all  mode=LIVE
+2026-04-14 07:00:03 | INFO     | app.services.run_coordinator | === Run 10 started (LIVE) ===
+2026-04-14 07:00:03 | INFO     | app.clients.hostingindustries | GET https://domains.hostingindustries.nl/login.php (capture session cookie) for account 'blauwemonsters'
+2026-04-14 07:00:03 | INFO     | app.clients.hostingindustries | POST https://domains.hostingindustries.nl/login.php for account 'blauwemonsters'
+2026-04-14 07:00:03 | INFO     | app.clients.hostingindustries | Login successful for account 'blauwemonsters'
+2026-04-14 07:00:03 | INFO     | app.clients.hostingindustries | GET https://domains.hostingindustries.nl/domains.php for account 'blauwemonsters'
+2026-04-14 07:00:06 | INFO     | app.clients.hostingindustries | Parsed 1755 domains from account 'blauwemonsters'
+2026-04-14 07:00:06 | INFO     | app.clients.hostingindustries | GET https://domains.hostingindustries.nl/login.php (capture session cookie) for account 'brandnewmedia'
+2026-04-14 07:00:06 | INFO     | app.clients.hostingindustries | POST https://domains.hostingindustries.nl/login.php for account 'brandnewmedia'
+2026-04-14 07:00:06 | INFO     | app.clients.hostingindustries | Login successful for account 'brandnewmedia'
+2026-04-14 07:00:06 | INFO     | app.clients.hostingindustries | GET https://domains.hostingindustries.nl/domains.php for account 'brandnewmedia'
+2026-04-14 07:00:07 | INFO     | app.clients.hostingindustries | Parsed 869 domains from account 'brandnewmedia'
+2026-04-14 07:00:07 | INFO     | app.clients.hostingindustries | Total domains after merge/dedup: 2624 (from 2624 raw)
+2026-04-14 07:00:07 | INFO     | app.services.run_coordinator | Fetched 2624 domains from HostingIndustries
+2026-04-14 07:00:07 | INFO     | app.services.run_coordinator | Already processed domains in history: 745
+2026-04-14 07:00:07 | INFO     | app.services.run_coordinator | Unusable domains: 206 total, 0 new to process, 206 already processed (skipped)
+2026-04-14 07:00:07 | INFO     | app.services.run_coordinator | ── Processing source database: linkstatus_blauwemonsters ──
+2026-04-14 07:00:08 | INFO     | app.services.run_coordinator |   Matched unusable in linkstatus_blauwemonsters: 195
+2026-04-14 07:00:11 | INFO     | app.services.run_coordinator |   Affected orders in linkstatus_blauwemonsters: 0
+2026-04-14 07:00:12 | INFO     | app.services.run_coordinator | ── Processing source database: linkstatus_brandnewmedia ──
+2026-04-14 07:00:12 | INFO     | app.services.run_coordinator |   Matched unusable in linkstatus_brandnewmedia: 129
+2026-04-14 07:00:14 | INFO     | app.services.run_coordinator |   Affected orders in linkstatus_brandnewmedia: 0
+2026-04-14 07:00:16 | INFO     | app.services.email_draft_service | Generated 0 email drafts for 0 admins
+2026-04-14 07:00:16 | INFO     | app.services.email_draft_service | Saved 0 drafts to /output/email_drafts/run_10
+2026-04-14 07:00:16 | INFO     | app.services.sheets_service | Sheets sync skipped: no webhook URL or no domains
+2026-04-14 07:00:16 | INFO     | app.services.run_coordinator | Marked 0 domains as processed
+2026-04-14 07:00:16 | INFO     | app.services.report_service | JSON report written to /output/reports/run_10.json
+2026-04-14 07:00:16 | INFO     | app.services.run_coordinator | === Run 10 finished successfully ===
+ Container expired_domains-runner-run-fdb767af68d7 Creating 
+ Container expired_domains-runner-run-fdb767af68d7 Created 
+2026-04-15 07:00:02 | INFO     | __main__ | Domain Cleanup — command=run-all  mode=LIVE
+2026-04-15 07:00:02 | INFO     | app.services.run_coordinator | === Run 11 started (LIVE) ===
+2026-04-15 07:00:02 | INFO     | app.clients.hostingindustries | GET https://domains.hostingindustries.nl/login.php (capture session cookie) for account 'blauwemonsters'
+2026-04-15 07:00:02 | INFO     | app.clients.hostingindustries | POST https://domains.hostingindustries.nl/login.php for account 'blauwemonsters'
+2026-04-15 07:00:03 | INFO     | app.clients.hostingindustries | Login successful for account 'blauwemonsters'
+2026-04-15 07:00:03 | INFO     | app.clients.hostingindustries | GET https://domains.hostingindustries.nl/domains.php for account 'blauwemonsters'
+2026-04-15 07:00:06 | INFO     | app.clients.hostingindustries | Parsed 1753 domains from account 'blauwemonsters'
+2026-04-15 07:00:06 | INFO     | app.clients.hostingindustries | GET https://domains.hostingindustries.nl/login.php (capture session cookie) for account 'brandnewmedia'
+2026-04-15 07:00:06 | INFO     | app.clients.hostingindustries | POST https://domains.hostingindustries.nl/login.php for account 'brandnewmedia'
+2026-04-15 07:00:06 | INFO     | app.clients.hostingindustries | Login successful for account 'brandnewmedia'
+2026-04-15 07:00:06 | INFO     | app.clients.hostingindustries | GET https://domains.hostingindustries.nl/domains.php for account 'brandnewmedia'
+2026-04-15 07:00:07 | INFO     | app.clients.hostingindustries | Parsed 869 domains from account 'brandnewmedia'
+2026-04-15 07:00:07 | INFO     | app.clients.hostingindustries | Total domains after merge/dedup: 2622 (from 2622 raw)
+2026-04-15 07:00:07 | INFO     | app.services.run_coordinator | Fetched 2622 domains from HostingIndustries
+2026-04-15 07:00:07 | INFO     | app.services.run_coordinator | Already processed domains in history: 745
+2026-04-15 07:00:07 | INFO     | app.services.run_coordinator | Unusable domains: 204 total, 0 new to process, 204 already processed (skipped)
+2026-04-15 07:00:07 | INFO     | app.services.run_coordinator | ── Processing source database: linkstatus_blauwemonsters ──
+2026-04-15 07:00:08 | INFO     | app.services.run_coordinator |   Matched unusable in linkstatus_blauwemonsters: 195
+2026-04-15 07:00:11 | INFO     | app.services.run_coordinator |   Affected orders in linkstatus_blauwemonsters: 0
+2026-04-15 07:00:12 | INFO     | app.services.run_coordinator | ── Processing source database: linkstatus_brandnewmedia ──
+2026-04-15 07:00:12 | INFO     | app.services.run_coordinator |   Matched unusable in linkstatus_brandnewmedia: 129
+2026-04-15 07:00:15 | INFO     | app.services.run_coordinator |   Affected orders in linkstatus_brandnewmedia: 0
+2026-04-15 07:00:16 | INFO     | app.services.email_draft_service | Generated 0 email drafts for 0 admins
+2026-04-15 07:00:16 | INFO     | app.services.email_draft_service | Saved 0 drafts to /output/email_drafts/run_11
+2026-04-15 07:00:16 | INFO     | app.services.sheets_service | Sheets sync skipped: no webhook URL or no domains
+2026-04-15 07:00:16 | INFO     | app.services.run_coordinator | Marked 0 domains as processed
+2026-04-15 07:00:16 | INFO     | app.services.report_service | JSON report written to /output/reports/run_11.json
+2026-04-15 07:00:16 | INFO     | app.services.run_coordinator | === Run 11 finished successfully ===
+ Container expired_domains-runner-run-74790a0e0867 Creating 
+ Container expired_domains-runner-run-74790a0e0867 Created 
+2026-04-16 07:00:02 | INFO     | __main__ | Domain Cleanup — command=run-all  mode=LIVE
+2026-04-16 07:00:03 | INFO     | app.services.run_coordinator | === Run 12 started (LIVE) ===
+2026-04-16 07:00:03 | INFO     | app.clients.hostingindustries | GET https://domains.hostingindustries.nl/login.php (capture session cookie) for account 'blauwemonsters'
+2026-04-16 07:00:03 | INFO     | app.clients.hostingindustries | POST https://domains.hostingindustries.nl/login.php for account 'blauwemonsters'
+2026-04-16 07:00:03 | INFO     | app.clients.hostingindustries | Login successful for account 'blauwemonsters'
+2026-04-16 07:00:03 | INFO     | app.clients.hostingindustries | GET https://domains.hostingindustries.nl/domains.php for account 'blauwemonsters'
+2026-04-16 07:00:06 | INFO     | app.clients.hostingindustries | Parsed 1752 domains from account 'blauwemonsters'
+2026-04-16 07:00:06 | INFO     | app.clients.hostingindustries | GET https://domains.hostingindustries.nl/login.php (capture session cookie) for account 'brandnewmedia'
+2026-04-16 07:00:06 | INFO     | app.clients.hostingindustries | POST https://domains.hostingindustries.nl/login.php for account 'brandnewmedia'
+2026-04-16 07:00:07 | INFO     | app.clients.hostingindustries | Login successful for account 'brandnewmedia'
+2026-04-16 07:00:07 | INFO     | app.clients.hostingindustries | GET https://domains.hostingindustries.nl/domains.php for account 'brandnewmedia'
+2026-04-16 07:00:08 | INFO     | app.clients.hostingindustries | Parsed 869 domains from account 'brandnewmedia'
+2026-04-16 07:00:08 | INFO     | app.clients.hostingindustries | Total domains after merge/dedup: 2621 (from 2621 raw)
+2026-04-16 07:00:08 | INFO     | app.services.run_coordinator | Fetched 2621 domains from HostingIndustries
+2026-04-16 07:00:08 | INFO     | app.services.run_coordinator | Already processed domains in history: 745
+2026-04-16 07:00:08 | INFO     | app.services.run_coordinator | Unusable domains: 203 total, 0 new to process, 203 already processed (skipped)
+2026-04-16 07:00:08 | INFO     | app.services.run_coordinator | ── Processing source database: linkstatus_blauwemonsters ──
+2026-04-16 07:00:08 | INFO     | app.services.run_coordinator |   Matched unusable in linkstatus_blauwemonsters: 195
+2026-04-16 07:00:12 | INFO     | app.services.run_coordinator |   Affected orders in linkstatus_blauwemonsters: 0
+2026-04-16 07:00:13 | INFO     | app.services.run_coordinator | ── Processing source database: linkstatus_brandnewmedia ──
+2026-04-16 07:00:13 | INFO     | app.services.run_coordinator |   Matched unusable in linkstatus_brandnewmedia: 129
+2026-04-16 07:00:16 | INFO     | app.services.run_coordinator |   Affected orders in linkstatus_brandnewmedia: 0
+2026-04-16 07:00:17 | INFO     | app.services.email_draft_service | Generated 0 email drafts for 0 admins
+2026-04-16 07:00:17 | INFO     | app.services.email_draft_service | Saved 0 drafts to /output/email_drafts/run_12
+2026-04-16 07:00:17 | INFO     | app.services.sheets_service | Sheets sync skipped: no webhook URL or no domains
+2026-04-16 07:00:17 | INFO     | app.services.run_coordinator | Marked 0 domains as processed
+2026-04-16 07:00:17 | INFO     | app.services.report_service | JSON report written to /output/reports/run_12.json
+2026-04-16 07:00:17 | INFO     | app.services.run_coordinator | === Run 12 finished successfully ===
+ Container expired_domains-runner-run-75787aa2b653 Creating 
+ Container expired_domains-runner-run-75787aa2b653 Created 
+2026-04-17 07:00:02 | INFO     | __main__ | Domain Cleanup — command=run-all  mode=LIVE
+2026-04-17 07:00:02 | INFO     | app.services.run_coordinator | === Run 13 started (LIVE) ===
+2026-04-17 07:00:02 | INFO     | app.clients.hostingindustries | GET https://domains.hostingindustries.nl/login.php (capture session cookie) for account 'blauwemonsters'
+2026-04-17 07:00:02 | INFO     | app.clients.hostingindustries | POST https://domains.hostingindustries.nl/login.php for account 'blauwemonsters'
+2026-04-17 07:00:03 | INFO     | app.clients.hostingindustries | Login successful for account 'blauwemonsters'
+2026-04-17 07:00:03 | INFO     | app.clients.hostingindustries | GET https://domains.hostingindustries.nl/domains.php for account 'blauwemonsters'
+2026-04-17 07:00:06 | INFO     | app.clients.hostingindustries | Parsed 1752 domains from account 'blauwemonsters'
+2026-04-17 07:00:06 | INFO     | app.clients.hostingindustries | GET https://domains.hostingindustries.nl/login.php (capture session cookie) for account 'brandnewmedia'
+2026-04-17 07:00:06 | INFO     | app.clients.hostingindustries | POST https://domains.hostingindustries.nl/login.php for account 'brandnewmedia'
+2026-04-17 07:00:06 | INFO     | app.clients.hostingindustries | Login successful for account 'brandnewmedia'
+2026-04-17 07:00:06 | INFO     | app.clients.hostingindustries | GET https://domains.hostingindustries.nl/domains.php for account 'brandnewmedia'
+2026-04-17 07:00:07 | INFO     | app.clients.hostingindustries | Parsed 869 domains from account 'brandnewmedia'
+2026-04-17 07:00:07 | INFO     | app.clients.hostingindustries | Total domains after merge/dedup: 2621 (from 2621 raw)
+2026-04-17 07:00:07 | INFO     | app.services.run_coordinator | Fetched 2621 domains from HostingIndustries
+2026-04-17 07:00:07 | INFO     | app.services.run_coordinator | Already processed domains in history: 745
+2026-04-17 07:00:07 | INFO     | app.services.run_coordinator | Unusable domains: 203 total, 0 new to process, 203 already processed (skipped)
+2026-04-17 07:00:07 | INFO     | app.services.run_coordinator | ── Processing source database: linkstatus_blauwemonsters ──
+2026-04-17 07:00:08 | INFO     | app.services.run_coordinator |   Matched unusable in linkstatus_blauwemonsters: 195
+2026-04-17 07:00:11 | INFO     | app.services.run_coordinator |   Affected orders in linkstatus_blauwemonsters: 0
+2026-04-17 07:00:12 | INFO     | app.services.run_coordinator | ── Processing source database: linkstatus_brandnewmedia ──
+2026-04-17 07:00:13 | INFO     | app.services.run_coordinator |   Matched unusable in linkstatus_brandnewmedia: 129
+2026-04-17 07:00:15 | INFO     | app.services.run_coordinator |   Affected orders in linkstatus_brandnewmedia: 0
+2026-04-17 07:00:16 | INFO     | app.services.email_draft_service | Generated 0 email drafts for 0 admins
+2026-04-17 07:00:16 | INFO     | app.services.email_draft_service | Saved 0 drafts to /output/email_drafts/run_13
+2026-04-17 07:00:16 | INFO     | app.services.sheets_service | Sheets sync skipped: no webhook URL or no domains
+2026-04-17 07:00:16 | INFO     | app.services.run_coordinator | Marked 0 domains as processed
+2026-04-17 07:00:16 | INFO     | app.services.report_service | JSON report written to /output/reports/run_13.json
+2026-04-17 07:00:16 | INFO     | app.services.run_coordinator | === Run 13 finished successfully ===
+ Container expired_domains-runner-run-1cac7b1fb66a Creating 
+ Container expired_domains-runner-run-1cac7b1fb66a Created 
+2026-04-18 07:00:02 | INFO     | __main__ | Domain Cleanup — command=run-all  mode=LIVE
+2026-04-18 07:00:03 | INFO     | app.services.run_coordinator | === Run 14 started (LIVE) ===
+2026-04-18 07:00:03 | INFO     | app.clients.hostingindustries | GET https://domains.hostingindustries.nl/login.php (capture session cookie) for account 'blauwemonsters'
+2026-04-18 07:00:03 | INFO     | app.clients.hostingindustries | POST https://domains.hostingindustries.nl/login.php for account 'blauwemonsters'
+2026-04-18 07:00:03 | INFO     | app.clients.hostingindustries | Login successful for account 'blauwemonsters'
+2026-04-18 07:00:03 | INFO     | app.clients.hostingindustries | GET https://domains.hostingindustries.nl/domains.php for account 'blauwemonsters'
+2026-04-18 07:00:06 | INFO     | app.clients.hostingindustries | Parsed 1751 domains from account 'blauwemonsters'
+2026-04-18 07:00:06 | INFO     | app.clients.hostingindustries | GET https://domains.hostingindustries.nl/login.php (capture session cookie) for account 'brandnewmedia'
+2026-04-18 07:00:06 | INFO     | app.clients.hostingindustries | POST https://domains.hostingindustries.nl/login.php for account 'brandnewmedia'
+2026-04-18 07:00:06 | INFO     | app.clients.hostingindustries | Login successful for account 'brandnewmedia'
+2026-04-18 07:00:06 | INFO     | app.clients.hostingindustries | GET https://domains.hostingindustries.nl/domains.php for account 'brandnewmedia'
+2026-04-18 07:00:08 | INFO     | app.clients.hostingindustries | Parsed 869 domains from account 'brandnewmedia'
+2026-04-18 07:00:08 | INFO     | app.clients.hostingindustries | Total domains after merge/dedup: 2620 (from 2620 raw)
+2026-04-18 07:00:08 | INFO     | app.services.run_coordinator | Fetched 2620 domains from HostingIndustries
+2026-04-18 07:00:08 | INFO     | app.services.run_coordinator | Already processed domains in history: 745
+2026-04-18 07:00:08 | INFO     | app.services.run_coordinator | Unusable domains: 202 total, 0 new to process, 202 already processed (skipped)
+2026-04-18 07:00:08 | INFO     | app.services.run_coordinator | ── Processing source database: linkstatus_blauwemonsters ──
+2026-04-18 07:00:08 | INFO     | app.services.run_coordinator |   Matched unusable in linkstatus_blauwemonsters: 194
+2026-04-18 07:00:11 | INFO     | app.services.run_coordinator |   Affected orders in linkstatus_blauwemonsters: 0
+2026-04-18 07:00:12 | INFO     | app.services.run_coordinator | ── Processing source database: linkstatus_brandnewmedia ──
+2026-04-18 07:00:12 | INFO     | app.services.run_coordinator |   Matched unusable in linkstatus_brandnewmedia: 128
+2026-04-18 07:00:14 | INFO     | app.services.run_coordinator |   Affected orders in linkstatus_brandnewmedia: 0
+2026-04-18 07:00:15 | INFO     | app.services.email_draft_service | Generated 0 email drafts for 0 admins
+2026-04-18 07:00:15 | INFO     | app.services.email_draft_service | Saved 0 drafts to /output/email_drafts/run_14
+2026-04-18 07:00:15 | INFO     | app.services.sheets_service | Sheets sync skipped: no webhook URL or no domains
+2026-04-18 07:00:15 | INFO     | app.services.run_coordinator | Marked 0 domains as processed
+2026-04-18 07:00:15 | INFO     | app.services.report_service | JSON report written to /output/reports/run_14.json
+2026-04-18 07:00:15 | INFO     | app.services.run_coordinator | === Run 14 finished successfully ===
+ Container expired_domains-runner-run-06781a42e46c Creating 
+ Container expired_domains-runner-run-06781a42e46c Created 
+2026-04-19 07:00:01 | INFO     | __main__ | Domain Cleanup — command=run-all  mode=LIVE
+2026-04-19 07:00:02 | INFO     | app.services.run_coordinator | === Run 15 started (LIVE) ===
+2026-04-19 07:00:02 | INFO     | app.clients.hostingindustries | GET https://domains.hostingindustries.nl/login.php (capture session cookie) for account 'blauwemonsters'
+2026-04-19 07:00:02 | INFO     | app.clients.hostingindustries | POST https://domains.hostingindustries.nl/login.php for account 'blauwemonsters'
+2026-04-19 07:00:02 | INFO     | app.clients.hostingindustries | Login successful for account 'blauwemonsters'
+2026-04-19 07:00:02 | INFO     | app.clients.hostingindustries | GET https://domains.hostingindustries.nl/domains.php for account 'blauwemonsters'
+2026-04-19 07:00:06 | INFO     | app.clients.hostingindustries | Parsed 1750 domains from account 'blauwemonsters'
+2026-04-19 07:00:06 | INFO     | app.clients.hostingindustries | GET https://domains.hostingindustries.nl/login.php (capture session cookie) for account 'brandnewmedia'
+2026-04-19 07:00:06 | INFO     | app.clients.hostingindustries | POST https://domains.hostingindustries.nl/login.php for account 'brandnewmedia'
+2026-04-19 07:00:06 | INFO     | app.clients.hostingindustries | Login successful for account 'brandnewmedia'
+2026-04-19 07:00:06 | INFO     | app.clients.hostingindustries | GET https://domains.hostingindustries.nl/domains.php for account 'brandnewmedia'
+2026-04-19 07:00:08 | INFO     | app.clients.hostingindustries | Parsed 869 domains from account 'brandnewmedia'
+2026-04-19 07:00:08 | INFO     | app.clients.hostingindustries | Total domains after merge/dedup: 2619 (from 2619 raw)
+2026-04-19 07:00:08 | INFO     | app.services.run_coordinator | Fetched 2619 domains from HostingIndustries
+2026-04-19 07:00:08 | INFO     | app.services.run_coordinator | Already processed domains in history: 745
+2026-04-19 07:00:08 | INFO     | app.services.run_coordinator | Unusable domains: 201 total, 0 new to process, 201 already processed (skipped)
+2026-04-19 07:00:08 | INFO     | app.services.run_coordinator | ── Processing source database: linkstatus_blauwemonsters ──
+2026-04-19 07:00:08 | INFO     | app.services.run_coordinator |   Matched unusable in linkstatus_blauwemonsters: 193
+2026-04-19 07:00:12 | INFO     | app.services.run_coordinator |   Affected orders in linkstatus_blauwemonsters: 0
+2026-04-19 07:00:13 | INFO     | app.services.run_coordinator | ── Processing source database: linkstatus_brandnewmedia ──
+2026-04-19 07:00:13 | INFO     | app.services.run_coordinator |   Matched unusable in linkstatus_brandnewmedia: 127
+2026-04-19 07:00:15 | INFO     | app.services.run_coordinator |   Affected orders in linkstatus_brandnewmedia: 0
+2026-04-19 07:00:17 | INFO     | app.services.email_draft_service | Generated 0 email drafts for 0 admins
+2026-04-19 07:00:17 | INFO     | app.services.email_draft_service | Saved 0 drafts to /output/email_drafts/run_15
+2026-04-19 07:00:17 | INFO     | app.services.sheets_service | Sheets sync skipped: no webhook URL or no domains
+2026-04-19 07:00:17 | INFO     | app.services.run_coordinator | Marked 0 domains as processed
+2026-04-19 07:00:17 | INFO     | app.services.report_service | JSON report written to /output/reports/run_15.json
+2026-04-19 07:00:17 | INFO     | app.services.run_coordinator | === Run 15 finished successfully ===
+ Container expired_domains-runner-run-4521db54db15 Creating 
+ Container expired_domains-runner-run-4521db54db15 Created 
+2026-04-20 07:00:02 | INFO     | __main__ | Domain Cleanup — command=run-all  mode=LIVE
+2026-04-20 07:00:03 | INFO     | app.services.run_coordinator | === Run 16 started (LIVE) ===
+2026-04-20 07:00:03 | INFO     | app.clients.hostingindustries | GET https://domains.hostingindustries.nl/login.php (capture session cookie) for account 'blauwemonsters'
+2026-04-20 07:00:03 | INFO     | app.clients.hostingindustries | POST https://domains.hostingindustries.nl/login.php for account 'blauwemonsters'
+2026-04-20 07:00:03 | INFO     | app.clients.hostingindustries | Login successful for account 'blauwemonsters'
+2026-04-20 07:00:03 | INFO     | app.clients.hostingindustries | GET https://domains.hostingindustries.nl/domains.php for account 'blauwemonsters'
+2026-04-20 07:00:06 | INFO     | app.clients.hostingindustries | Parsed 1750 domains from account 'blauwemonsters'
+2026-04-20 07:00:06 | INFO     | app.clients.hostingindustries | GET https://domains.hostingindustries.nl/login.php (capture session cookie) for account 'brandnewmedia'
+2026-04-20 07:00:06 | INFO     | app.clients.hostingindustries | POST https://domains.hostingindustries.nl/login.php for account 'brandnewmedia'
+2026-04-20 07:00:06 | INFO     | app.clients.hostingindustries | Login successful for account 'brandnewmedia'
+2026-04-20 07:00:06 | INFO     | app.clients.hostingindustries | GET https://domains.hostingindustries.nl/domains.php for account 'brandnewmedia'
+2026-04-20 07:00:07 | INFO     | app.clients.hostingindustries | Parsed 869 domains from account 'brandnewmedia'
+2026-04-20 07:00:07 | INFO     | app.clients.hostingindustries | Total domains after merge/dedup: 2619 (from 2619 raw)
+2026-04-20 07:00:07 | INFO     | app.services.run_coordinator | Fetched 2619 domains from HostingIndustries
+2026-04-20 07:00:07 | INFO     | app.services.run_coordinator | Already processed domains in history: 745
+2026-04-20 07:00:07 | INFO     | app.services.run_coordinator | Unusable domains: 201 total, 0 new to process, 201 already processed (skipped)
+2026-04-20 07:00:07 | INFO     | app.services.run_coordinator | ── Processing source database: linkstatus_blauwemonsters ──
+2026-04-20 07:00:08 | INFO     | app.services.run_coordinator |   Matched unusable in linkstatus_blauwemonsters: 193
+2026-04-20 07:00:11 | INFO     | app.services.run_coordinator |   Affected orders in linkstatus_blauwemonsters: 0
+2026-04-20 07:00:12 | INFO     | app.services.run_coordinator | ── Processing source database: linkstatus_brandnewmedia ──
+2026-04-20 07:00:12 | INFO     | app.services.run_coordinator |   Matched unusable in linkstatus_brandnewmedia: 127
+2026-04-20 07:00:14 | INFO     | app.services.run_coordinator |   Affected orders in linkstatus_brandnewmedia: 0
+2026-04-20 07:00:15 | INFO     | app.services.email_draft_service | Generated 0 email drafts for 0 admins
+2026-04-20 07:00:15 | INFO     | app.services.email_draft_service | Saved 0 drafts to /output/email_drafts/run_16
+2026-04-20 07:00:15 | INFO     | app.services.sheets_service | Sheets sync skipped: no webhook URL or no domains
+2026-04-20 07:00:15 | INFO     | app.services.run_coordinator | Marked 0 domains as processed
+2026-04-20 07:00:15 | INFO     | app.services.report_service | JSON report written to /output/reports/run_16.json
+2026-04-20 07:00:15 | INFO     | app.services.run_coordinator | === Run 16 finished successfully ===
+ Container expired_domains-runner-run-70dec39b4113 Creating 
+ Container expired_domains-runner-run-70dec39b4113 Created 
+2026-04-21 07:00:01 | INFO     | __main__ | Domain Cleanup — command=run-all  mode=LIVE
+2026-04-21 07:00:02 | INFO     | app.services.run_coordinator | === Run 17 started (LIVE) ===
+2026-04-21 07:00:02 | INFO     | app.clients.hostingindustries | GET https://domains.hostingindustries.nl/login.php (capture session cookie) for account 'blauwemonsters'
+2026-04-21 07:00:02 | INFO     | app.clients.hostingindustries | POST https://domains.hostingindustries.nl/login.php for account 'blauwemonsters'
+2026-04-21 07:00:03 | INFO     | app.clients.hostingindustries | Login successful for account 'blauwemonsters'
+2026-04-21 07:00:03 | INFO     | app.clients.hostingindustries | GET https://domains.hostingindustries.nl/domains.php for account 'blauwemonsters'
+2026-04-21 07:00:07 | INFO     | app.clients.hostingindustries | Parsed 1750 domains from account 'blauwemonsters'
+2026-04-21 07:00:07 | INFO     | app.clients.hostingindustries | GET https://domains.hostingindustries.nl/login.php (capture session cookie) for account 'brandnewmedia'
+2026-04-21 07:00:07 | INFO     | app.clients.hostingindustries | POST https://domains.hostingindustries.nl/login.php for account 'brandnewmedia'
+2026-04-21 07:00:07 | INFO     | app.clients.hostingindustries | Login successful for account 'brandnewmedia'
+2026-04-21 07:00:07 | INFO     | app.clients.hostingindustries | GET https://domains.hostingindustries.nl/domains.php for account 'brandnewmedia'
+2026-04-21 07:00:08 | INFO     | app.clients.hostingindustries | Parsed 869 domains from account 'brandnewmedia'
+2026-04-21 07:00:08 | INFO     | app.clients.hostingindustries | Total domains after merge/dedup: 2619 (from 2619 raw)
+2026-04-21 07:00:08 | INFO     | app.services.run_coordinator | Fetched 2619 domains from HostingIndustries
+2026-04-21 07:00:08 | INFO     | app.services.run_coordinator | Already processed domains in history: 745
+2026-04-21 07:00:09 | INFO     | app.services.run_coordinator | Unusable domains: 201 total, 0 new to process, 201 already processed (skipped)
+2026-04-21 07:00:09 | INFO     | app.services.run_coordinator | ── Processing source database: linkstatus_blauwemonsters ──
+2026-04-21 07:00:09 | INFO     | app.services.run_coordinator |   Matched unusable in linkstatus_blauwemonsters: 193
+2026-04-21 07:00:12 | INFO     | app.services.run_coordinator |   Affected orders in linkstatus_blauwemonsters: 2
+2026-04-21 07:00:13 | INFO     | app.services.run_coordinator | ── Processing source database: linkstatus_brandnewmedia ──
+2026-04-21 07:00:13 | INFO     | app.services.run_coordinator |   Matched unusable in linkstatus_brandnewmedia: 127
+2026-04-21 07:00:16 | INFO     | app.services.run_coordinator |   Affected orders in linkstatus_brandnewmedia: 0
+2026-04-21 07:00:17 | INFO     | app.services.email_draft_service | Generated 1 email drafts for 1 admins
+2026-04-21 07:00:17 | INFO     | app.services.email_draft_service | Saved 1 drafts to /output/email_drafts/run_17
+2026-04-21 07:00:18 | INFO     | app.services.mailgun_service | Mailgun sent to lisa.taphoorn@blauwemonsters.nl: <20260421070018.22e67dc51312f798@bnm-server.org>
+2026-04-21 07:00:18 | INFO     | app.services.sheets_service | Sheets sync skipped: no webhook URL or no domains
+2026-04-21 07:00:18 | INFO     | app.services.run_coordinator | Deleted 2 orders from linkstatus_blauwemonsters
+2026-04-21 07:00:18 | INFO     | app.services.run_coordinator | Marked 0 domains as processed
+2026-04-21 07:00:18 | INFO     | app.services.report_service | JSON report written to /output/reports/run_17.json
+2026-04-21 07:00:18 | INFO     | app.services.report_service | CSV export written to /output/reports/run_17_affected_orders.csv (2 rows)
+2026-04-21 07:00:18 | INFO     | app.services.run_coordinator | === Run 17 finished successfully ===
+ Container expired_domains-runner-run-121bf44f1ea7 Creating 
+ Container expired_domains-runner-run-121bf44f1ea7 Created 
+2026-04-22 07:00:02 | INFO     | __main__ | Domain Cleanup — command=run-all  mode=LIVE
+2026-04-22 07:00:03 | INFO     | app.services.run_coordinator | === Run 18 started (LIVE) ===
+2026-04-22 07:00:03 | INFO     | app.clients.hostingindustries | GET https://domains.hostingindustries.nl/login.php (capture session cookie) for account 'blauwemonsters'
+2026-04-22 07:00:03 | INFO     | app.clients.hostingindustries | POST https://domains.hostingindustries.nl/login.php for account 'blauwemonsters'
+2026-04-22 07:00:03 | INFO     | app.clients.hostingindustries | Login successful for account 'blauwemonsters'
+2026-04-22 07:00:03 | INFO     | app.clients.hostingindustries | GET https://domains.hostingindustries.nl/domains.php for account 'blauwemonsters'
+2026-04-22 07:00:05 | INFO     | app.clients.hostingindustries | Parsed 1750 domains from account 'blauwemonsters'
+2026-04-22 07:00:05 | INFO     | app.clients.hostingindustries | GET https://domains.hostingindustries.nl/login.php (capture session cookie) for account 'brandnewmedia'
+2026-04-22 07:00:05 | INFO     | app.clients.hostingindustries | POST https://domains.hostingindustries.nl/login.php for account 'brandnewmedia'
+2026-04-22 07:00:06 | INFO     | app.clients.hostingindustries | Login successful for account 'brandnewmedia'
+2026-04-22 07:00:06 | INFO     | app.clients.hostingindustries | GET https://domains.hostingindustries.nl/domains.php for account 'brandnewmedia'
+2026-04-22 07:00:07 | INFO     | app.clients.hostingindustries | Parsed 869 domains from account 'brandnewmedia'
+2026-04-22 07:00:07 | INFO     | app.clients.hostingindustries | Total domains after merge/dedup: 2619 (from 2619 raw)
+2026-04-22 07:00:07 | INFO     | app.services.run_coordinator | Fetched 2619 domains from HostingIndustries
+2026-04-22 07:00:07 | INFO     | app.services.run_coordinator | Already processed domains in history: 745
+2026-04-22 07:00:07 | INFO     | app.services.run_coordinator | Unusable domains: 219 total, 18 new to process, 201 already processed (skipped)
+2026-04-22 07:00:07 | INFO     | app.services.run_coordinator | ── Processing source database: linkstatus_blauwemonsters ──
+2026-04-22 07:00:07 | INFO     | app.services.run_coordinator |   Matched unusable in linkstatus_blauwemonsters: 211
+2026-04-22 07:00:12 | INFO     | app.services.run_coordinator |   Affected orders in linkstatus_blauwemonsters: 1
+2026-04-22 07:00:13 | INFO     | app.services.run_coordinator | ── Processing source database: linkstatus_brandnewmedia ──
+2026-04-22 07:00:13 | INFO     | app.services.run_coordinator |   Matched unusable in linkstatus_brandnewmedia: 143
+2026-04-22 07:00:16 | INFO     | app.services.run_coordinator |   Affected orders in linkstatus_brandnewmedia: 0
+2026-04-22 07:00:17 | INFO     | app.services.email_draft_service | Generated 1 email drafts for 1 admins
+2026-04-22 07:00:17 | INFO     | app.services.email_draft_service | Saved 1 drafts to /output/email_drafts/run_18
+2026-04-22 07:00:17 | INFO     | app.services.mailgun_service | Mailgun sent to aaron.van.linge@blauwemonsters.nl: <20260422070017.93c95b33195b581a@bnm-server.org>
+2026-04-22 07:00:20 | INFO     | app.services.sheets_service | Sheets sync via n8n: Nederlandse domeinen → 4 domains sent, response: {"status":"ok","updated":3}
+2026-04-22 07:00:22 | INFO     | app.services.sheets_service | Sheets sync via n8n: Duitse domeinen → 11 domains sent, response: {"status":"ok","updated":11}
+2026-04-22 07:00:23 | INFO     | app.services.sheets_service | Sheets sync via n8n: Belgische domeinen → 1 domains sent, response: {"status":"no_matches","sheet":"Belgische domeinen","matched":0,"message":"No matching domains found in Belgische domeinen"}
+2026-04-22 07:00:24 | INFO     | app.services.sheets_service | Sheets sync via n8n: Franse domeinen → 2 domains sent, response: {"status":"ok","updated":2}
+2026-04-22 07:00:24 | INFO     | app.services.run_coordinator | Deleted 1 orders from linkstatus_blauwemonsters
+2026-04-22 07:00:24 | INFO     | app.services.run_coordinator | Marked 18 domains as processed
+2026-04-22 07:00:24 | INFO     | app.services.report_service | JSON report written to /output/reports/run_18.json
+2026-04-22 07:00:24 | INFO     | app.services.report_service | CSV export written to /output/reports/run_18_affected_orders.csv (1 rows)
+2026-04-22 07:00:24 | INFO     | app.services.run_coordinator | === Run 18 finished successfully ===
+ Container expired_domains-runner-run-a4419d364d3f Creating 
+ Container expired_domains-runner-run-a4419d364d3f Created 
+2026-04-23 07:00:01 | INFO     | __main__ | Domain Cleanup — command=run-all  mode=LIVE
+2026-04-23 07:00:02 | INFO     | app.services.run_coordinator | === Run 19 started (LIVE) ===
+2026-04-23 07:00:02 | INFO     | app.clients.hostingindustries | GET https://domains.hostingindustries.nl/login.php (capture session cookie) for account 'blauwemonsters'
+2026-04-23 07:00:02 | INFO     | app.clients.hostingindustries | POST https://domains.hostingindustries.nl/login.php for account 'blauwemonsters'
+2026-04-23 07:00:02 | INFO     | app.clients.hostingindustries | Login successful for account 'blauwemonsters'
+2026-04-23 07:00:02 | INFO     | app.clients.hostingindustries | GET https://domains.hostingindustries.nl/domains.php for account 'blauwemonsters'
+2026-04-23 07:00:05 | INFO     | app.clients.hostingindustries | Parsed 1750 domains from account 'blauwemonsters'
+2026-04-23 07:00:05 | INFO     | app.clients.hostingindustries | GET https://domains.hostingindustries.nl/login.php (capture session cookie) for account 'brandnewmedia'
+2026-04-23 07:00:05 | INFO     | app.clients.hostingindustries | POST https://domains.hostingindustries.nl/login.php for account 'brandnewmedia'
+2026-04-23 07:00:05 | INFO     | app.clients.hostingindustries | Login successful for account 'brandnewmedia'
+2026-04-23 07:00:05 | INFO     | app.clients.hostingindustries | GET https://domains.hostingindustries.nl/domains.php for account 'brandnewmedia'
+2026-04-23 07:00:06 | INFO     | app.clients.hostingindustries | Parsed 869 domains from account 'brandnewmedia'
+2026-04-23 07:00:06 | INFO     | app.clients.hostingindustries | Total domains after merge/dedup: 2619 (from 2619 raw)
+2026-04-23 07:00:06 | INFO     | app.services.run_coordinator | Fetched 2619 domains from HostingIndustries
+2026-04-23 07:00:06 | INFO     | app.services.run_coordinator | Already processed domains in history: 763
+2026-04-23 07:00:06 | INFO     | app.services.run_coordinator | Unusable domains: 219 total, 0 new to process, 219 already processed (skipped)
+2026-04-23 07:00:06 | INFO     | app.services.run_coordinator | ── Processing source database: linkstatus_blauwemonsters ──
+2026-04-23 07:00:06 | INFO     | app.services.run_coordinator |   Matched unusable in linkstatus_blauwemonsters: 211
+2026-04-23 07:00:09 | INFO     | app.services.run_coordinator |   Affected orders in linkstatus_blauwemonsters: 0
+2026-04-23 07:00:11 | INFO     | app.services.run_coordinator | ── Processing source database: linkstatus_brandnewmedia ──
+2026-04-23 07:00:11 | INFO     | app.services.run_coordinator |   Matched unusable in linkstatus_brandnewmedia: 143
+2026-04-23 07:00:14 | INFO     | app.services.run_coordinator |   Affected orders in linkstatus_brandnewmedia: 0
+2026-04-23 07:00:15 | INFO     | app.services.email_draft_service | Generated 0 email drafts for 0 admins
+2026-04-23 07:00:15 | INFO     | app.services.email_draft_service | Saved 0 drafts to /output/email_drafts/run_19
+2026-04-23 07:00:15 | INFO     | app.services.sheets_service | Sheets sync skipped: no webhook URL or no domains
+2026-04-23 07:00:15 | INFO     | app.services.run_coordinator | Marked 0 domains as processed
+2026-04-23 07:00:15 | INFO     | app.services.report_service | JSON report written to /output/reports/run_19.json
+2026-04-23 07:00:15 | INFO     | app.services.run_coordinator | === Run 19 finished successfully ===
+ Container expired_domains-runner-run-c7cb5c82f2a8 Creating 
+ Container expired_domains-runner-run-c7cb5c82f2a8 Created 
+2026-04-24 07:00:02 | INFO     | __main__ | Domain Cleanup — command=run-all  mode=LIVE
+2026-04-24 07:00:03 | INFO     | app.services.run_coordinator | === Run 20 started (LIVE) ===
+2026-04-24 07:00:03 | INFO     | app.clients.hostingindustries | GET https://domains.hostingindustries.nl/login.php (capture session cookie) for account 'blauwemonsters'
+2026-04-24 07:00:03 | INFO     | app.clients.hostingindustries | POST https://domains.hostingindustries.nl/login.php for account 'blauwemonsters'
+2026-04-24 07:00:04 | INFO     | app.clients.hostingindustries | Login successful for account 'blauwemonsters'
+2026-04-24 07:00:04 | INFO     | app.clients.hostingindustries | GET https://domains.hostingindustries.nl/domains.php for account 'blauwemonsters'
+2026-04-24 07:00:06 | INFO     | app.clients.hostingindustries | Parsed 1750 domains from account 'blauwemonsters'
+2026-04-24 07:00:06 | INFO     | app.clients.hostingindustries | GET https://domains.hostingindustries.nl/login.php (capture session cookie) for account 'brandnewmedia'
+2026-04-24 07:00:06 | INFO     | app.clients.hostingindustries | POST https://domains.hostingindustries.nl/login.php for account 'brandnewmedia'
+2026-04-24 07:00:07 | INFO     | app.clients.hostingindustries | Login successful for account 'brandnewmedia'
+2026-04-24 07:00:07 | INFO     | app.clients.hostingindustries | GET https://domains.hostingindustries.nl/domains.php for account 'brandnewmedia'
+2026-04-24 07:00:08 | INFO     | app.clients.hostingindustries | Parsed 869 domains from account 'brandnewmedia'
+2026-04-24 07:00:08 | INFO     | app.clients.hostingindustries | Total domains after merge/dedup: 2619 (from 2619 raw)
+2026-04-24 07:00:08 | INFO     | app.services.run_coordinator | Fetched 2619 domains from HostingIndustries
+2026-04-24 07:00:08 | INFO     | app.services.run_coordinator | Already processed domains in history: 763
+2026-04-24 07:00:08 | INFO     | app.services.run_coordinator | Unusable domains: 219 total, 0 new to process, 219 already processed (skipped)
+2026-04-24 07:00:08 | INFO     | app.services.run_coordinator | ── Processing source database: linkstatus_blauwemonsters ──
+2026-04-24 07:00:08 | INFO     | app.services.run_coordinator |   Matched unusable in linkstatus_blauwemonsters: 211
+2026-04-24 07:00:12 | INFO     | app.services.run_coordinator |   Affected orders in linkstatus_blauwemonsters: 0
+2026-04-24 07:00:14 | INFO     | app.services.run_coordinator | ── Processing source database: linkstatus_brandnewmedia ──
+2026-04-24 07:00:14 | INFO     | app.services.run_coordinator |   Matched unusable in linkstatus_brandnewmedia: 143
+2026-04-24 07:00:16 | INFO     | app.services.run_coordinator |   Affected orders in linkstatus_brandnewmedia: 0
+2026-04-24 07:00:17 | INFO     | app.services.email_draft_service | Generated 0 email drafts for 0 admins
+2026-04-24 07:00:17 | INFO     | app.services.email_draft_service | Saved 0 drafts to /output/email_drafts/run_20
+2026-04-24 07:00:17 | INFO     | app.services.sheets_service | Sheets sync skipped: no webhook URL or no domains
+2026-04-24 07:00:17 | INFO     | app.services.run_coordinator | Marked 0 domains as processed
+2026-04-24 07:00:17 | INFO     | app.services.report_service | JSON report written to /output/reports/run_20.json
+2026-04-24 07:00:17 | INFO     | app.services.run_coordinator | === Run 20 finished successfully ===
+ Container expired_domains-runner-run-a34e3725fee5 Creating 
+ Container expired_domains-runner-run-a34e3725fee5 Created 
+2026-04-25 07:00:01 | INFO     | __main__ | Domain Cleanup — command=run-all  mode=LIVE
+2026-04-25 07:00:02 | INFO     | app.services.run_coordinator | === Run 21 started (LIVE) ===
+2026-04-25 07:00:02 | INFO     | app.clients.hostingindustries | GET https://domains.hostingindustries.nl/login.php (capture session cookie) for account 'blauwemonsters'
+2026-04-25 07:00:02 | INFO     | app.clients.hostingindustries | POST https://domains.hostingindustries.nl/login.php for account 'blauwemonsters'
+2026-04-25 07:00:03 | INFO     | app.clients.hostingindustries | Login successful for account 'blauwemonsters'
+2026-04-25 07:00:03 | INFO     | app.clients.hostingindustries | GET https://domains.hostingindustries.nl/domains.php for account 'blauwemonsters'
+2026-04-25 07:00:06 | INFO     | app.clients.hostingindustries | Parsed 1750 domains from account 'blauwemonsters'
+2026-04-25 07:00:06 | INFO     | app.clients.hostingindustries | GET https://domains.hostingindustries.nl/login.php (capture session cookie) for account 'brandnewmedia'
+2026-04-25 07:00:06 | INFO     | app.clients.hostingindustries | POST https://domains.hostingindustries.nl/login.php for account 'brandnewmedia'
+2026-04-25 07:00:07 | INFO     | app.clients.hostingindustries | Login successful for account 'brandnewmedia'
+2026-04-25 07:00:07 | INFO     | app.clients.hostingindustries | GET https://domains.hostingindustries.nl/domains.php for account 'brandnewmedia'
+2026-04-25 07:00:08 | INFO     | app.clients.hostingindustries | Parsed 869 domains from account 'brandnewmedia'
+2026-04-25 07:00:08 | INFO     | app.clients.hostingindustries | Total domains after merge/dedup: 2619 (from 2619 raw)
+2026-04-25 07:00:08 | INFO     | app.services.run_coordinator | Fetched 2619 domains from HostingIndustries
+2026-04-25 07:00:08 | INFO     | app.services.run_coordinator | Already processed domains in history: 763
+2026-04-25 07:00:08 | INFO     | app.services.run_coordinator | Unusable domains: 219 total, 0 new to process, 219 already processed (skipped)
+2026-04-25 07:00:08 | INFO     | app.services.run_coordinator | ── Processing source database: linkstatus_blauwemonsters ──
+2026-04-25 07:00:08 | INFO     | app.services.run_coordinator |   Matched unusable in linkstatus_blauwemonsters: 211
+2026-04-25 07:00:12 | INFO     | app.services.run_coordinator |   Affected orders in linkstatus_blauwemonsters: 0
+2026-04-25 07:00:13 | INFO     | app.services.run_coordinator | ── Processing source database: linkstatus_brandnewmedia ──
+2026-04-25 07:00:13 | INFO     | app.services.run_coordinator |   Matched unusable in linkstatus_brandnewmedia: 143
+2026-04-25 07:00:16 | INFO     | app.services.run_coordinator |   Affected orders in linkstatus_brandnewmedia: 0
+2026-04-25 07:00:17 | INFO     | app.services.email_draft_service | Generated 0 email drafts for 0 admins
+2026-04-25 07:00:17 | INFO     | app.services.email_draft_service | Saved 0 drafts to /output/email_drafts/run_21
+2026-04-25 07:00:17 | INFO     | app.services.sheets_service | Sheets sync skipped: no webhook URL or no domains
+2026-04-25 07:00:17 | INFO     | app.services.run_coordinator | Marked 0 domains as processed
+2026-04-25 07:00:17 | INFO     | app.services.report_service | JSON report written to /output/reports/run_21.json
+2026-04-25 07:00:17 | INFO     | app.services.run_coordinator | === Run 21 finished successfully ===
+ Container expired_domains-runner-run-cc6dc8a044b1 Creating 
+ Container expired_domains-runner-run-cc6dc8a044b1 Created 
+2026-04-26 07:00:02 | INFO     | __main__ | Domain Cleanup — command=run-all  mode=LIVE
+2026-04-26 07:00:02 | INFO     | app.services.run_coordinator | === Run 22 started (LIVE) ===
+2026-04-26 07:00:02 | INFO     | app.clients.hostingindustries | GET https://domains.hostingindustries.nl/login.php (capture session cookie) for account 'blauwemonsters'
+2026-04-26 07:00:03 | INFO     | app.clients.hostingindustries | POST https://domains.hostingindustries.nl/login.php for account 'blauwemonsters'
+2026-04-26 07:00:03 | INFO     | app.clients.hostingindustries | Login successful for account 'blauwemonsters'
+2026-04-26 07:00:03 | INFO     | app.clients.hostingindustries | GET https://domains.hostingindustries.nl/domains.php for account 'blauwemonsters'
+2026-04-26 07:00:06 | INFO     | app.clients.hostingindustries | Parsed 1750 domains from account 'blauwemonsters'
+2026-04-26 07:00:06 | INFO     | app.clients.hostingindustries | GET https://domains.hostingindustries.nl/login.php (capture session cookie) for account 'brandnewmedia'
+2026-04-26 07:00:06 | INFO     | app.clients.hostingindustries | POST https://domains.hostingindustries.nl/login.php for account 'brandnewmedia'
+2026-04-26 07:00:06 | INFO     | app.clients.hostingindustries | Login successful for account 'brandnewmedia'
+2026-04-26 07:00:06 | INFO     | app.clients.hostingindustries | GET https://domains.hostingindustries.nl/domains.php for account 'brandnewmedia'
+2026-04-26 07:00:07 | INFO     | app.clients.hostingindustries | Parsed 869 domains from account 'brandnewmedia'
+2026-04-26 07:00:07 | INFO     | app.clients.hostingindustries | Total domains after merge/dedup: 2619 (from 2619 raw)
+2026-04-26 07:00:07 | INFO     | app.services.run_coordinator | Fetched 2619 domains from HostingIndustries
+2026-04-26 07:00:07 | INFO     | app.services.run_coordinator | Already processed domains in history: 763
+2026-04-26 07:00:07 | INFO     | app.services.run_coordinator | Unusable domains: 219 total, 0 new to process, 219 already processed (skipped)
+2026-04-26 07:00:07 | INFO     | app.services.run_coordinator | ── Processing source database: linkstatus_blauwemonsters ──
+2026-04-26 07:00:08 | INFO     | app.services.run_coordinator |   Matched unusable in linkstatus_blauwemonsters: 211
+2026-04-26 07:00:11 | INFO     | app.services.run_coordinator |   Affected orders in linkstatus_blauwemonsters: 0
+2026-04-26 07:00:12 | INFO     | app.services.run_coordinator | ── Processing source database: linkstatus_brandnewmedia ──
+2026-04-26 07:00:12 | INFO     | app.services.run_coordinator |   Matched unusable in linkstatus_brandnewmedia: 143
+2026-04-26 07:00:15 | INFO     | app.services.run_coordinator |   Affected orders in linkstatus_brandnewmedia: 0
+2026-04-26 07:00:16 | INFO     | app.services.email_draft_service | Generated 0 email drafts for 0 admins
+2026-04-26 07:00:16 | INFO     | app.services.email_draft_service | Saved 0 drafts to /output/email_drafts/run_22
+2026-04-26 07:00:16 | INFO     | app.services.sheets_service | Sheets sync skipped: no webhook URL or no domains
+2026-04-26 07:00:16 | INFO     | app.services.run_coordinator | Marked 0 domains as processed
+2026-04-26 07:00:16 | INFO     | app.services.report_service | JSON report written to /output/reports/run_22.json
+2026-04-26 07:00:16 | INFO     | app.services.run_coordinator | === Run 22 finished successfully ===
+ Container expired_domains-runner-run-1b5ccfbd4125 Creating 
+ Container expired_domains-runner-run-1b5ccfbd4125 Created 
+2026-04-27 07:00:02 | INFO     | __main__ | Domain Cleanup — command=run-all  mode=LIVE
+2026-04-27 07:00:02 | INFO     | app.services.run_coordinator | === Run 23 started (LIVE) ===
+2026-04-27 07:00:02 | INFO     | app.clients.hostingindustries | GET https://domains.hostingindustries.nl/login.php (capture session cookie) for account 'blauwemonsters'
+2026-04-27 07:00:02 | INFO     | app.clients.hostingindustries | POST https://domains.hostingindustries.nl/login.php for account 'blauwemonsters'
+2026-04-27 07:00:03 | INFO     | app.clients.hostingindustries | Login successful for account 'blauwemonsters'
+2026-04-27 07:00:03 | INFO     | app.clients.hostingindustries | GET https://domains.hostingindustries.nl/domains.php for account 'blauwemonsters'
+2026-04-27 07:00:06 | INFO     | app.clients.hostingindustries | Parsed 1750 domains from account 'blauwemonsters'
+2026-04-27 07:00:06 | INFO     | app.clients.hostingindustries | GET https://domains.hostingindustries.nl/login.php (capture session cookie) for account 'brandnewmedia'
+2026-04-27 07:00:06 | INFO     | app.clients.hostingindustries | POST https://domains.hostingindustries.nl/login.php for account 'brandnewmedia'
+2026-04-27 07:00:06 | INFO     | app.clients.hostingindustries | Login successful for account 'brandnewmedia'
+2026-04-27 07:00:06 | INFO     | app.clients.hostingindustries | GET https://domains.hostingindustries.nl/domains.php for account 'brandnewmedia'
+2026-04-27 07:00:07 | INFO     | app.clients.hostingindustries | Parsed 869 domains from account 'brandnewmedia'
+2026-04-27 07:00:07 | INFO     | app.clients.hostingindustries | Total domains after merge/dedup: 2619 (from 2619 raw)
+2026-04-27 07:00:07 | INFO     | app.services.run_coordinator | Fetched 2619 domains from HostingIndustries
+2026-04-27 07:00:07 | INFO     | app.services.run_coordinator | Already processed domains in history: 763
+2026-04-27 07:00:07 | INFO     | app.services.run_coordinator | Unusable domains: 219 total, 0 new to process, 219 already processed (skipped)
+2026-04-27 07:00:07 | INFO     | app.services.run_coordinator | ── Processing source database: linkstatus_blauwemonsters ──
+2026-04-27 07:00:08 | INFO     | app.services.run_coordinator |   Matched unusable in linkstatus_blauwemonsters: 211
+2026-04-27 07:00:11 | INFO     | app.services.run_coordinator |   Affected orders in linkstatus_blauwemonsters: 0
+2026-04-27 07:00:12 | INFO     | app.services.run_coordinator | ── Processing source database: linkstatus_brandnewmedia ──
+2026-04-27 07:00:12 | INFO     | app.services.run_coordinator |   Matched unusable in linkstatus_brandnewmedia: 143
+2026-04-27 07:00:14 | INFO     | app.services.run_coordinator |   Affected orders in linkstatus_brandnewmedia: 0
+2026-04-27 07:00:15 | INFO     | app.services.email_draft_service | Generated 0 email drafts for 0 admins
+2026-04-27 07:00:15 | INFO     | app.services.email_draft_service | Saved 0 drafts to /output/email_drafts/run_23
+2026-04-27 07:00:15 | INFO     | app.services.sheets_service | Sheets sync skipped: no webhook URL or no domains
+2026-04-27 07:00:15 | INFO     | app.services.run_coordinator | Marked 0 domains as processed
+2026-04-27 07:00:15 | INFO     | app.services.report_service | JSON report written to /output/reports/run_23.json
+2026-04-27 07:00:15 | INFO     | app.services.run_coordinator | === Run 23 finished successfully ===
+ Container expired_domains-runner-run-9cead789c4fb Creating 
+ Container expired_domains-runner-run-9cead789c4fb Created 
+2026-04-28 07:00:02 | INFO     | __main__ | Domain Cleanup — command=run-all  mode=LIVE
+2026-04-28 07:00:02 | INFO     | app.services.run_coordinator | === Run 24 started (LIVE) ===
+2026-04-28 07:00:02 | INFO     | app.clients.hostingindustries | GET https://domains.hostingindustries.nl/login.php (capture session cookie) for account 'blauwemonsters'
+2026-04-28 07:00:02 | INFO     | app.clients.hostingindustries | POST https://domains.hostingindustries.nl/login.php for account 'blauwemonsters'
+2026-04-28 07:00:03 | INFO     | app.clients.hostingindustries | Login successful for account 'blauwemonsters'
+2026-04-28 07:00:03 | INFO     | app.clients.hostingindustries | GET https://domains.hostingindustries.nl/domains.php for account 'blauwemonsters'
+2026-04-28 07:00:07 | INFO     | app.clients.hostingindustries | Parsed 1750 domains from account 'blauwemonsters'
+2026-04-28 07:00:07 | INFO     | app.clients.hostingindustries | GET https://domains.hostingindustries.nl/login.php (capture session cookie) for account 'brandnewmedia'
+2026-04-28 07:00:07 | INFO     | app.clients.hostingindustries | POST https://domains.hostingindustries.nl/login.php for account 'brandnewmedia'
+2026-04-28 07:00:07 | INFO     | app.clients.hostingindustries | Login successful for account 'brandnewmedia'
+2026-04-28 07:00:07 | INFO     | app.clients.hostingindustries | GET https://domains.hostingindustries.nl/domains.php for account 'brandnewmedia'
+2026-04-28 07:00:08 | INFO     | app.clients.hostingindustries | Parsed 869 domains from account 'brandnewmedia'
+2026-04-28 07:00:08 | INFO     | app.clients.hostingindustries | Total domains after merge/dedup: 2619 (from 2619 raw)
+2026-04-28 07:00:08 | INFO     | app.services.run_coordinator | Fetched 2619 domains from HostingIndustries
+2026-04-28 07:00:08 | INFO     | app.services.run_coordinator | Already processed domains in history: 763
+2026-04-28 07:00:08 | INFO     | app.services.run_coordinator | Unusable domains: 219 total, 0 new to process, 219 already processed (skipped)
+2026-04-28 07:00:08 | INFO     | app.services.run_coordinator | ── Processing source database: linkstatus_blauwemonsters ──
+2026-04-28 07:00:09 | INFO     | app.services.run_coordinator |   Matched unusable in linkstatus_blauwemonsters: 211
+2026-04-28 07:00:12 | INFO     | app.services.run_coordinator |   Affected orders in linkstatus_blauwemonsters: 0
+2026-04-28 07:00:13 | INFO     | app.services.run_coordinator | ── Processing source database: linkstatus_brandnewmedia ──
+2026-04-28 07:00:14 | INFO     | app.services.run_coordinator |   Matched unusable in linkstatus_brandnewmedia: 143
+2026-04-28 07:00:15 | INFO     | app.services.run_coordinator |   Affected orders in linkstatus_brandnewmedia: 0
+2026-04-28 07:00:16 | INFO     | app.services.email_draft_service | Generated 0 email drafts for 0 admins
+2026-04-28 07:00:16 | INFO     | app.services.email_draft_service | Saved 0 drafts to /output/email_drafts/run_24
+2026-04-28 07:00:16 | INFO     | app.services.sheets_service | Sheets sync skipped: no webhook URL or no domains
+2026-04-28 07:00:16 | INFO     | app.services.run_coordinator | Marked 0 domains as processed
+2026-04-28 07:00:16 | INFO     | app.services.report_service | JSON report written to /output/reports/run_24.json
+2026-04-28 07:00:16 | INFO     | app.services.run_coordinator | === Run 24 finished successfully ===
+ Container expired_domains-runner-run-f3ae79525fc4 Creating 
+ Container expired_domains-runner-run-f3ae79525fc4 Created 
+2026-04-29 07:00:01 | INFO     | __main__ | Domain Cleanup — command=run-all  mode=LIVE
+2026-04-29 07:00:02 | INFO     | app.services.run_coordinator | === Run 25 started (LIVE) ===
+2026-04-29 07:00:02 | INFO     | app.clients.hostingindustries | GET https://domains.hostingindustries.nl/login.php (capture session cookie) for account 'blauwemonsters'
+2026-04-29 07:00:02 | INFO     | app.clients.hostingindustries | POST https://domains.hostingindustries.nl/login.php for account 'blauwemonsters'
+2026-04-29 07:00:03 | INFO     | app.clients.hostingindustries | Login successful for account 'blauwemonsters'
+2026-04-29 07:00:03 | INFO     | app.clients.hostingindustries | GET https://domains.hostingindustries.nl/domains.php for account 'blauwemonsters'
+2026-04-29 07:00:07 | INFO     | app.clients.hostingindustries | Parsed 1750 domains from account 'blauwemonsters'
+2026-04-29 07:00:07 | INFO     | app.clients.hostingindustries | GET https://domains.hostingindustries.nl/login.php (capture session cookie) for account 'brandnewmedia'
+2026-04-29 07:00:07 | INFO     | app.clients.hostingindustries | POST https://domains.hostingindustries.nl/login.php for account 'brandnewmedia'
+2026-04-29 07:00:07 | INFO     | app.clients.hostingindustries | Login successful for account 'brandnewmedia'
+2026-04-29 07:00:07 | INFO     | app.clients.hostingindustries | GET https://domains.hostingindustries.nl/domains.php for account 'brandnewmedia'
+2026-04-29 07:00:08 | INFO     | app.clients.hostingindustries | Parsed 869 domains from account 'brandnewmedia'
+2026-04-29 07:00:08 | INFO     | app.clients.hostingindustries | Total domains after merge/dedup: 2619 (from 2619 raw)
+2026-04-29 07:00:08 | INFO     | app.services.run_coordinator | Fetched 2619 domains from HostingIndustries
+2026-04-29 07:00:08 | INFO     | app.services.run_coordinator | Already processed domains in history: 763
+2026-04-29 07:00:08 | INFO     | app.services.run_coordinator | Unusable domains: 239 total, 20 new to process, 219 already processed (skipped)
+2026-04-29 07:00:08 | INFO     | app.services.run_coordinator | ── Processing source database: linkstatus_blauwemonsters ──
+2026-04-29 07:00:09 | INFO     | app.services.run_coordinator |   Matched unusable in linkstatus_blauwemonsters: 230
+2026-04-29 07:00:14 | INFO     | app.services.run_coordinator |   Affected orders in linkstatus_blauwemonsters: 1
+2026-04-29 07:00:15 | INFO     | app.services.run_coordinator | ── Processing source database: linkstatus_brandnewmedia ──
+2026-04-29 07:00:15 | INFO     | app.services.run_coordinator |   Matched unusable in linkstatus_brandnewmedia: 162
+2026-04-29 07:00:18 | INFO     | app.services.run_coordinator |   Affected orders in linkstatus_brandnewmedia: 1
+2026-04-29 07:00:19 | INFO     | app.services.run_coordinator | Skipping email drafts for 1 orders from linkstatus_brandnewmedia (send_emails=false)
+2026-04-29 07:00:19 | INFO     | app.services.email_draft_service | Generated 1 email drafts for 1 admins
+2026-04-29 07:00:19 | INFO     | app.services.email_draft_service | Saved 1 drafts to /output/email_drafts/run_25
+2026-04-29 07:00:19 | INFO     | app.services.mailgun_service | Mailgun sent to cody.van.dueren@blauwemonsters.nl: <20260429070019.a4304507d4faa123@bnm-server.org>
+2026-04-29 07:00:24 | INFO     | app.services.sheets_service | Sheets sync via n8n: Nederlandse domeinen → 4 domains sent, response: {"status":"ok","updated":3}
+2026-04-29 07:00:26 | INFO     | app.services.sheets_service | Sheets sync via n8n: Franse domeinen → 5 domains sent, response: {"status":"ok","updated":5}
+2026-04-29 07:00:27 | INFO     | app.services.sheets_service | Sheets sync via n8n: Belgische domeinen → 2 domains sent, response: {"status":"no_matches","sheet":"Belgische domeinen","matched":0,"message":"No matching domains found in Belgische domeinen"}
+2026-04-29 07:00:28 | INFO     | app.services.sheets_service | Sheets sync via n8n: Duitse domeinen → 6 domains sent, response: {"status":"ok","updated":6}
+2026-04-29 07:00:29 | INFO     | app.services.sheets_service | Sheets sync via n8n: Engelse domeinen → 3 domains sent, response: {"status":"ok","updated":3}
+2026-04-29 07:00:29 | INFO     | app.services.run_coordinator | Deleted 1 orders from linkstatus_blauwemonsters
+2026-04-29 07:00:29 | INFO     | app.services.run_coordinator | Deleted 1 orders from linkstatus_brandnewmedia
+2026-04-29 07:00:29 | INFO     | app.services.run_coordinator | Marked 20 domains as processed
+2026-04-29 07:00:29 | INFO     | app.services.report_service | JSON report written to /output/reports/run_25.json
+2026-04-29 07:00:29 | INFO     | app.services.report_service | CSV export written to /output/reports/run_25_affected_orders.csv (2 rows)
+2026-04-29 07:00:29 | INFO     | app.services.run_coordinator | === Run 25 finished successfully ===
+ Container expired_domains-runner-run-9389d7ab6f2c Creating 
+ Container expired_domains-runner-run-9389d7ab6f2c Created 
+2026-04-30 07:00:02 | INFO     | __main__ | Domain Cleanup — command=run-all  mode=LIVE
+2026-04-30 07:00:02 | INFO     | app.services.run_coordinator | === Run 26 started (LIVE) ===
+2026-04-30 07:00:02 | INFO     | app.clients.hostingindustries | GET https://domains.hostingindustries.nl/login.php (capture session cookie) for account 'blauwemonsters'
+2026-04-30 07:00:02 | INFO     | app.clients.hostingindustries | POST https://domains.hostingindustries.nl/login.php for account 'blauwemonsters'
+2026-04-30 07:00:03 | INFO     | app.clients.hostingindustries | Login successful for account 'blauwemonsters'
+2026-04-30 07:00:03 | INFO     | app.clients.hostingindustries | GET https://domains.hostingindustries.nl/domains.php for account 'blauwemonsters'
+2026-04-30 07:00:07 | INFO     | app.clients.hostingindustries | Parsed 1750 domains from account 'blauwemonsters'
+2026-04-30 07:00:07 | INFO     | app.clients.hostingindustries | GET https://domains.hostingindustries.nl/login.php (capture session cookie) for account 'brandnewmedia'
+2026-04-30 07:00:07 | INFO     | app.clients.hostingindustries | POST https://domains.hostingindustries.nl/login.php for account 'brandnewmedia'
+2026-04-30 07:00:08 | INFO     | app.clients.hostingindustries | Login successful for account 'brandnewmedia'
+2026-04-30 07:00:08 | INFO     | app.clients.hostingindustries | GET https://domains.hostingindustries.nl/domains.php for account 'brandnewmedia'
+2026-04-30 07:00:09 | INFO     | app.clients.hostingindustries | Parsed 869 domains from account 'brandnewmedia'
+2026-04-30 07:00:09 | INFO     | app.clients.hostingindustries | Total domains after merge/dedup: 2619 (from 2619 raw)
+2026-04-30 07:00:09 | INFO     | app.services.run_coordinator | Fetched 2619 domains from HostingIndustries
+2026-04-30 07:00:09 | INFO     | app.services.run_coordinator | Already processed domains in history: 783
+2026-04-30 07:00:09 | INFO     | app.services.run_coordinator | Unusable domains: 239 total, 0 new to process, 239 already processed (skipped)
+2026-04-30 07:00:09 | INFO     | app.services.run_coordinator | ── Processing source database: linkstatus_blauwemonsters ──
+2026-04-30 07:00:09 | INFO     | app.services.run_coordinator |   Matched unusable in linkstatus_blauwemonsters: 230
+2026-04-30 07:00:13 | INFO     | app.services.run_coordinator |   Affected orders in linkstatus_blauwemonsters: 0
+2026-04-30 07:00:14 | INFO     | app.services.run_coordinator | ── Processing source database: linkstatus_brandnewmedia ──
+2026-04-30 07:00:14 | INFO     | app.services.run_coordinator |   Matched unusable in linkstatus_brandnewmedia: 162
+2026-04-30 07:00:17 | INFO     | app.services.run_coordinator |   Affected orders in linkstatus_brandnewmedia: 0
+2026-04-30 07:00:18 | INFO     | app.services.email_draft_service | Generated 0 email drafts for 0 admins
+2026-04-30 07:00:18 | INFO     | app.services.email_draft_service | Saved 0 drafts to /output/email_drafts/run_26
+2026-04-30 07:00:18 | INFO     | app.services.sheets_service | Sheets sync skipped: no webhook URL or no domains
+2026-04-30 07:00:18 | INFO     | app.services.run_coordinator | Marked 0 domains as processed
+2026-04-30 07:00:18 | INFO     | app.services.report_service | JSON report written to /output/reports/run_26.json
+2026-04-30 07:00:18 | INFO     | app.services.run_coordinator | === Run 26 finished successfully ===
+ Container expired_domains-runner-run-1299e2be1654 Creating 
+ Container expired_domains-runner-run-1299e2be1654 Created 
+2026-05-01 07:00:02 | INFO     | __main__ | Domain Cleanup — command=run-all  mode=LIVE
+2026-05-01 07:00:02 | INFO     | app.services.run_coordinator | === Run 27 started (LIVE) ===
+2026-05-01 07:00:02 | INFO     | app.clients.hostingindustries | GET https://domains.hostingindustries.nl/login.php (capture session cookie) for account 'blauwemonsters'
+2026-05-01 07:00:02 | INFO     | app.clients.hostingindustries | POST https://domains.hostingindustries.nl/login.php for account 'blauwemonsters'
+2026-05-01 07:00:02 | INFO     | app.clients.hostingindustries | Login successful for account 'blauwemonsters'
+2026-05-01 07:00:02 | INFO     | app.clients.hostingindustries | GET https://domains.hostingindustries.nl/domains.php for account 'blauwemonsters'
+2026-05-01 07:00:06 | INFO     | app.clients.hostingindustries | Parsed 1750 domains from account 'blauwemonsters'
+2026-05-01 07:00:06 | INFO     | app.clients.hostingindustries | GET https://domains.hostingindustries.nl/login.php (capture session cookie) for account 'brandnewmedia'
+2026-05-01 07:00:06 | INFO     | app.clients.hostingindustries | POST https://domains.hostingindustries.nl/login.php for account 'brandnewmedia'
+2026-05-01 07:00:06 | INFO     | app.clients.hostingindustries | Login successful for account 'brandnewmedia'
+2026-05-01 07:00:06 | INFO     | app.clients.hostingindustries | GET https://domains.hostingindustries.nl/domains.php for account 'brandnewmedia'
+2026-05-01 07:00:07 | INFO     | app.clients.hostingindustries | Parsed 869 domains from account 'brandnewmedia'
+2026-05-01 07:00:07 | INFO     | app.clients.hostingindustries | Total domains after merge/dedup: 2619 (from 2619 raw)
+2026-05-01 07:00:07 | INFO     | app.services.run_coordinator | Fetched 2619 domains from HostingIndustries
+2026-05-01 07:00:07 | INFO     | app.services.run_coordinator | Already processed domains in history: 783
+2026-05-01 07:00:07 | INFO     | app.services.run_coordinator | Unusable domains: 239 total, 0 new to process, 239 already processed (skipped)
+2026-05-01 07:00:07 | INFO     | app.services.run_coordinator | ── Processing source database: linkstatus_blauwemonsters ──
+2026-05-01 07:00:08 | INFO     | app.services.run_coordinator |   Matched unusable in linkstatus_blauwemonsters: 230
+2026-05-01 07:00:13 | INFO     | app.services.run_coordinator |   Affected orders in linkstatus_blauwemonsters: 0
+2026-05-01 07:00:14 | INFO     | app.services.run_coordinator | ── Processing source database: linkstatus_brandnewmedia ──
+2026-05-01 07:00:14 | INFO     | app.services.run_coordinator |   Matched unusable in linkstatus_brandnewmedia: 162
+2026-05-01 07:00:17 | INFO     | app.services.run_coordinator |   Affected orders in linkstatus_brandnewmedia: 0
+2026-05-01 07:00:18 | INFO     | app.services.email_draft_service | Generated 0 email drafts for 0 admins
+2026-05-01 07:00:18 | INFO     | app.services.email_draft_service | Saved 0 drafts to /output/email_drafts/run_27
+2026-05-01 07:00:18 | INFO     | app.services.sheets_service | Sheets sync skipped: no webhook URL or no domains
+2026-05-01 07:00:18 | INFO     | app.services.run_coordinator | Marked 0 domains as processed
+2026-05-01 07:00:18 | INFO     | app.services.report_service | JSON report written to /output/reports/run_27.json
+2026-05-01 07:00:18 | INFO     | app.services.run_coordinator | === Run 27 finished successfully ===
+ Container expired_domains-runner-run-483b1f09cb64 Creating 
+ Container expired_domains-runner-run-483b1f09cb64 Created 
+2026-05-02 07:00:02 | INFO     | __main__ | Domain Cleanup — command=run-all  mode=LIVE
+2026-05-02 07:00:02 | INFO     | app.services.run_coordinator | === Run 28 started (LIVE) ===
+2026-05-02 07:00:02 | INFO     | app.clients.hostingindustries | GET https://domains.hostingindustries.nl/login.php (capture session cookie) for account 'blauwemonsters'
+2026-05-02 07:00:02 | INFO     | app.clients.hostingindustries | POST https://domains.hostingindustries.nl/login.php for account 'blauwemonsters'
+2026-05-02 07:00:03 | INFO     | app.clients.hostingindustries | Login successful for account 'blauwemonsters'
+2026-05-02 07:00:03 | INFO     | app.clients.hostingindustries | GET https://domains.hostingindustries.nl/domains.php for account 'blauwemonsters'
+2026-05-02 07:00:07 | INFO     | app.clients.hostingindustries | Parsed 1750 domains from account 'blauwemonsters'
+2026-05-02 07:00:07 | INFO     | app.clients.hostingindustries | GET https://domains.hostingindustries.nl/login.php (capture session cookie) for account 'brandnewmedia'
+2026-05-02 07:00:07 | INFO     | app.clients.hostingindustries | POST https://domains.hostingindustries.nl/login.php for account 'brandnewmedia'
+2026-05-02 07:00:07 | INFO     | app.clients.hostingindustries | Login successful for account 'brandnewmedia'
+2026-05-02 07:00:07 | INFO     | app.clients.hostingindustries | GET https://domains.hostingindustries.nl/domains.php for account 'brandnewmedia'
+2026-05-02 07:00:08 | INFO     | app.clients.hostingindustries | Parsed 869 domains from account 'brandnewmedia'
+2026-05-02 07:00:08 | INFO     | app.clients.hostingindustries | Total domains after merge/dedup: 2619 (from 2619 raw)
+2026-05-02 07:00:09 | INFO     | app.services.run_coordinator | Fetched 2619 domains from HostingIndustries
+2026-05-02 07:00:09 | INFO     | app.services.run_coordinator | Already processed domains in history: 783
+2026-05-02 07:00:09 | INFO     | app.services.run_coordinator | Unusable domains: 239 total, 0 new to process, 239 already processed (skipped)
+2026-05-02 07:00:09 | INFO     | app.services.run_coordinator | ── Processing source database: linkstatus_blauwemonsters ──
+2026-05-02 07:00:09 | INFO     | app.services.run_coordinator |   Matched unusable in linkstatus_blauwemonsters: 230
+2026-05-02 07:00:13 | INFO     | app.services.run_coordinator |   Affected orders in linkstatus_blauwemonsters: 0
+2026-05-02 07:00:14 | INFO     | app.services.run_coordinator | ── Processing source database: linkstatus_brandnewmedia ──
+2026-05-02 07:00:14 | INFO     | app.services.run_coordinator |   Matched unusable in linkstatus_brandnewmedia: 162
+2026-05-02 07:00:17 | INFO     | app.services.run_coordinator |   Affected orders in linkstatus_brandnewmedia: 0
+2026-05-02 07:00:18 | INFO     | app.services.email_draft_service | Generated 0 email drafts for 0 admins
+2026-05-02 07:00:18 | INFO     | app.services.email_draft_service | Saved 0 drafts to /output/email_drafts/run_28
+2026-05-02 07:00:18 | INFO     | app.services.sheets_service | Sheets sync skipped: no webhook URL or no domains
+2026-05-02 07:00:18 | INFO     | app.services.run_coordinator | Marked 0 domains as processed
+2026-05-02 07:00:18 | INFO     | app.services.report_service | JSON report written to /output/reports/run_28.json
+2026-05-02 07:00:18 | INFO     | app.services.run_coordinator | === Run 28 finished successfully ===
+ Container expired_domains-runner-run-fab3dc0d8923 Creating 
+ Container expired_domains-runner-run-fab3dc0d8923 Created 
+2026-05-03 07:00:02 | INFO     | __main__ | Domain Cleanup — command=run-all  mode=LIVE
+2026-05-03 07:00:02 | INFO     | app.services.run_coordinator | === Run 29 started (LIVE) ===
+2026-05-03 07:00:02 | INFO     | app.clients.hostingindustries | GET https://domains.hostingindustries.nl/login.php (capture session cookie) for account 'blauwemonsters'
+2026-05-03 07:00:03 | INFO     | app.clients.hostingindustries | POST https://domains.hostingindustries.nl/login.php for account 'blauwemonsters'
+2026-05-03 07:00:03 | INFO     | app.clients.hostingindustries | Login successful for account 'blauwemonsters'
+2026-05-03 07:00:03 | INFO     | app.clients.hostingindustries | GET https://domains.hostingindustries.nl/domains.php for account 'blauwemonsters'
+2026-05-03 07:00:08 | INFO     | app.clients.hostingindustries | Parsed 1750 domains from account 'blauwemonsters'
+2026-05-03 07:00:08 | INFO     | app.clients.hostingindustries | GET https://domains.hostingindustries.nl/login.php (capture session cookie) for account 'brandnewmedia'
+2026-05-03 07:00:08 | INFO     | app.clients.hostingindustries | POST https://domains.hostingindustries.nl/login.php for account 'brandnewmedia'
+2026-05-03 07:00:08 | INFO     | app.clients.hostingindustries | Login successful for account 'brandnewmedia'
+2026-05-03 07:00:08 | INFO     | app.clients.hostingindustries | GET https://domains.hostingindustries.nl/domains.php for account 'brandnewmedia'
+2026-05-03 07:00:09 | INFO     | app.clients.hostingindustries | Parsed 869 domains from account 'brandnewmedia'
+2026-05-03 07:00:09 | INFO     | app.clients.hostingindustries | Total domains after merge/dedup: 2619 (from 2619 raw)
+2026-05-03 07:00:09 | INFO     | app.services.run_coordinator | Fetched 2619 domains from HostingIndustries
+2026-05-03 07:00:09 | INFO     | app.services.run_coordinator | Already processed domains in history: 783
+2026-05-03 07:00:09 | INFO     | app.services.run_coordinator | Unusable domains: 239 total, 0 new to process, 239 already processed (skipped)
+2026-05-03 07:00:09 | INFO     | app.services.run_coordinator | ── Processing source database: linkstatus_blauwemonsters ──
+2026-05-03 07:00:10 | INFO     | app.services.run_coordinator |   Matched unusable in linkstatus_blauwemonsters: 230
+2026-05-03 07:00:13 | INFO     | app.services.run_coordinator |   Affected orders in linkstatus_blauwemonsters: 0
+2026-05-03 07:00:15 | INFO     | app.services.run_coordinator | ── Processing source database: linkstatus_brandnewmedia ──
+2026-05-03 07:00:15 | INFO     | app.services.run_coordinator |   Matched unusable in linkstatus_brandnewmedia: 162
+2026-05-03 07:00:17 | INFO     | app.services.run_coordinator |   Affected orders in linkstatus_brandnewmedia: 0
+2026-05-03 07:00:18 | INFO     | app.services.email_draft_service | Generated 0 email drafts for 0 admins
+2026-05-03 07:00:18 | INFO     | app.services.email_draft_service | Saved 0 drafts to /output/email_drafts/run_29
+2026-05-03 07:00:18 | INFO     | app.services.sheets_service | Sheets sync skipped: no webhook URL or no domains
+2026-05-03 07:00:18 | INFO     | app.services.run_coordinator | Marked 0 domains as processed
+2026-05-03 07:00:18 | INFO     | app.services.report_service | JSON report written to /output/reports/run_29.json
+2026-05-03 07:00:18 | INFO     | app.services.run_coordinator | === Run 29 finished successfully ===
+ Container expired_domains-runner-run-7eec32fd13f7 Creating 
+ Container expired_domains-runner-run-7eec32fd13f7 Created 
+2026-05-04 07:00:02 | INFO     | __main__ | Domain Cleanup — command=run-all  mode=LIVE
+2026-05-04 07:00:02 | INFO     | app.services.run_coordinator | === Run 30 started (LIVE) ===
+2026-05-04 07:00:02 | INFO     | app.clients.hostingindustries | GET https://domains.hostingindustries.nl/login.php (capture session cookie) for account 'blauwemonsters'
+2026-05-04 07:00:03 | INFO     | app.clients.hostingindustries | POST https://domains.hostingindustries.nl/login.php for account 'blauwemonsters'
+2026-05-04 07:00:03 | INFO     | app.clients.hostingindustries | Login successful for account 'blauwemonsters'
+2026-05-04 07:00:03 | INFO     | app.clients.hostingindustries | GET https://domains.hostingindustries.nl/domains.php for account 'blauwemonsters'
+2026-05-04 07:00:07 | INFO     | app.clients.hostingindustries | Parsed 1750 domains from account 'blauwemonsters'
+2026-05-04 07:00:07 | INFO     | app.clients.hostingindustries | GET https://domains.hostingindustries.nl/login.php (capture session cookie) for account 'brandnewmedia'
+2026-05-04 07:00:07 | INFO     | app.clients.hostingindustries | POST https://domains.hostingindustries.nl/login.php for account 'brandnewmedia'
+2026-05-04 07:00:07 | INFO     | app.clients.hostingindustries | Login successful for account 'brandnewmedia'
+2026-05-04 07:00:07 | INFO     | app.clients.hostingindustries | GET https://domains.hostingindustries.nl/domains.php for account 'brandnewmedia'
+2026-05-04 07:00:08 | INFO     | app.clients.hostingindustries | Parsed 869 domains from account 'brandnewmedia'
+2026-05-04 07:00:08 | INFO     | app.clients.hostingindustries | Total domains after merge/dedup: 2619 (from 2619 raw)
+2026-05-04 07:00:08 | INFO     | app.services.run_coordinator | Fetched 2619 domains from HostingIndustries
+2026-05-04 07:00:08 | INFO     | app.services.run_coordinator | Already processed domains in history: 783
+2026-05-04 07:00:08 | INFO     | app.services.run_coordinator | Unusable domains: 239 total, 0 new to process, 239 already processed (skipped)
+2026-05-04 07:00:08 | INFO     | app.services.run_coordinator | ── Processing source database: linkstatus_blauwemonsters ──
+2026-05-04 07:00:09 | INFO     | app.services.run_coordinator |   Matched unusable in linkstatus_blauwemonsters: 230
+2026-05-04 07:00:13 | INFO     | app.services.run_coordinator |   Affected orders in linkstatus_blauwemonsters: 0
+2026-05-04 07:00:14 | INFO     | app.services.run_coordinator | ── Processing source database: linkstatus_brandnewmedia ──
+2026-05-04 07:00:14 | INFO     | app.services.run_coordinator |   Matched unusable in linkstatus_brandnewmedia: 162
+2026-05-04 07:00:17 | INFO     | app.services.run_coordinator |   Affected orders in linkstatus_brandnewmedia: 0
+2026-05-04 07:00:18 | INFO     | app.services.email_draft_service | Generated 0 email drafts for 0 admins
+2026-05-04 07:00:18 | INFO     | app.services.email_draft_service | Saved 0 drafts to /output/email_drafts/run_30
+2026-05-04 07:00:18 | INFO     | app.services.sheets_service | Sheets sync skipped: no webhook URL or no domains
+2026-05-04 07:00:18 | INFO     | app.services.run_coordinator | Marked 0 domains as processed
+2026-05-04 07:00:18 | INFO     | app.services.report_service | JSON report written to /output/reports/run_30.json
+2026-05-04 07:00:18 | INFO     | app.services.run_coordinator | === Run 30 finished successfully ===
+ Container expired_domains-runner-run-97ffa8ce9824 Creating 
+ Container expired_domains-runner-run-97ffa8ce9824 Created 
+2026-05-05 07:00:02 | INFO     | __main__ | Domain Cleanup — command=run-all  mode=LIVE
+2026-05-05 07:00:02 | INFO     | app.services.run_coordinator | === Run 31 started (LIVE) ===
+2026-05-05 07:00:02 | INFO     | app.clients.hostingindustries | GET https://domains.hostingindustries.nl/login.php (capture session cookie) for account 'blauwemonsters'
+2026-05-05 07:00:02 | INFO     | app.clients.hostingindustries | POST https://domains.hostingindustries.nl/login.php for account 'blauwemonsters'
+2026-05-05 07:00:02 | INFO     | app.clients.hostingindustries | Login successful for account 'blauwemonsters'
+2026-05-05 07:00:02 | INFO     | app.clients.hostingindustries | GET https://domains.hostingindustries.nl/domains.php for account 'blauwemonsters'
+2026-05-05 07:00:07 | INFO     | app.clients.hostingindustries | Parsed 1750 domains from account 'blauwemonsters'
+2026-05-05 07:00:07 | INFO     | app.clients.hostingindustries | GET https://domains.hostingindustries.nl/login.php (capture session cookie) for account 'brandnewmedia'
+2026-05-05 07:00:07 | INFO     | app.clients.hostingindustries | POST https://domains.hostingindustries.nl/login.php for account 'brandnewmedia'
+2026-05-05 07:00:07 | INFO     | app.clients.hostingindustries | Login successful for account 'brandnewmedia'
+2026-05-05 07:00:07 | INFO     | app.clients.hostingindustries | GET https://domains.hostingindustries.nl/domains.php for account 'brandnewmedia'
+2026-05-05 07:00:08 | INFO     | app.clients.hostingindustries | Parsed 869 domains from account 'brandnewmedia'
+2026-05-05 07:00:08 | INFO     | app.clients.hostingindustries | Total domains after merge/dedup: 2619 (from 2619 raw)
+2026-05-05 07:00:08 | INFO     | app.services.run_coordinator | Fetched 2619 domains from HostingIndustries
+2026-05-05 07:00:08 | INFO     | app.services.run_coordinator | Already processed domains in history: 783
+2026-05-05 07:00:08 | INFO     | app.services.run_coordinator | Unusable domains: 239 total, 0 new to process, 239 already processed (skipped)
+2026-05-05 07:00:08 | INFO     | app.services.run_coordinator | ── Processing source database: linkstatus_blauwemonsters ──
+2026-05-05 07:00:08 | INFO     | app.services.run_coordinator |   Matched unusable in linkstatus_blauwemonsters: 230
+2026-05-05 07:00:12 | INFO     | app.services.run_coordinator |   Affected orders in linkstatus_blauwemonsters: 0
+2026-05-05 07:00:14 | INFO     | app.services.run_coordinator | ── Processing source database: linkstatus_brandnewmedia ──
+2026-05-05 07:00:14 | INFO     | app.services.run_coordinator |   Matched unusable in linkstatus_brandnewmedia: 162
+2026-05-05 07:00:17 | INFO     | app.services.run_coordinator |   Affected orders in linkstatus_brandnewmedia: 0
+2026-05-05 07:00:18 | INFO     | app.services.email_draft_service | Generated 0 email drafts for 0 admins
+2026-05-05 07:00:18 | INFO     | app.services.email_draft_service | Saved 0 drafts to /output/email_drafts/run_31
+2026-05-05 07:00:18 | INFO     | app.services.sheets_service | Sheets sync skipped: no webhook URL or no domains
+2026-05-05 07:00:18 | INFO     | app.services.run_coordinator | Marked 0 domains as processed
+2026-05-05 07:00:18 | INFO     | app.services.report_service | JSON report written to /output/reports/run_31.json
+2026-05-05 07:00:18 | INFO     | app.services.run_coordinator | === Run 31 finished successfully ===
+ Container expired_domains-runner-run-1f7cb0a1bcf1 Creating 
+ Container expired_domains-runner-run-1f7cb0a1bcf1 Created 
+2026-05-06 07:00:01 | INFO     | __main__ | Domain Cleanup — command=run-all  mode=LIVE
+2026-05-06 07:00:02 | INFO     | app.services.run_coordinator | === Run 32 started (LIVE) ===
+2026-05-06 07:00:02 | INFO     | app.clients.hostingindustries | GET https://domains.hostingindustries.nl/login.php (capture session cookie) for account 'blauwemonsters'
+2026-05-06 07:00:02 | INFO     | app.clients.hostingindustries | POST https://domains.hostingindustries.nl/login.php for account 'blauwemonsters'
+2026-05-06 07:00:03 | INFO     | app.clients.hostingindustries | Login successful for account 'blauwemonsters'
+2026-05-06 07:00:03 | INFO     | app.clients.hostingindustries | GET https://domains.hostingindustries.nl/domains.php for account 'blauwemonsters'
+2026-05-06 07:00:08 | INFO     | app.clients.hostingindustries | Parsed 1750 domains from account 'blauwemonsters'
+2026-05-06 07:00:08 | INFO     | app.clients.hostingindustries | GET https://domains.hostingindustries.nl/login.php (capture session cookie) for account 'brandnewmedia'
+2026-05-06 07:00:08 | INFO     | app.clients.hostingindustries | POST https://domains.hostingindustries.nl/login.php for account 'brandnewmedia'
+2026-05-06 07:00:08 | INFO     | app.clients.hostingindustries | Login successful for account 'brandnewmedia'
+2026-05-06 07:00:08 | INFO     | app.clients.hostingindustries | GET https://domains.hostingindustries.nl/domains.php for account 'brandnewmedia'
+2026-05-06 07:00:09 | INFO     | app.clients.hostingindustries | Parsed 869 domains from account 'brandnewmedia'
+2026-05-06 07:00:09 | INFO     | app.clients.hostingindustries | Total domains after merge/dedup: 2619 (from 2619 raw)
+2026-05-06 07:00:09 | INFO     | app.services.run_coordinator | Fetched 2619 domains from HostingIndustries
+2026-05-06 07:00:09 | INFO     | app.services.run_coordinator | Already processed domains in history: 783
+2026-05-06 07:00:09 | INFO     | app.services.run_coordinator | Unusable domains: 239 total, 0 new to process, 239 already processed (skipped)
+2026-05-06 07:00:09 | INFO     | app.services.run_coordinator | ── Processing source database: linkstatus_blauwemonsters ──
+2026-05-06 07:00:09 | INFO     | app.services.run_coordinator |   Matched unusable in linkstatus_blauwemonsters: 230
+2026-05-06 07:00:13 | INFO     | app.services.run_coordinator |   Affected orders in linkstatus_blauwemonsters: 0
+2026-05-06 07:00:15 | INFO     | app.services.run_coordinator | ── Processing source database: linkstatus_brandnewmedia ──
+2026-05-06 07:00:15 | INFO     | app.services.run_coordinator |   Matched unusable in linkstatus_brandnewmedia: 162
+2026-05-06 07:00:18 | INFO     | app.services.run_coordinator |   Affected orders in linkstatus_brandnewmedia: 0
+2026-05-06 07:00:19 | INFO     | app.services.email_draft_service | Generated 0 email drafts for 0 admins
+2026-05-06 07:00:19 | INFO     | app.services.email_draft_service | Saved 0 drafts to /output/email_drafts/run_32
+2026-05-06 07:00:19 | INFO     | app.services.sheets_service | Sheets sync skipped: no webhook URL or no domains
+2026-05-06 07:00:19 | INFO     | app.services.run_coordinator | Marked 0 domains as processed
+2026-05-06 07:00:19 | INFO     | app.services.report_service | JSON report written to /output/reports/run_32.json
+2026-05-06 07:00:19 | INFO     | app.services.run_coordinator | === Run 32 finished successfully ===

@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+{% block title %}Overview — Domain Cleanup{% endblock %}
+{% block content %}
+<h1>Recent Runs</h1>
+
+<div style="margin-bottom:16px;">
+  <form class="inline" method="post" action="/trigger/dry-run">
+    <button class="btn btn-primary" onclick="return confirm('Start a DRY-RUN?')">Trigger Dry-Run</button>
+  </form>
+  <form class="inline" method="post" action="/trigger/live-run" style="margin-left:8px;">
+    <button class="btn btn-danger" onclick="return confirm('Start a LIVE run? This will modify data!')">Trigger Live Run</button>
+  </form>
+</div>
+
+<table>
+<thead>
+<tr>
+  <th>ID</th><th>Started</th><th>Finished</th><th>Status</th><th>Mode</th>
+  <th>Fetched</th><th>Unusable</th><th>Matched</th><th>Labels</th>
+  <th>Orders</th><th>Deleted</th><th>Drafts</th><th>Errors</th>
+</tr>
+</thead>
+<tbody>
+{% for r in runs %}
+<tr>
+  <td><a href="/run/{{ r.id }}">{{ r.id }}</a></td>
+  <td>{{ r.started_at }}</td>
+  <td>{{ r.finished_at or '-' }}</td>
+  <td>
+    {% if r.status == 'success' %}<span class="badge badge-success">{{ r.status }}</span>
+    {% elif r.status == 'failed' %}<span class="badge badge-danger">{{ r.status }}</span>
+    {% else %}<span class="badge badge-warning">{{ r.status }}</span>{% endif %}
+  </td>
+  <td>{% if r.dry_run %}<span class="badge badge-info">dry-run</span>{% else %}<span class="badge badge-danger">live</span>{% endif %}</td>
+  <td>{{ r.total_domains_fetched }}</td>
+  <td>{{ r.total_unusable_domains }}</td>
+  <td>{{ r.total_matched_domains }}</td>
+  <td>{{ r.total_updated_labels }}</td>
+  <td>{{ r.total_affected_orders }}</td>
+  <td>{{ r.total_deleted_orders }}</td>
+  <td>{{ r.total_email_drafts }}</td>
+  <td>{{ r.error_count }}</td>
+</tr>
+{% endfor %}
+</tbody>
+</table>
+{% endblock %}

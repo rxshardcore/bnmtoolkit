@@ -260,6 +260,8 @@ class WordPressClient:
             page.once("dialog", lambda dialog: dialog.accept())
             delete_link.click()
             page.wait_for_load_state("domcontentloaded")
+            self._confirm_plugin_delete_if_needed(page)
+            page.goto(urljoin(base_url, "/wp-admin/plugins.php"), wait_until="domcontentloaded")
             remaining = page.locator("tr").filter(has_text=self.plugin_name).count()
             removed = remaining == 0
             return {
@@ -267,6 +269,7 @@ class WordPressClient:
                 "plugin_present": not removed,
                 "plugin_removed": removed,
                 "plugin_was_active": plugin_was_active,
+                "message": "" if removed else "Plugin still present after delete flow",
             }
         except Exception as exc:
             return {
@@ -284,3 +287,21 @@ class WordPressClient:
             if candidate.count() > 0:
                 return candidate
         return links.filter(has_text=labels[0]).first
+
+    def _confirm_plugin_delete_if_needed(self, page) -> None:
+        labels = (
+            "Ja, verwijder deze bestanden",
+            "Ja, verwijder deze plugins",
+            "Yes, delete these files",
+            "Yes, delete these plugins",
+            "Delete Plugin",
+            "Delete Plugins",
+            "Verwijderen",
+        )
+        for label in labels:
+            button = page.locator("input[type=submit], button, a").filter(has_text=label).first
+            if button.count() == 0:
+                continue
+            button.click()
+            page.wait_for_load_state("domcontentloaded")
+            return

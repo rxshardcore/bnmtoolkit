@@ -5,6 +5,7 @@ from __future__ import annotations
 from dataclasses import dataclass
 import logging
 import re
+import string
 
 from sqlalchemy import bindparam, text
 from sqlalchemy.orm import Session
@@ -157,6 +158,21 @@ def _coerce_secret(value) -> str:
     return str(value).strip()
 
 
+def _looks_like_secret(value: str) -> bool:
+    if not value:
+        return False
+    allowed = set(string.printable)
+    return all(ch in allowed for ch in value) and not any(ch in value for ch in "\r\n\t")
+
+
+def _first_usable_secret(values) -> str | None:
+    for value in values:
+        secret = _coerce_secret(value)
+        if _looks_like_secret(secret):
+            return secret
+    return None
+
+
 def get_wordpress_credentials(
     session: Session,
     domain: str,
@@ -176,7 +192,14 @@ def get_wordpress_credentials(
     if decryption_key:
         decrypt_select = f""",
             CAST(AES_DECRYPT(FROM_BASE64({password_col}), :decryption_key) AS CHAR) AS decrypted_from_base64,
-            CAST(AES_DECRYPT({password_col}, :decryption_key) AS CHAR) AS decrypted_raw
+            CAST(AES_DECRYPT({password_col}, :decryption_key) AS CHAR) AS decrypted_raw,
+            CAST(AES_DECRYPT(UNHEX({password_col}), :decryption_key) AS CHAR) AS decrypted_hex,
+            CAST(AES_DECRYPT(FROM_BASE64({password_col}), UNHEX(SHA2(:decryption_key, 512))) AS CHAR) AS decrypted_b64_sha512,
+            CAST(AES_DECRYPT(FROM_BASE64({password_col}), UNHEX(SHA2(:decryption_key, 256))) AS CHAR) AS decrypted_b64_sha256,
+            CAST(AES_DECRYPT(FROM_BASE64({password_col}), UNHEX(MD5(:decryption_key))) AS CHAR) AS decrypted_b64_md5,
+            CAST(AES_DECRYPT(UNHEX({password_col}), UNHEX(SHA2(:decryption_key, 512))) AS CHAR) AS decrypted_hex_sha512,
+            CAST(AES_DECRYPT(UNHEX({password_col}), UNHEX(SHA2(:decryption_key, 256))) AS CHAR) AS decrypted_hex_sha256,
+            CAST(AES_DECRYPT(UNHEX({password_col}), UNHEX(MD5(:decryption_key))) AS CHAR) AS decrypted_hex_md5
         """
 
     query = text(f"""
@@ -203,8 +226,8 @@ def get_wordpress_credentials(
         return None
 
     decrypted_password = None
-    if decryption_key and len(row) >= 5:
-        decrypted_password = _coerce_secret(row[3]) or _coerce_secret(row[4]) or None
+    if decryption_key and len(row) > 3:
+        decrypted_password = _first_usable_secret(row[3:])
 
     return WordPressCredentials(
         domain=_coerce_secret(row[0]) or domain,

@@ -69,7 +69,7 @@ def decrypt_linkstatus_password(encrypted_value: str, key: str) -> DecryptedPass
         try:
             candidate = decoded.decode("utf-8")
         except UnicodeDecodeError as exc:
-            raise PasswordDecryptionError("Password is base64 but not valid UTF-8") from exc
+            raise PasswordDecryptionError("Unsupported encrypted password format") from exc
         if _is_printable_secret(candidate):
             return DecryptedPassword(candidate, "base64")
 

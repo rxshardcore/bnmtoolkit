@@ -260,16 +260,20 @@ class WordPressClient:
             page.once("dialog", lambda dialog: dialog.accept())
             delete_link.click()
             page.wait_for_load_state("domcontentloaded")
-            self._confirm_plugin_delete_if_needed(page)
+            confirmed = self._confirm_plugin_delete_if_needed(page)
             page.goto(urljoin(base_url, "/wp-admin/plugins.php"), wait_until="domcontentloaded")
             remaining = page.locator("tr").filter(has_text=self.plugin_name).count()
+            if remaining:
+                page.wait_for_timeout(1000)
+                page.goto(urljoin(base_url, "/wp-admin/plugins.php"), wait_until="domcontentloaded")
+                remaining = page.locator("tr").filter(has_text=self.plugin_name).count()
             removed = remaining == 0
             return {
                 "status": "plugin_removed" if removed else "plugin_remove_failed",
                 "plugin_present": not removed,
                 "plugin_removed": removed,
                 "plugin_was_active": plugin_was_active,
-                "message": "" if removed else "Plugin still present after delete flow",
+                "message": "" if removed else f"Plugin still present after delete flow (confirm_clicked={confirmed})",
             }
         except Exception as exc:
             return {
@@ -288,7 +292,7 @@ class WordPressClient:
                 return candidate
         return links.filter(has_text=labels[0]).first
 
-    def _confirm_plugin_delete_if_needed(self, page) -> None:
+    def _confirm_plugin_delete_if_needed(self, page) -> bool:
         labels = (
             "Ja, verwijder deze bestanden",
             "Ja, verwijder deze plugins",
@@ -298,10 +302,23 @@ class WordPressClient:
             "Delete Plugins",
             "Verwijderen",
         )
-        for label in labels:
-            button = page.locator("input[type=submit], button, a").filter(has_text=label).first
-            if button.count() == 0:
-                continue
-            button.click()
+        controls = page.locator("input[type=submit], button, a")
+        for idx in range(controls.count()):
+            control = controls.nth(idx)
+            value = control.get_attribute("value") or ""
+            text = control.inner_text().strip() if control.evaluate("el => el.tagName.toLowerCase()") != "input" else ""
+            title = control.get_attribute("title") or ""
+            aria = control.get_attribute("aria-label") or ""
+            haystack = " ".join([value, text, title, aria]).lower()
+            if any(label.lower() in haystack for label in labels):
+                control.click()
+                page.wait_for_load_state("domcontentloaded")
+                return True
+
+        fallback = page.locator("#submit, input.button-primary, button.button-primary").first
+        if fallback.count() > 0:
+            fallback.click()
             page.wait_for_load_state("domcontentloaded")
-            return
+            return True
+
+        return False

@@ -5,9 +5,13 @@ from __future__ import annotations
 from collections import defaultdict
 from dataclasses import dataclass
 from datetime import datetime
+import io
 import logging
+from pathlib import Path
 from typing import Any
 
+from openpyxl import Workbook
+from openpyxl.styles import Alignment, Font, PatternFill
 from sqlalchemy import text
 from sqlalchemy.orm import Session
 
@@ -18,6 +22,7 @@ from app.utils.domain_normalization import normalize_domain
 logger = logging.getLogger(__name__)
 
 MAX_DOMAINS_PER_DRAFT = 50
+PREVIEW_DOMAINS_PER_DRAFT = 50
 
 
 @dataclass(frozen=True)
@@ -28,8 +33,8 @@ class FailedImageDraft:
     body_html: str
     body_json: dict[str, Any]
     order_count: int
-    batch_index: int = 1
-    batch_total: int = 1
+    domain_count: int
+    all_domains: list[dict[str, Any]]
 
 
 def get_failed_image_orders(source_session: Session, db_name: str) -> list[dict[str, Any]]:
@@ -113,49 +118,43 @@ def build_failed_image_owner_drafts(orders: list[dict[str, Any]]) -> list[Failed
     for supplier_email, supplier_orders in grouped.items():
         recipient_name = "Hugo" if "hugo" in supplier_email.lower() else "Stefan"
         supplier_domains = summarize_orders_by_domain(supplier_orders)
-        batches = _chunk_items(supplier_domains, MAX_DOMAINS_PER_DRAFT)
-        for batch_index, batch_domains in enumerate(batches, start=1):
-            batch_total = len(batches)
-            suffix = f" ({batch_index}/{batch_total})" if batch_total > 1 else ""
-            batch_order_count = sum(int(d.get("order_count") or 0) for d in batch_domains)
-            subject = f"Failed image: {len(batch_domains)} domein(en){suffix}"
-            body_html = build_failed_image_owner_html(
-                recipient_name,
-                batch_domains,
-                batch_index=batch_index,
-                batch_total=batch_total,
-                total_domains=len(supplier_domains),
-                total_orders=len(supplier_orders),
-            )
-            drafts.append(FailedImageDraft(
-                recipient_name=recipient_name,
-                recipient_email=supplier_email,
-                subject=subject,
-                body_html=body_html,
-                body_json={
-                    "type": "failed_image_supplier_draft",
-                    "cc": RUBEN_EMAIL,
-                    "reply_to": RUBEN_EMAIL,
-                    "batch_index": batch_index,
-                    "batch_total": batch_total,
-                    "total_domains": len(supplier_domains),
-                    "total_orders": len(supplier_orders),
-                    "domains": [
-                        {
-                            "db": o.get("db", ""),
-                            "wp_domain": o.get("wp_domain", ""),
-                            "customer_name": o.get("customer_name", ""),
-                            "label_names": o.get("label_names", ""),
-                            "order_count": o.get("order_count", 0),
-                            "order_ids": o.get("order_ids", []),
-                        }
-                        for o in batch_domains
-                    ],
-                },
-                order_count=batch_order_count,
-                batch_index=batch_index,
-                batch_total=batch_total,
-            ))
+        preview_domains = supplier_domains[:PREVIEW_DOMAINS_PER_DRAFT]
+        total_order_count = sum(int(d.get("order_count") or 0) for d in supplier_domains)
+        subject = f"Failed image: {len(supplier_domains)} domein(en)"
+        body_html = build_failed_image_owner_html(
+            recipient_name,
+            preview_domains,
+            total_domains=len(supplier_domains),
+            total_orders=total_order_count,
+        )
+        drafts.append(FailedImageDraft(
+            recipient_name=recipient_name,
+            recipient_email=supplier_email,
+            subject=subject,
+            body_html=body_html,
+            body_json={
+                "type": "failed_image_supplier_draft",
+                "cc": RUBEN_EMAIL,
+                "reply_to": RUBEN_EMAIL,
+                "preview_domain_count": len(preview_domains),
+                "total_domains": len(supplier_domains),
+                "total_orders": total_order_count,
+                "domains": [
+                    {
+                        "db": o.get("db", ""),
+                        "wp_domain": o.get("wp_domain", ""),
+                        "customer_name": o.get("customer_name", ""),
+                        "label_names": o.get("label_names", ""),
+                        "order_count": o.get("order_count", 0),
+                        "order_ids": o.get("order_ids", []),
+                    }
+                    for o in preview_domains
+                ],
+            },
+            order_count=total_order_count,
+            domain_count=len(supplier_domains),
+            all_domains=supplier_domains,
+        ))
 
     return sorted(drafts, key=lambda draft: draft.recipient_email.lower())
 
@@ -207,15 +206,9 @@ def summarize_orders_by_domain(orders: list[dict[str, Any]]) -> list[dict[str, A
     return sorted(result, key=lambda item: item.get("wp_domain", ""))
 
 
-def _chunk_items(items: list[dict[str, Any]], size: int) -> list[list[dict[str, Any]]]:
-    return [items[idx:idx + size] for idx in range(0, len(items), size)] or []
-
-
 def build_failed_image_owner_html(
     recipient_name: str,
     domains: list[dict[str, Any]],
-    batch_index: int = 1,
-    batch_total: int = 1,
     total_domains: int | None = None,
     total_orders: int | None = None,
 ) -> str:
@@ -242,7 +235,7 @@ th {{ background: #f5f5f5; font-weight: 600; }}
 <p>Onderstaande linkbuilding-orders staan momenteel op <code>failed_image</code>.
 Wil je controleren waarom de afbeelding niet geplaatst kan worden?</p>
 
-<p>Batch {batch_index} van {batch_total}. Deze mail bevat {len(domains)} van {total_domains or len(domains)} domein(en), met in totaal {sum(int(d.get('order_count') or 0) for d in domains)} van {total_orders or sum(int(d.get('order_count') or 0) for d in domains)} order(s).</p>
+<p>Hieronder staat een preview van de eerste {len(domains)} domein(en). De volledige lijst met {total_domains or len(domains)} domein(en) en {total_orders or sum(int(d.get('order_count') or 0) for d in domains)} order(s) zit als Excel-bijlage bij deze draft.</p>
 
 <table>
 <thead><tr><th>Website</th><th>Foutmelding</th><th>Aantal orders</th></tr></thead>
@@ -261,11 +254,25 @@ def save_failed_image_owner_drafts(
     audit_session: Session,
     drafts: list[FailedImageDraft],
     run_id: int | None = None,
+    output_dir: Path | None = None,
 ) -> list[int]:
     from app.clients.audit_db import AuditEmailDraft
 
     draft_ids: list[int] = []
     for draft in drafts:
+        xlsx_path = ""
+        if output_dir:
+            xlsx_dir = output_dir / "reports"
+            xlsx_dir.mkdir(parents=True, exist_ok=True)
+            safe_email = draft.recipient_email.replace("@", "_at_").replace(".", "_")
+            xlsx_file = xlsx_dir / f"failed_image_{safe_email}_{datetime.utcnow().strftime('%Y%m%d_%H%M%S')}.xlsx"
+            xlsx_file.write_bytes(build_failed_image_xlsx(draft.all_domains))
+            xlsx_path = str(xlsx_file)
+
+        body_json = {
+            **draft.body_json,
+            "xlsx_path": xlsx_path,
+        }
         row = AuditEmailDraft(
             run_id=run_id or 0,
             added_by=0,
@@ -273,7 +280,7 @@ def save_failed_image_owner_drafts(
             addedby_email=draft.recipient_email,
             subject=draft.subject,
             body_html=draft.body_html,
-            body_json=draft.body_json,
+            body_json=body_json,
             order_count=draft.order_count,
             created_at=datetime.utcnow(),
             send_status="draft",
@@ -284,3 +291,36 @@ def save_failed_image_owner_drafts(
 
     audit_session.commit()
     return draft_ids
+
+
+def build_failed_image_xlsx(domains: list[dict[str, Any]]) -> bytes:
+    wb = Workbook()
+    ws = wb.active
+    ws.title = "Failed image domeinen"
+
+    header_font = Font(bold=True, color="FFFFFF")
+    header_fill = PatternFill(start_color="2C3E50", end_color="2C3E50", fill_type="solid")
+    headers = ["Website", "Foutmelding", "Aantal orders", "Klant(en)", "Database", "Labels", "Order IDs"]
+    for col, header in enumerate(headers, 1):
+        cell = ws.cell(row=1, column=col, value=header)
+        cell.font = header_font
+        cell.fill = header_fill
+        cell.alignment = Alignment(horizontal="center")
+
+    for row_idx, domain in enumerate(domains, 2):
+        ws.cell(row=row_idx, column=1, value=domain.get("wp_domain", ""))
+        ws.cell(row=row_idx, column=2, value="Afbeelding uploaden geblokkeerd")
+        ws.cell(row=row_idx, column=3, value=domain.get("order_count", 0))
+        ws.cell(row=row_idx, column=4, value=domain.get("customer_name", ""))
+        ws.cell(row=row_idx, column=5, value=domain.get("db", ""))
+        ws.cell(row=row_idx, column=6, value=domain.get("label_names", ""))
+        ws.cell(row=row_idx, column=7, value=", ".join(str(i) for i in domain.get("order_ids", [])))
+
+    widths = [42, 34, 14, 28, 28, 28, 32]
+    for idx, width in enumerate(widths, 1):
+        ws.column_dimensions[ws.cell(row=1, column=idx).column_letter].width = width
+
+    buffer = io.BytesIO()
+    wb.save(buffer)
+    buffer.seek(0)
+    return buffer.read()

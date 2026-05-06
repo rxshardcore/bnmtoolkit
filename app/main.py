@@ -188,7 +188,12 @@ def _run_failed_image_owner_drafts(settings) -> None:
                 source.close()
 
         drafts = build_failed_image_owner_drafts(all_orders)
-        draft_ids = save_failed_image_owner_drafts(audit, drafts, run_id=run.id)
+        draft_ids = save_failed_image_owner_drafts(
+            audit,
+            drafts,
+            run_id=run.id,
+            output_dir=settings.output_dir,
+        )
 
         run.total_affected_orders = len(all_orders)
         run.total_email_drafts = len(draft_ids)

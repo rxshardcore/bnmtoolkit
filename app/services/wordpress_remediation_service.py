@@ -290,7 +290,7 @@ def run_wordpress_remediation(settings: Settings) -> dict[str, Any]:
                     if result.newspaper_theme:
                         totals["newspaper"] += 1
 
-                    if result.plugin_removed and not settings.dry_run:
+                    if result.status in {"plugin_removed", "plugin_not_found"} and not settings.dry_run:
                         source.execute(
                             text("UPDATE openorder SET status = 'pending' WHERE id IN :order_ids").bindparams(
                                 bindparam("order_ids", expanding=True, value=order["order_ids"])

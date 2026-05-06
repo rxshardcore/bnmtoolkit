@@ -37,7 +37,7 @@
   <td>{{ a.source_db }}</td>
   <td>{{ a.old_status }}</td>
   <td>
-    {% if a.result_status in ['plugin_removed', 'deleted_label79'] %}
+    {% if a.result_status in ['plugin_removed', 'plugin_not_found', 'deleted_label79'] %}
       <span class="badge badge-success">{{ a.result_status }}</span>
     {% elif a.result_status in ['login_invalid', 'site_404', 'site_500', 'site_unreachable', 'plugin_remove_failed', 'credential_decryption_failed'] %}
       <span class="badge badge-danger">{{ a.result_status }}</span>

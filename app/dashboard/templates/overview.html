@@ -10,6 +10,12 @@
   <form class="inline" method="post" action="/trigger/live-run" style="margin-left:8px;">
     <button class="btn btn-danger" onclick="return confirm('Start a LIVE run? This will modify data!')">Trigger Live Run</button>
   </form>
+  <form class="inline" method="post" action="/trigger/wordpress-dry-run" style="margin-left:8px;">
+    <button class="btn btn-primary" onclick="return confirm('Start WordPress remediation dry-run?')">WP Remediation Dry-Run</button>
+  </form>
+  <form class="inline" method="post" action="/trigger/wordpress-live-run" style="margin-left:8px;">
+    <button class="btn btn-danger" onclick="return confirm('Start LIVE WordPress remediation? This can delete plugins and reset orders.')">WP Remediation Live</button>
+  </form>
 </div>
 
 <table>

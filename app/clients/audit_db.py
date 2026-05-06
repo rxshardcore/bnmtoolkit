@@ -162,6 +162,49 @@ class ProcessedDomain(AuditBase):
     actions_taken = Column(String(500))
 
 
+class WordPressRemediationAttempt(AuditBase):
+    """Tracks WordPress login/plugin remediation attempts per order."""
+    __tablename__ = "wordpress_remediation_attempts"
+    __table_args__ = (
+        Index("ix_wp_remediation_run", "run_id"),
+        Index("ix_wp_remediation_status", "result_status"),
+        Index("ix_wp_remediation_domain", "wp_domain"),
+    )
+    id = Column(Integer, primary_key=True, autoincrement=True)
+    run_id = Column(Integer, nullable=False)
+    source_db = Column(String(100))
+    openorder_id = Column(Integer)
+    domain_id = Column(Integer, nullable=True)
+    wp_domain = Column(String(255))
+    old_status = Column(String(50))
+    result_status = Column(String(80))
+    result_message = Column(Text, nullable=True)
+    http_status = Column(Integer, nullable=True)
+    plugin_present = Column(Boolean, default=False)
+    plugin_removed = Column(Boolean, default=False)
+    plugin_was_active = Column(Boolean, nullable=True)
+    newspaper_theme = Column(Boolean, default=False)
+    theme_name = Column(String(255))
+    created_at = Column(DateTime, default=datetime.utcnow)
+
+
+class WordPressNewspaperSite(AuditBase):
+    """Separate list of sites where the active WordPress theme is Newspaper."""
+    __tablename__ = "wordpress_newspaper_sites"
+    __table_args__ = (
+        Index("ix_wp_newspaper_domain", "wp_domain"),
+        Index("ix_wp_newspaper_run", "run_id"),
+    )
+    id = Column(Integer, primary_key=True, autoincrement=True)
+    run_id = Column(Integer, nullable=False)
+    source_db = Column(String(100))
+    openorder_id = Column(Integer)
+    domain_id = Column(Integer, nullable=True)
+    wp_domain = Column(String(255))
+    theme_name = Column(String(255))
+    detected_at = Column(DateTime, default=datetime.utcnow)
+
+
 def get_audit_engine(url: str):
     return create_engine(url, pool_pre_ping=True, pool_recycle=3600)
 

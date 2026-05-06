@@ -7,6 +7,7 @@ from sqlalchemy.orm import Session
 from app.clients.audit_db import (
     AuditRun, AuditDomain, AuditOrder, AuditLabelUpdate,
     AuditEmailDraft, AuditLog, ProcessedDomain,
+    WordPressRemediationAttempt, WordPressNewspaperSite,
 )
 
 
@@ -183,3 +184,20 @@ def remove_processed_domain(session: Session, normalized_domain: str) -> bool:
         .delete()
     )
     return count > 0
+
+
+# -- WordPress remediation ----------------------------------------------------
+
+def get_wordpress_remediation_attempts(
+    session: Session,
+    status: str | None = None,
+    limit: int = 500,
+) -> list[WordPressRemediationAttempt]:
+    q = session.query(WordPressRemediationAttempt)
+    if status:
+        q = q.filter(WordPressRemediationAttempt.result_status == status)
+    return q.order_by(WordPressRemediationAttempt.id.desc()).limit(limit).all()
+
+
+def get_wordpress_newspaper_sites(session: Session, limit: int = 500) -> list[WordPressNewspaperSite]:
+    return session.query(WordPressNewspaperSite).order_by(WordPressNewspaperSite.id.desc()).limit(limit).all()

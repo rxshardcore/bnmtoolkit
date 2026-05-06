@@ -316,6 +316,30 @@ def register_routes(
         finally:
             session.close()
 
+    # -- WordPress remediation ------------------------------------------------
+    @app.get("/wordpress-remediation", response_class=HTMLResponse)
+    def wordpress_remediation_page(
+        request: Request,
+        status: str = Query(""),
+        user: str = Depends(auth),
+    ):
+        session = _audit()
+        try:
+            attempts = audit_repository.get_wordpress_remediation_attempts(
+                session,
+                status=status or None,
+                limit=500,
+            )
+            newspaper_sites = audit_repository.get_wordpress_newspaper_sites(session, limit=500)
+            return _render(templates, request, "wordpress_remediation.html", {
+                "attempts": attempts,
+                "newspaper_sites": newspaper_sites,
+                "status_filter": status,
+                "user": user,
+            })
+        finally:
+            session.close()
+
     @app.post("/repeat-offenders/{batch_id}/reset", response_class=HTMLResponse)
     def reset_repeat_offender_batch(request: Request, batch_id: int, user: str = Depends(auth)):
         from datetime import datetime
@@ -410,6 +434,16 @@ def register_routes(
         finally:
             loop.close()
 
+    def _run_wordpress_remediation(dry_run: bool) -> None:
+        import copy
+        from app.services.wordpress_remediation_service import run_wordpress_remediation
+        s = copy.copy(settings)
+        s.dry_run = dry_run
+        try:
+            run_wordpress_remediation(s)
+        except Exception as exc:
+            logger.error("WordPress remediation failed (dry_run=%s): %s", dry_run, exc)
+
     @app.post("/trigger/dry-run", response_class=HTMLResponse)
     def trigger_dry_run(request: Request, user: str = Depends(auth)):
         import threading
@@ -425,3 +459,19 @@ def register_routes(
         t.start()
         logger.info("LIVE run triggered by %s", user)
         return RedirectResponse("/", status_code=303)
+
+    @app.post("/trigger/wordpress-dry-run", response_class=HTMLResponse)
+    def trigger_wordpress_dry_run(request: Request, user: str = Depends(auth)):
+        import threading
+        t = threading.Thread(target=_run_wordpress_remediation, args=(True,), daemon=True)
+        t.start()
+        logger.info("WordPress remediation dry-run triggered by %s", user)
+        return RedirectResponse("/wordpress-remediation", status_code=303)
+
+    @app.post("/trigger/wordpress-live-run", response_class=HTMLResponse)
+    def trigger_wordpress_live_run(request: Request, user: str = Depends(auth)):
+        import threading
+        t = threading.Thread(target=_run_wordpress_remediation, args=(False,), daemon=True)
+        t.start()
+        logger.info("WordPress remediation LIVE run triggered by %s", user)
+        return RedirectResponse("/wordpress-remediation", status_code=303)

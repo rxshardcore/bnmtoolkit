@@ -1,0 +1,76 @@
+{% extends "base.html" %}
+{% block title %}WordPress Remediation — Domain Cleanup{% endblock %}
+{% block content %}
+<h1>WordPress Remediation</h1>
+
+<div class="card">
+  <form method="get">
+    <label for="status">Status filter</label>
+    <select id="status" name="status" onchange="this.form.submit()">
+      <option value="">Alle statussen</option>
+      {% for s in [
+        'login_invalid', 'site_404', 'site_500', 'site_unreachable',
+        'plugin_removed', 'plugin_not_found', 'plugin_remove_failed',
+        'missing_credentials', 'credential_decryption_failed',
+        'skipped_jg_label', 'deleted_label79'
+      ] %}
+      <option value="{{ s }}" {% if status_filter == s %}selected{% endif %}>{{ s }}</option>
+      {% endfor %}
+    </select>
+  </form>
+</div>
+
+<h2>Overzicht ({{ attempts|length }})</h2>
+<table>
+<thead>
+<tr>
+  <th>Datum</th><th>Website</th><th>Order</th><th>DB</th><th>Oude status</th>
+  <th>Resultaat</th><th>HTTP</th><th>Plugin</th><th>Newspaper</th><th>Bericht</th>
+</tr>
+</thead>
+<tbody>
+{% for a in attempts %}
+<tr>
+  <td>{{ a.created_at }}</td>
+  <td>{{ a.wp_domain }}</td>
+  <td>{{ a.openorder_id }}</td>
+  <td>{{ a.source_db }}</td>
+  <td>{{ a.old_status }}</td>
+  <td>
+    {% if a.result_status in ['plugin_removed', 'deleted_label79'] %}
+      <span class="badge badge-success">{{ a.result_status }}</span>
+    {% elif a.result_status in ['login_invalid', 'site_404', 'site_500', 'site_unreachable', 'plugin_remove_failed', 'credential_decryption_failed'] %}
+      <span class="badge badge-danger">{{ a.result_status }}</span>
+    {% else %}
+      <span class="badge badge-info">{{ a.result_status }}</span>
+    {% endif %}
+  </td>
+  <td>{{ a.http_status or '-' }}</td>
+  <td>
+    {% if a.plugin_removed %}<span class="badge badge-success">verwijderd</span>
+    {% elif a.plugin_present %}<span class="badge badge-warning">aanwezig</span>
+    {% else %}-{% endif %}
+  </td>
+  <td>{% if a.newspaper_theme %}<span class="badge badge-warning">{{ a.theme_name or 'Newspaper' }}</span>{% else %}-{% endif %}</td>
+  <td>{{ a.result_message or '' }}</td>
+</tr>
+{% endfor %}
+</tbody>
+</table>
+
+<h2>Newspaper Thema ({{ newspaper_sites|length }})</h2>
+<table>
+<thead><tr><th>Datum</th><th>Website</th><th>Order</th><th>DB</th><th>Thema</th></tr></thead>
+<tbody>
+{% for s in newspaper_sites %}
+<tr>
+  <td>{{ s.detected_at }}</td>
+  <td>{{ s.wp_domain }}</td>
+  <td>{{ s.openorder_id }}</td>
+  <td>{{ s.source_db }}</td>
+  <td>{{ s.theme_name }}</td>
+</tr>
+{% endfor %}
+</tbody>
+</table>
+{% endblock %}

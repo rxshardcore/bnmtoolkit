@@ -37,6 +37,10 @@ def _build_parser() -> argparse.ArgumentParser:
     reset.add_argument("--dry-run", action="store_true", default=None)
     reset.add_argument("--no-dry-run", dest="dry_run", action="store_false")
 
+    wp = sub.add_parser("remediate-wordpress-failed", help="Remove legacy WP plugin for failed-domain orders")
+    wp.add_argument("--dry-run", action="store_true", default=None)
+    wp.add_argument("--no-dry-run", dest="dry_run", action="store_false")
+
     sub.add_parser("dashboard", help="Start the dashboard web server")
 
     return p
@@ -69,6 +73,8 @@ def _run_pipeline(settings, command: str, args: argparse.Namespace) -> None:
         asyncio.run(coordinator.run_all())
     elif command == "reset-failed":
         _run_reset_failed(settings)
+    elif command == "remediate-wordpress-failed":
+        _run_wordpress_remediation(settings)
 
 
 def _run_reset_failed(settings) -> None:
@@ -144,12 +150,19 @@ def _run_reset_failed(settings) -> None:
     audit.close()
 
 
+def _run_wordpress_remediation(settings) -> None:
+    from app.services.wordpress_remediation_service import run_wordpress_remediation
+
+    result = run_wordpress_remediation(settings)
+    logger.info("WordPress remediation result: %s", result)
+
+
 def main() -> None:
     parser = _build_parser()
     args = parser.parse_args()
     settings = get_settings()
 
-    if args.command in ("run-all", "reset-failed") and args.dry_run is not None:
+    if args.command in ("run-all", "reset-failed", "remediate-wordpress-failed") and args.dry_run is not None:
         settings.dry_run = args.dry_run
 
     setup_logging(settings.log_level)

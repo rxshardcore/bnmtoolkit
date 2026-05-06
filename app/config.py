@@ -72,10 +72,20 @@ class Settings(BaseSettings):
     unusable_domain_statuses: str = "Quarantaine,Expiry,Expired,Suspended"
     affected_order_statuses: str = "failed,pending,processing"
     expired_label_id: int = 79
+    jg_label_id: int = 76
 
     # -- timeouts / retries ---------------------------------------------------
     hi_request_timeout: int = 30
     hi_max_retries: int = 3
+
+    # -- WordPress failed-domain remediation ----------------------------------
+    linkstatus_decryption_key: str = ""
+    wp_remediation_enabled: bool = True
+    wp_remediation_headless: bool = True
+    wp_request_timeout: int = 30
+    wp_failed_statuses: str = "failed_domain,failed_domain_category"
+    wp_plugin_name: str = "Google Analytics Insertion"
+    wp_newspaper_theme_name: str = "Newspaper"
 
     @property
     def unusable_statuses_list(self) -> list[str]:
@@ -84,6 +94,10 @@ class Settings(BaseSettings):
     @property
     def affected_statuses_list(self) -> list[str]:
         return [s.strip() for s in self.affected_order_statuses.split(",") if s.strip()]
+
+    @property
+    def wp_failed_statuses_list(self) -> list[str]:
+        return [s.strip() for s in self.wp_failed_statuses.split(",") if s.strip()]
 
     # -- derived helpers ------------------------------------------------------
 

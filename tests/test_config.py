@@ -58,3 +58,11 @@ def test_source_db_single():
         source_db1_user="u", source_db1_password="p",
     )
     assert len(s.source_db_urls) == 1
+
+
+def test_wordpress_remediation_defaults():
+    s = Settings(_env_file=None)
+    assert s.jg_label_id == 76
+    assert s.expired_label_id == 79
+    assert s.wp_failed_statuses_list == ["failed_domain", "failed_domain_category"]
+    assert s.wp_plugin_name == "Google Analytics Insertion"
